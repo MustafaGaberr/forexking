@@ -30,44 +30,45 @@ const socialPlatforms: SocialPlatform[] = [
       </h4>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
-        {socialPlatforms.map((platform) => (
-          <a
-            href={platform.url}
-            key={platform.name}
-            title={platform.name}
-            aria-label={`Visit us on ${platform.name}`}
+  {socialPlatforms.map((platform) => (
+    <a
+      href={platform.url}
+      key={platform.name}
+      title={platform.name}
+      aria-label={`Visit us on ${platform.name}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg transition-all duration-300 hover:bg-secondary group"
+    >
+      <div className="rounded-full transform transition-transform duration-300 group-hover:scale-110">
+        {platform.customIcon ? (
+          <img
+            src={platform.customIcon}
+            alt={platform.name}
+            className="w-10 h-10 rounded-full"
+            style={{
+              backgroundColor: platform.bgColor,
+              padding: "5px",
+            }}
+          />
+        ) : (
+          <SocialIcon
+            url={platform.url}
+            bgColor={platform.bgColor}
+            fgColor={platform.fgColor || "#FFFFFF"}
+            style={{ width: 40, height: 40 }}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center justify-center gap-2 p-3 rounded-lg transition-all duration-300 hover:bg-secondary group"
-          >
-            <div className="rounded-full transform transition-transform duration-300 group-hover:scale-110">
-              {platform.customIcon ? (
-                <img
-                  src={platform.customIcon}
-                  alt={platform.name}
-                  className="w-10 h-10 rounded-full"
-                  style={{
-                    backgroundColor: platform.bgColor,
-                    padding: "5px",
-                  }}
-                />
-              ) : (
-                <SocialIcon
-                  url={platform.url}
-                  bgColor={platform.bgColor}
-                  fgColor={platform.fgColor || "#FFFFFF"}
-                  style={{ width: 40, height: 40 }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-              )}
-            </div>
-            <span className="text-sm text-foreground text-center">
-              {platform.name}
-            </span>
-          </a>
-        ))}
+            as="div" 
+          />
+        )}
       </div>
+      <span className="text-sm text-foreground text-center">
+        {platform.name}
+      </span>
+    </a>
+  ))}
+</div>
     </div>
   );
 };
