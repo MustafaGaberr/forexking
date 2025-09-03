@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 96%; /* #f6f6f6 */
+    --foreground: 0 0% 14%; /* #232323 */
+
+    /* Brand Colors */
+    --primary: 90 49% 50%;          /* #8bc53f - Green */
+    --primary-foreground: 0 0% 96%; /* Light text on green */
+
+    --secondary: 180 4% 95%;        /* Soft grayish background for sections */
+    --secondary-foreground: 0 0% 14%;
+
+    --accent: 65 87% 60%;           /* #e7ef45 - Lime highlight */
+    --accent-foreground: 0 0% 14%;
+
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 40%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 14%;
+
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 90 49% 50%; /* green */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 7%;        /* near-black background (#111) */
+    --foreground: 0 0% 96%;       /* light text */
+
+    --card: 0 0% 10%;             /* slightly lighter than bg for contrast */
+    --card-foreground: 0 0% 96%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 96%;
+
+    --primary: 90 49% 50%;        /* Green */
+    --primary-foreground: 0 0% 14%;
+
+    --secondary: 0 0% 15%;        /* Dark gray for sections */
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 65 87% 60%;         /* Lime */
+    --accent-foreground: 0 0% 14%;
+
+    --destructive: 0 63% 35%;
+    --destructive-foreground: 0 0% 96%;
+
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 90 49% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Open Sans', 'Almarai', sans-serif;
+    font-weight: 600;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px rgba(231, 239, 69, 0.7); /* lime glow */
+  }
+}
