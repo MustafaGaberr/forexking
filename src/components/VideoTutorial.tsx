@@ -56,7 +56,7 @@ const VideoTutorial = () => {
           <motion.div variants={fadeIn} className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 md:mb-8 leading-tight">
               Learn How to{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+              <span className="text-transparent bg-clip-text bg-primary">
                 Open Your Account
               </span>
             </h2>

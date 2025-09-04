@@ -33,7 +33,7 @@ const AboutUs = () => {
             hidden: { opacity: 0 },
             visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
           }}
-          className="mb-12 md:mb-28"
+          className="mb-12 md:mb-2"
         >
           <div className="text-center mb-12 md:mb-20">
             <motion.h2
@@ -41,7 +41,7 @@ const AboutUs = () => {
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 md:mb-8 leading-tight"
             >
               Pioneering in the{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+              <span className="text-transparent bg-clip-text bg-primary">
                 World of Forex Trading
               </span>
             </motion.h2>
@@ -149,7 +149,7 @@ const AboutUs = () => {
                 <Counter
                   target={stat.value}
                   suffix={stat.suffix}
-                  className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+                  className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
                 />
                 <p className="text-muted-foreground uppercase text-xs tracking-widest mt-3">
                   {stat.label}

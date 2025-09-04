@@ -118,13 +118,13 @@ const Contact = () => {
         <Card className="w-full bg-card border border-border rounded-2xl shadow-lg">
           <CardContent className="flex flex-col items-center gap-6 p-6 text-foreground">
             <div className="flex items-center gap-3">
-              <Mail className="h-5 w-5 text-accent" />
+              <Mail className="h-5 w-5 text-primary" />
               <a href="mailto:contact@forexking.info" className="hover:text-accent">
                 contact@forexking.info
               </a>
             </div>
             <div className="flex items-center gap-3">
-              <Phone className="h-5 w-5 text-accent" />
+              <Phone className="h-5 w-5 text-primary" />
               <a href="tel:+436789070335578" className="hover:text-accent">
                 (43) 678-9070-335578
               </a>
