@@ -47,7 +47,7 @@ const Ticker = () => {
               <span>{currency.price}</span>
               <span
                 className={`text-xs ${
-                  currency.change >= 0 ? "text-accent" : "text-destructive"
+                  currency.change >= 0 ? "text-primary" : "text-destructive"
                 }`}
               >
                 {currency.change >= 0 ? "+" : ""}
