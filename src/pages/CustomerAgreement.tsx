@@ -92,7 +92,7 @@ const CustomerAgreement = () => {
             <CardHeader className="border-b border-border bg-gradient-to-r from-secondary/10 to-primary/10 dark:from-secondary/20 dark:to-primary/20">
               <CardTitle className="text-3xl flex items-center gap-2 text-center md:text-left">
                 <FileText className="h-8 w-8 text-primary" />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-primary font-bold">
+                <span className="bg-clip-text text-transparent bg-primary font-bold">
                   Customer Agreement
                 </span>
               </CardTitle>
@@ -143,7 +143,7 @@ const CustomerAgreement = () => {
                               </PopoverContent>
                             </Popover>
                             <span className="text-base text-muted-foreground">
-                              /&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;2025
+                              /&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;20
                             </span>
                           </div>
                           <FormMessage />
@@ -225,13 +225,13 @@ const CustomerAgreement = () => {
                     <div className="pl-4 border-l-4 border-secondary bg-secondary/5 p-4 rounded-r-lg">
                       <p className="text-base mb-2">
                         <strong>Second Party:</strong> Name:{" "}
-                        <span className="font-semibold text-secondary">
+                        <span className="font-semibold text-primary">
                           Forex King
                         </span>
                       </p>
                       <p className="text-sm">
                         Hereinafter referred to as{" "}
-                        <span className="text-secondary font-medium">
+                        <span className="text-primary font-medium">
                           Operator of Funds
                         </span>
                         .
@@ -250,7 +250,7 @@ const CustomerAgreement = () => {
                         The first party owns an investment portfolio with the number
                         {" "}(...) worth (100 currency units), and desires to operate it in
                         Forex under a profit-sharing system where{" "}
-                        <span className="font-semibold text-secondary">60%</span> of the
+                        <span className="font-semibold text-primary">60%</span> of the
                         profits go to the second party and{" "}
                         <span className="font-semibold text-primary">40%</span> to the first
                         party. The parties agree to the following terms:
@@ -353,8 +353,7 @@ const CustomerAgreement = () => {
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          This agreement constitutes the full and final understanding between
-                          the parties.
+                          This agreement constitutes the full and final understanding between the parties.
                         </p>
                         <p className="text-foreground/90">
                           The agreement is executed in two original copies, one for each
@@ -406,7 +405,7 @@ const CustomerAgreement = () => {
 
                     {/* Second Party */}
                     <div className="p-6 border border-border rounded-lg bg-background shadow-sm">
-                      <h4 className="font-semibold text-lg text-secondary mb-6 flex items-center gap-2">
+                      <h4 className="font-semibold text-lg text-primary mb-6 flex items-center gap-2">
                         <Pen className="h-4 w-4" />
                         Second Party
                       </h4>
@@ -415,7 +414,7 @@ const CustomerAgreement = () => {
                           <p className="text-sm font-medium text-muted-foreground mb-1">
                             Name:
                           </p>
-                          <p className="text-base font-medium text-secondary">Forex King</p>
+                          <p className="text-base font-medium text-primary">Forex King</p>
                         </div>
                         <div>
                           <p className="text-sm font-medium text-muted-foreground mb-2">
