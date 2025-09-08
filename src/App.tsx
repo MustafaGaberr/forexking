@@ -10,6 +10,7 @@ import Register from "./pages/Register"
 import NotFound from "./pages/NotFound"
 import CustomerAgreement from "./pages/CustomerAgreement"
 import DealPerformance from "./pages/DealPerformance"
+import AdminDashboard from "./pages/AdminDashboard"
 
 const queryClient = new QueryClient()
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/agreement" element={<CustomerAgreement />} />
             <Route path="/performance" element={<DealPerformance />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

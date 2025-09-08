@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Info, BarChart, UserPlus, Mail, Menu, X, LogOut, FileText } from 'lucide-react';
+import { Home, Info, BarChart, UserPlus, Mail, Menu, X, LogOut, FileText, Shield } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
@@ -14,6 +14,7 @@ const navItems = [
   { label: 'Open Account', icon: UserPlus, href: 'video-tutorial' },
   { label: 'Contact', icon: Mail, href: 'contact' },
   { label: 'Customer Agreement', icon: FileText, href: 'agreement', isRoute: true },
+  { label: 'Admin', icon: Shield, href: 'admin', isRoute: true },
 ];
 
 const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
