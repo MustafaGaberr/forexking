@@ -141,23 +141,23 @@ const VideoTutorial = () => {
             {[
               {
                 icon: BookOpen,
-                title: "Leverage",
+                title: "Leverage Request Form",
                 description:
-                  "تحميل دليل شامل للمبتدئين في عالم الفوركس",
+                  "Understand the risks and request your preferred leverage rate",
                 pdfFile: "/Assets/PDFs/Leverage.pdf",
               },
               {
                 icon: Users,
                 title: "Signature Card",
                 description:
-                  "تحميل أفضل استراتيجيات التداول المثبتة للمتداولين",
+                  "Specimen signature form to verify account holder identity",
                 pdfFile: "/Assets/PDFs/Signature Card.pdf",
               },
               {
                 icon: TrendingUp,
-                title: "Swap Free Form",
+                title: "Swap-Free Account Request",
                 description:
-                  "تحميل دليل التحليل الفني والأساسي للأسواق المالية",
+                  "Apply for an interest-free, Sharia-compliant trading account",
                 pdfFile: "/Assets/PDFs/Swap Free Form.pdf",
               },
             ].map((resource, index) => {

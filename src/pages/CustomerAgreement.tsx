@@ -98,7 +98,9 @@ const CustomerAgreement = () => {
               </CardTitle>
             </CardHeader>
 
-            <CardContent className="pt-6">
+            <CardContent
+              className="pt-6 bg-[linear-gradient(hsl(var(--background)/0.75),hsl(var(--background)/0.85)),url('/Assets/pattern.svg')] dark:bg-[linear-gradient(hsl(var(--background)/0.95),hsl(var(--background)/0.95)),url('/Assets/pattern.svg')] bg-repeat bg-[length:500px] bg-center"
+            >
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -422,9 +424,9 @@ const CustomerAgreement = () => {
                           </p>
                           <div className="p-4 flex items-center justify-center bg-card rounded-md border border-border">
                             <img
-                              src="/lovable-uploads/0dd907d0-bfbf-462e-8d4a-1d30c9590d51.png"
+                              src="/public/Assets/STAMP FOR FOREX-KING.png"
                               alt="Second Party Signature"
-                              className="h-16"
+                              className="h-22"
                             />
                           </div>
                         </div>
