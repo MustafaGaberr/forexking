@@ -20,8 +20,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'ar',
-    lng: 'ar', // Set default language to Arabic
+    fallbackLng: 'en',
+    lng: 'en', // Set default language to English
     debug: false,
     
     interpolation: {
@@ -34,8 +34,8 @@ i18n
     },
   });
 
-// Set initial document attributes for Arabic
-document.documentElement.setAttribute('lang', 'ar');
-document.documentElement.setAttribute('dir', 'rtl');
+// Set initial document attributes for English
+document.documentElement.setAttribute('lang', 'en');
+document.documentElement.setAttribute('dir', 'ltr');
 
 export default i18n;

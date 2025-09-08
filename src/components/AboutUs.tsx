@@ -15,15 +15,8 @@ const fadeIn = {
 };
 
 const AboutUs = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-
-  // Helper function to convert numbers to Arabic numerals
-  const toArabicNumerals = (num: string) => {
-    if (i18n.language !== 'ar') return num;
-    const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-    return num.replace(/[0-9]/g, (digit) => arabicNumerals[parseInt(digit)]);
-  };
 
   return (
     <section id="about" className="relative overflow-hidden bg-background text-foreground">
@@ -150,9 +143,8 @@ const AboutUs = () => {
               >
                 <Counter
                   target={stat.value}
-                  suffix={toArabicNumerals(stat.suffix)}
+                  suffix={stat.suffix}
                   className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-                  toArabicNumerals={toArabicNumerals}
                 />
                 <p className="text-muted-foreground uppercase text-xs tracking-widest mt-3">
                   {stat.label}

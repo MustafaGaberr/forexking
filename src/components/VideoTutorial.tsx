@@ -52,7 +52,7 @@ const VideoTutorial = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
         <motion.div
           ref={ref}
           initial="hidden"
