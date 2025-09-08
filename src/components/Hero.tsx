@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ParticlesBackground from './ParticlesBackground';
 import { Volume2, VolumeX } from 'lucide-react'; // Optional: use your own icons if needed
 
 const Hero = () => {
+  const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
 
@@ -55,7 +57,10 @@ const Hero = () => {
           <p className="text-xl md:text-2xl text-white/90 mb-6 drop-shadow-md">
             Access global forex markets with a trusted leader
           </p>
-          <button className="bg-primary text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors shadow-md">
+          <button 
+            onClick={() => navigate('/register')}
+            className="bg-primary text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors shadow-md"
+          >
             Start Trading
           </button>
         </div>
