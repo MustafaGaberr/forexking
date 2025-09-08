@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { BookOpen, Users, TrendingUp } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 40 },
@@ -15,9 +16,17 @@ const fadeIn = {
 };
 
 const VideoTutorial = () => {
+  const { t, i18n } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // Helper function to convert numbers to Arabic numerals
+  const toArabicNumerals = (num: string) => {
+    if (i18n.language !== 'ar') return num;
+    const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return num.replace(/[0-9]/g, (digit) => arabicNumerals[parseInt(digit)]);
+  };
 
   const handlePlayPause = () => {
     if (!videoRef.current) return;
@@ -56,14 +65,13 @@ const VideoTutorial = () => {
           {/* Section Header */}
           <motion.div variants={fadeIn} className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 md:mb-8 leading-tight">
-              Learn How to{" "}
+              {t('videoTutorial.learnHow')}{" "}
               <span className="text-transparent bg-clip-text bg-primary">
-                Open Your Account
+                {t('videoTutorial.openYourAccount')}
               </span>
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Watch our comprehensive video tutorial and discover how easy it is
-              to start your trading journey with King Forex.
+              {t('videoTutorial.description')}
             </p>
           </motion.div>
 
@@ -95,21 +103,18 @@ const VideoTutorial = () => {
             {[
               {
                 icon: BookOpen,
-                title: "Step-by-Step Guide",
-                description:
-                  "Clear instructions for account registration and verification process",
+                title: t('videoTutorial.stepByStep'),
+                description: t('videoTutorial.stepByStepDesc'),
               },
               {
                 icon: Users,
-                title: "Expert Support",
-                description:
-                  "Get help from our dedicated team throughout the setup process",
+                title: t('videoTutorial.expertSupport'),
+                description: t('videoTutorial.expertSupportDesc'),
               },
               {
                 icon: TrendingUp,
-                title: "Start Trading",
-                description:
-                  "Begin your trading journey with confidence and professional guidance",
+                title: t('videoTutorial.startTrading'),
+                description: t('videoTutorial.startTradingDesc'),
               },
             ].map((benefit, index) => {
               const Icon = benefit.icon;
@@ -141,23 +146,20 @@ const VideoTutorial = () => {
             {[
               {
                 icon: BookOpen,
-                title: "Leverage Request Form",
-                description:
-                  "Understand the risks and request your preferred leverage rate",
+                title: t('videoTutorial.leverageForm'),
+                description: t('videoTutorial.leverageFormDesc'),
                 pdfFile: "/Assets/PDFs/Leverage.pdf",
               },
               {
                 icon: Users,
-                title: "Signature Card",
-                description:
-                  "Specimen signature form to verify account holder identity",
+                title: t('videoTutorial.signatureCard'),
+                description: t('videoTutorial.signatureCardDesc'),
                 pdfFile: "/Assets/PDFs/Signature Card.pdf",
               },
               {
                 icon: TrendingUp,
-                title: "Swap-Free Account Request",
-                description:
-                  "Apply for an interest-free, Sharia-compliant trading account",
+                title: t('videoTutorial.swapFreeAccount'),
+                description: t('videoTutorial.swapFreeAccountDesc'),
                 pdfFile: "/Assets/PDFs/Swap Free Form.pdf",
               },
             ].map((resource, index) => {
@@ -181,7 +183,7 @@ const VideoTutorial = () => {
                         className="inline-block w-full"
                       >
                         <Button variant="default" className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                          Download PDF
+                          {t('videoTutorial.downloadPDF')}
                         </Button>
                       </a>
                     </CardContent>

@@ -1,14 +1,17 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const LanguageToggle = () => {
-  const [language, setLanguage] = useState('en');
+  const { i18n } = useTranslation();
 
   const toggleLanguage = () => {
-    const newLang = language === 'en' ? 'ar' : 'en';
-    setLanguage(newLang);
-    console.log('Language changed to:', newLang);
+    const newLang = i18n.language === 'en' ? 'ar' : 'en';
+    i18n.changeLanguage(newLang);
+    
+    // Update document direction
+    document.documentElement.setAttribute('lang', newLang);
+    document.documentElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');
   };
 
   return (
@@ -20,7 +23,7 @@ const LanguageToggle = () => {
     >
       <Globe className="h-4 w-4" />
       <span className="text-sm font-medium">
-        {language === 'en' ? 'عربي' : 'English'}
+        {i18n.language === 'en' ? 'عربي' : 'English'}
       </span>
     </Button>
   );

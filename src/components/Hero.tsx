@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ParticlesBackground from './ParticlesBackground';
-import { Volume2, VolumeX } from 'lucide-react'; // Optional: use your own icons if needed
+import { Volume2, VolumeX } from 'lucide-react';
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
 
@@ -42,7 +44,9 @@ const Hero = () => {
       {/* Mute/Unmute Button */}
       <button
         onClick={toggleMute}
-        className="absolute top-4 right-4 z-30 bg-black/60 text-white p-2 rounded-full hover:bg-black/80 transition"
+        className={`absolute top-4 z-30 bg-black/60 text-white p-2 rounded-full hover:bg-black/80 transition ${
+          i18n.language === 'ar' ? 'left-4' : 'right-4'
+        }`}
         aria-label={isMuted ? "Unmute video" : "Mute video"}
       >
         {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
@@ -50,18 +54,18 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-20 h-full flex items-center px-6 md:px-12">
-        <div className="max-w-2xl text-left text-white">
+        <div className={`max-w-2xl text-white ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`} style={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
           <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
-            Trade with Confidence
+            {t('hero.title')}
           </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-6 drop-shadow-md">
-            Access global forex markets with a trusted leader
+            {t('hero.subtitle')}
           </p>
           <button 
             onClick={() => navigate('/register')}
             className="bg-primary text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors shadow-md"
           >
-            Start Trading
+            {t('hero.startTrading')}
           </button>
         </div>
       </div>

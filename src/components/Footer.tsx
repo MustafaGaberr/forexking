@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SocialMediaLinks from "./SocialMedia";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
    <footer className="w-full mt-auto bg-background text-foreground">
   {/* Top Section with Steps */}
@@ -45,9 +47,9 @@ const Footer = () => {
 
       {/* Help Section */}
       <div className="mt-8 flex flex-col items-center gap-2">
-        <h4 className="text-xl font-semibold">Need help?</h4>
+        <h4 className="text-xl font-semibold">{t('footer.needHelp')}</h4>
         <Link to="#" className="text-primary font-medium hover:text-accent">
-          Contact Support
+          {t('footer.contactSupport')}
         </Link>
       </div>
     </div>
@@ -57,13 +59,10 @@ const Footer = () => {
   <div className="bg-card py-6 border-t border-border">
     <div className="container mx-auto px-4 text-sm text-muted-foreground max-w-5xl text-center">
       <p className="mb-4">
-        Please note that foreign exchange and other leveraged trading involves significant risk of loss. It is not
-        suitable for all investors and you should make sure you understand the risks involved, seeking independent
-        advice if necessary.
+        {t('footer.riskWarning')}
       </p>
       <p className="mb-4">
-        The products and services available to you at ForexKing.com will depend on your location and on which of its
-        regulated entities holds your account.
+        {t('footer.location')}
       </p>
 
       {/* Logo & Copyright */}
@@ -73,7 +72,7 @@ const Footer = () => {
           alt="Forex King Logo" 
           className="h-16 w-auto"
         />
-        <p>© ForexKing.COM {new Date().getFullYear()}</p>
+        <p>{t('footer.copyright')} {new Date().getFullYear()}</p>
       </div>
 
     </div>

@@ -7,7 +7,8 @@ const Counter = ({
   duration = 2000, 
   suffix = "",
   className = "",
-  decimalPlaces = 1
+  decimalPlaces = 1,
+  toArabicNumerals = (num: string) => num
 }) => {
   const [count, setCount] = useState(0);
 
@@ -34,16 +35,17 @@ const Counter = ({
   }, [target, duration]);
 
   const formatCount = () => {
+    let result = "";
     if (suffix === "T") {
-      return count.toFixed(decimalPlaces) + "T";
+      result = count.toFixed(decimalPlaces) + "T";
+    } else if (suffix.includes("M+")) {
+      result = `$${Math.floor(count)}M+`;
+    } else if (suffix === "+" || suffix.includes("+")) {
+      result = Math.floor(count) + "+";
+    } else {
+      result = Math.floor(count).toString();
     }
-    if (suffix === "M+") {
-      return `$${Math.floor(count)}M+`;
-    }
-    if (suffix === "+") {
-      return Math.floor(count) + "+";
-    }
-    return Math.floor(count);
+    return toArabicNumerals(result);
   };
 
   return (

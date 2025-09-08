@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us", 
+    "performance": "Deal Performance",
+    "openAccount": "Open Account",
+    "contact": "Contact",
+    "agreement": "Customer Agreement",
+    "admin": "Admin"
+  },
+  "hero": {
+    "title": "Trade with Confidence",
+    "subtitle": "Access global forex markets with a trusted leader",
+    "startTrading": "Start Trading"
+  },
+  "about": {
+    "title": "Pioneering in the",
+    "titleHighlight": "World of Forex Trading",
+    "welcome": "Welcome to",
+    "welcomeText": ", your first destination for promising and secure investment opportunities in the world of foreign exchange trading.",
+    "collaboration": "We take pride in working as account managers for our clients in collaboration with",
+    "collaborationText": ", licensed by FINMA as well as the FCA. Swissquote provides deposit protection of up to",
+    "collaborationEnd": ", reflecting our commitment to the highest standards of safety and trust.",
+    "quote": "\"All you need is one pattern to make a living.\"",
+    "newWebsite": "We're proud to unveil our new website—a result of our dedication to delivering an advanced trading experience. Through our",
+    "portfolioManagement": "$100 portfolio management",
+    "portfolioText": "offering, you can step into trading with confidence and no risk.",
+    "forexKing": "At Forex King, we ensure seamless access to your capital, elite technical support, and an intuitive platform built around your financial ambitions.",
+    "pathToSuccess": "Begin your path toward consistent income and financial prosperity—with a dedicated team by your side every step of the way.",
+    "dailyVolume": "Daily Volume",
+    "profitsGenerated": "Profits Generated", 
+    "currencyPairs": "Currency Pairs"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Questions, feedback, or just want to say hello? We'd love to hear from you.",
+    "getInTouch": "Get in Touch",
+    "formDescription": "Fill in the form and we'll get back to you shortly.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "namePlaceholder": "John Doe",
+    "emailPlaceholder": "john@example.com",
+    "messagePlaceholder": "Type your message...",
+    "sending": "Sending...",
+    "submit": "Submit",
+    "responseTime": "We typically respond within 24 hours. Your message is safe with us.",
+    "validation": {
+      "required": "Please fill in all required fields",
+      "email": "Invalid email address"
+    },
+    "success": "Message sent successfully 🎉",
+    "error": "Failed to send message. Please try again."
+  },
+  "footer": {
+    "needHelp": "Need help?",
+    "contactSupport": "Contact Support", 
+    "riskWarning": "Please note that foreign exchange and other leveraged trading involves significant risk of loss. It is not suitable for all investors and you should make sure you understand the risks involved, seeking independent advice if necessary.",
+    "location": "The products and services available to you at ForexKing.com will depend on your location and on which of its regulated entities holds your account.",
+    "copyright": "© ForexKing.COM",
+    "allRights": "All rights reserved."
+  },
+  "social": {
+    "connectWithUs": "Connect With Us"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "register": "Register", 
+    "signOut": "Sign Out",
+    "signingIn": "Signing In...",
+    "creatingAccount": "Creating Account...",
+    "dontHaveAccount": "Don't have an account?",
+    "registerHere": "Register here",
+    "alreadyHaveAccount": "Already have an account?",
+    "signInHere": "Sign in",
+    "agreeToTerms": "I agree to the",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "hello": "Hello,"
+  },
+  "chat": {
+    "header": "Forex King Assistant",
+    "welcome": "Welcome! How can I help you today?",
+    "placeholder": "Type your message here...",
+    "backToOptions": "Back to options",
+    "defaultResponse": "Thank you for contacting us. You will receive a response shortly from one of our customer service representatives.",
+    "question1": "How do I open an account?",
+    "answer1": "You can open an account by clicking the \"Open Account\" button on the homepage and filling out the required form.",
+    "question2": "What is the minimum deposit?",
+    "answer2": "The minimum deposit is $100 USD.",
+    "question3": "How can I withdraw funds?",
+    "answer3": "You can withdraw funds by going to the dashboard, then clicking \"Withdraw\" and following the instructions."
+  },
+  "videoTutorial": {
+    "learnHow": "Learn How to",
+    "openYourAccount": "Open Your Account",
+    "description": "Watch our comprehensive video tutorial and discover how easy it is to start your trading journey with King Forex.",
+    "stepByStep": "Step-by-Step Guide",
+    "stepByStepDesc": "Clear instructions for account registration and verification process",
+    "expertSupport": "Expert Support",
+    "expertSupportDesc": "Get help from our dedicated team throughout the setup process",
+    "startTrading": "Start Trading",
+    "startTradingDesc": "Begin your trading journey with confidence and professional guidance",
+    "leverageForm": "Leverage Request Form",
+    "leverageFormDesc": "Understand the risks and request your preferred leverage rate",
+    "signatureCard": "Signature Card",
+    "signatureCardDesc": "Specimen signature form to verify account holder identity",
+    "swapFreeAccount": "Swap-Free Account Request",
+    "swapFreeAccountDesc": "Apply for an interest-free, Sharia-compliant trading account",
+    "downloadPDF": "Download PDF"
+  },
+  "common": {
+    "forexKing": "Forex King",
+    "swissquoteBank": "Swissquote Bank"
+  }
+}

@@ -4,25 +4,27 @@ import { Home, Info, BarChart, UserPlus, Mail, Menu, X, LogOut, FileText, Shield
 import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
 import { useAuth } from '@/hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import forexkingLogo from '@/assets/forexking-logo.png';
 
-const navItems = [
-  { label: 'Home', icon: Home, href: 'home' },
-  { label: 'About Us', icon: Info, href: 'about' },
-  { label: 'Deal Performance', icon: BarChart, href: 'performance', isRoute: true },
-  { label: 'Open Account', icon: UserPlus, href: 'video-tutorial' },
-  { label: 'Contact', icon: Mail, href: 'contact' },
-  { label: 'Customer Agreement', icon: FileText, href: 'agreement', isRoute: true },
-  { label: 'Admin', icon: Shield, href: 'admin', isRoute: true },
-];
-
 const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
   const location = useLocation();
+  const { t, i18n } = useTranslation();
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
+
+  const navItems = [
+    { label: t('nav.home'), icon: Home, href: 'home' },
+    { label: t('nav.about'), icon: Info, href: 'about' },
+    { label: t('nav.performance'), icon: BarChart, href: 'performance', isRoute: true },
+    { label: t('nav.openAccount'), icon: UserPlus, href: 'video-tutorial' },
+    { label: t('nav.contact'), icon: Mail, href: 'contact' },
+    { label: t('nav.agreement'), icon: FileText, href: 'agreement', isRoute: true },
+    { label: t('nav.admin'), icon: Shield, href: 'admin', isRoute: true },
+  ];
 
   const handleResize = useCallback(() => {
     const isMobileView = window.innerWidth <= 768;
@@ -70,7 +72,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
 
         {mobileMenuOpen && (
           <div className="border-t border-border bg-background/95 backdrop-blur-sm">
-            <div className="px-6 py-4 space-y-4">
+            <div className={`px-6 py-4 space-y-4 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`} style={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
               {navItems.map(({ label, href, isRoute }) => {
                 const active = isActive(href, isRoute);
                 return isRoute ? (
@@ -131,19 +133,19 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                         className="w-full text-sm font-medium px-4 py-2.5 rounded-lg bg-destructive/20 hover:bg-destructive/30 text-destructive-foreground transition-colors flex items-center justify-center gap-2"
                       >
                         <LogOut className="h-4 w-4" />
-                        Sign Out
+                        {t('auth.signOut')}
                       </button>
                     </div>
                   ) : (
                     <>
                       <Link to="/signin">
                         <button className="w-full text-sm font-medium px-4 py-2.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
-                          Sign In
+                          {t('auth.signIn')}
                         </button>
                       </Link>
                       <Link to="/register">
                         <button className="w-full text-sm font-medium px-4 py-2.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
-                          Register
+                          {t('auth.register')}
                         </button>
                       </Link>
                     </>
@@ -160,8 +162,12 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
   // Desktop sidebar
   return (
     <aside
-      className={`fixed top-0 left-0 h-full z-50 bg-background/95 backdrop-blur-sm border-r border-border shadow-lg transition-all duration-300 ${
-        collapsed ? 'w-20' : 'w-72'
+      className={`fixed top-0 h-full z-50 bg-background/95 backdrop-blur-sm shadow-lg transition-all duration-300 ${
+        i18n.language === 'ar' 
+          ? 'right-0 border-l border-border' 
+          : 'left-0 border-r border-border'
+      } ${
+        collapsed ? (i18n.language === 'ar' ? 'w-24' : 'w-20') : 'w-72'
       }`}
     >
       <div className="flex flex-col h-full">
@@ -202,7 +208,9 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                 }`}
               >
                 {active && (
-                  <span className="absolute left-0 top-0 bottom-0 w-1 rounded-l-xl bg-primary" />
+                  <span className={`absolute top-0 bottom-0 w-1 bg-primary ${
+                    i18n.language === 'ar' ? 'right-0 rounded-r-xl' : 'left-0 rounded-l-xl'
+                  }`} />
                 )}
                 <Icon className="h-5 w-5 flex-shrink-0" />
                 {!collapsed && <span>{label}</span>}
@@ -219,7 +227,9 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                 }`}
               >
                 {active && (
-                  <span className="absolute left-0 top-0 bottom-0 w-1 rounded-l-xl bg-primary" />
+                  <span className={`absolute top-0 bottom-0 w-1 bg-primary ${
+                    i18n.language === 'ar' ? 'right-0 rounded-r-xl' : 'left-0 rounded-l-xl'
+                  }`} />
                 )}
                 <Icon className="h-5 w-5 flex-shrink-0" />
                 {!collapsed && <span>{label}</span>}
@@ -260,7 +270,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                   {collapsed ? '🚪' : (
                     <>
                       <LogOut className="h-4 w-4" />
-                      Sign Out
+                      {t('auth.signOut')}
                     </>
                   )}
                 </button>
@@ -273,7 +283,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                       collapsed ? 'flex justify-center' : ''
                     }`}
                   >
-                    {!collapsed ? 'Sign In' : '🔐'}
+                    {!collapsed ? t('auth.signIn') : '🔐'}
                   </button>
                 </Link>
                 <Link to="/register">
@@ -282,7 +292,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                       collapsed ? 'flex justify-center' : ''
                     }`}
                   >
-                    {!collapsed ? 'Register' : '✍️'}
+                    {!collapsed ? t('auth.register') : '✍️'}
                   </button>
                 </Link>
               </>

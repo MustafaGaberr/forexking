@@ -1,5 +1,6 @@
 import React from "react";
 import { SocialIcon } from "react-social-icons";
+import { useTranslation } from 'react-i18next';
 
 interface SocialPlatform {
   name: string;
@@ -10,6 +11,7 @@ interface SocialPlatform {
 }
 
 const SocialMediaLinks: React.FC = () => {
+  const { t } = useTranslation();
 const socialPlatforms: SocialPlatform[] = [
     { name: "Facebook", url: "https://facebook.com/forexking", bgColor: "#1877F2" },
     { name: "Instagram", url: "https://instagram.com/forexking", bgColor: "#E4405F" },
@@ -26,7 +28,7 @@ const socialPlatforms: SocialPlatform[] = [
   return (
     <div className="container mx-auto px-4">
       <h4 className="text-center text-foreground font-medium mb-6 text-lg">
-        Connect With Us
+        {t('social.connectWithUs')}
       </h4>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">

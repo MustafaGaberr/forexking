@@ -3,6 +3,7 @@ import Counter from "./Counter";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useTranslation } from 'react-i18next';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 40 },
@@ -14,7 +15,15 @@ const fadeIn = {
 };
 
 const AboutUs = () => {
+  const { t, i18n } = useTranslation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+
+  // Helper function to convert numbers to Arabic numerals
+  const toArabicNumerals = (num: string) => {
+    if (i18n.language !== 'ar') return num;
+    const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return num.replace(/[0-9]/g, (digit) => arabicNumerals[parseInt(digit)]);
+  };
 
   return (
     <section id="about" className="relative overflow-hidden bg-background text-foreground">
@@ -40,9 +49,9 @@ const AboutUs = () => {
               variants={fadeIn}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 md:mb-8 leading-tight"
             >
-              Pioneering in the{" "}
+              {t('about.title')}{" "}
               <span className="text-transparent bg-clip-text bg-primary">
-                World of Forex Trading
+                {t('about.titleHighlight')}
               </span>
             </motion.h2>
 
@@ -51,10 +60,9 @@ const AboutUs = () => {
               className="max-w-3xl mx-auto space-y-6 md:space-y-8"
             >
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
-                Welcome to{" "}
-                <span className="font-semibold text-primary">King Forex</span>,
-                your first destination for promising and secure investment opportunities
-                in the world of foreign exchange trading.
+                {t('about.welcome')}{" "}
+                <span className="font-semibold text-primary">{t('common.forexKing')}</span>
+                {t('about.welcomeText')}
               </p>
 
               <div className="py-6 sm:py-8 flex flex-col items-center">
@@ -66,13 +74,13 @@ const AboutUs = () => {
               </div>
 
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
-                We take pride in working as account managers for our clients in collaboration with{" "}
-                <span className="font-semibold">Swissquote Bank</span>, licensed by FINMA as well as the FCA. 
-                Swissquote provides deposit protection of up to{" "}
+                {t('about.collaboration')}{" "}
+                <span className="font-semibold">{t('common.swissquoteBank')}</span>
+                {t('about.collaborationText')}{" "}
                 <span className="font-bold underline decoration-primary/30 decoration-2">
                   100,000 CHF
                 </span>
-                , reflecting our commitment to the highest standards of safety and trust.
+                {t('about.collaborationEnd')}
               </p>
             </motion.div>
           </div>
@@ -86,7 +94,7 @@ const AboutUs = () => {
             viewport={{ once: true }}
           >
             <blockquote className="text-lg sm:text-2xl md:text-3xl font-medium italic text-foreground leading-snug">
-              "All you need is one pattern to make a living."
+              {t('about.quote')}
             </blockquote>
           </motion.div>
 
@@ -99,25 +107,19 @@ const AboutUs = () => {
             viewport={{ once: true }}
           >
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
-              We’re proud to unveil our new website—a result of our dedication
-              to delivering an advanced trading experience. Through our{" "}
+              {t('about.newWebsite')}{" "}
               <span className="font-semibold text-primary">
-                $100 portfolio management
+                {t('about.portfolioManagement')}
               </span>{" "}
-              offering, you can step into trading with confidence and no risk.
+              {t('about.portfolioText')}
             </p>
 
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
-              At <span className="font-semibold text-primary">Forex King</span>,
-              we ensure seamless access to your capital, elite technical
-              support, and an intuitive platform built around your financial
-              ambitions.
+              {t('about.forexKing')}
             </p>
 
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Begin your path toward consistent income and financial
-              prosperity—with a dedicated team by your side every step of the
-              way.
+              {t('about.pathToSuccess')}
             </p>
           </motion.div>
 
@@ -136,9 +138,9 @@ const AboutUs = () => {
             }}
           >
             {[
-              { value: 6.6, suffix: "T", label: "Daily Volume" },
-              { value: 1, suffix: "M+", label: "Profits Generated" },
-              { value: 120, suffix: "+", label: "Currency Pairs" },
+              { value: 6.6, suffix: "T", label: t('about.dailyVolume') },
+              { value: 1, suffix: "M+", label: t('about.profitsGenerated') },
+              { value: 120, suffix: "+", label: t('about.currencyPairs') },
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -148,8 +150,9 @@ const AboutUs = () => {
               >
                 <Counter
                   target={stat.value}
-                  suffix={stat.suffix}
+                  suffix={toArabicNumerals(stat.suffix)}
                   className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+                  toArabicNumerals={toArabicNumerals}
                 />
                 <p className="text-muted-foreground uppercase text-xs tracking-widest mt-3">
                   {stat.label}

@@ -1,7 +1,9 @@
 import { ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ScrollToTop = () => {
+  const { i18n } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -22,7 +24,9 @@ const ScrollToTop = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-24 right-[4.5rem] z-40 bg-primary text-primary-foreground p-3 rounded-full shadow-lg opacity-80 hover:opacity-100 transition-all duration-300"
+          className={`fixed bottom-24 z-40 bg-primary text-primary-foreground p-3 rounded-full shadow-lg opacity-80 hover:opacity-100 transition-all duration-300 ${
+            i18n.language === 'ar' ? 'left-[4.5rem]' : 'right-[4.5rem]'
+          }`}
           aria-label="Scroll to top"
         >
           <ArrowUp className="h-5 w-5" />

@@ -75,6 +75,47 @@
     scroll-behavior: smooth;
   }
 
+  /* RTL Support */
+  [dir="rtl"] {
+    direction: rtl;
+  }
+
+  [dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+    margin-right: 0.5rem;
+    margin-left: 0;
+  }
+
+  [dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+    margin-left: 0.5rem;
+    margin-right: 0;
+  }
+
+  /* Dynamic sidebar positioning */
+  .sidebar-dynamic {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  [dir="rtl"] .sidebar-dynamic {
+    right: 0;
+    left: auto;
+  }
+  
+  [dir="ltr"] .sidebar-dynamic {
+    left: 0;
+    right: auto;
+  }
+
+  /* Chat widget positioning */
+  [dir="rtl"] .chat-widget {
+    left: 2rem;
+    right: auto;
+  }
+  
+  [dir="ltr"] .chat-widget {
+    right: 2rem;
+    left: auto;
+  }
+
   .glow-text {
     text-shadow: 0 0 10px rgba(231, 239, 69, 0.7); /* lime glow */
   }
