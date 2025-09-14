@@ -1,22 +1,57 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Navbar from "@/components/Navbar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
+import { AdminLogin } from "@/components/admin/AdminLogin"
 
 const AdminDashboard = () => {
+  const navigate = useNavigate()
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
-    const stored = localStorage.getItem("daily_performance_image")
-    if (stored) setPreview(stored)
+    // Check if user is authenticated
+    const authStatus = sessionStorage.getItem("admin_authenticated")
+    if (authStatus === "true") {
+      setIsAuthenticated(true)
+      // Load any admin data here if needed
+      const stored = localStorage.getItem("daily_performance_image")
+      if (stored) setPreview(stored)
+    } else {
+      setIsAuthenticated(false)
+    }
+    setIsLoading(false)
   }, [])
+
+  const handleSignOut = () => {
+    sessionStorage.removeItem("admin_authenticated")
+    setIsAuthenticated(false)
+    navigate("/admin")
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return <AdminLogin onLogin={() => {
+      setIsAuthenticated(true);
+      navigate('/admin');
+    }} />
+  }
 
   const onPick = () => fileRef.current?.click()
 
@@ -46,6 +81,11 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-background text-foreground flex w-full">
       <Navbar onToggle={setSidebarCollapsed} />
+      <div className="fixed top-4 right-4 z-50">
+        <Button variant="outline" onClick={handleSignOut}>
+          Sign Out
+        </Button>
+      </div>
       <main
         className={`flex-1 transition-all duration-300 ease-in-out ${
           typeof window !== 'undefined' && window.innerWidth <= 768
@@ -88,5 +128,6 @@ const AdminDashboard = () => {
 }
 
 export default AdminDashboard
+
 
 
