@@ -119,4 +119,67 @@
   .glow-text {
     text-shadow: 0 0 10px rgba(231, 239, 69, 0.7); /* lime glow */
   }
+
+  /* Ticker animation */
+  @keyframes ticker {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes ticker-rtl {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-ticker {
+    animation: ticker 30s linear infinite;
+  }
+
+  [dir="rtl"] .animate-ticker {
+    animation: ticker-rtl 30s linear infinite;
+  }
+
+  /* Ticker logo positioning */
+  .ticker-logo {
+    left: 0; /* Position at the very start of ticker */
+  }
+
+  .ticker-content {
+    margin-left: 120px; /* Start after logo + padding */
+  }
+
+  /* RTL Support for ticker logo */
+  [dir="rtl"] .ticker-logo {
+    left: auto;
+    right: 0; /* Position at the very start of ticker in RTL */
+  }
+
+  [dir="rtl"] .ticker-content {
+    margin-left: 0;
+    margin-right: 120px; /* Start after logo + padding in RTL */
+  }
+
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 1024px) {
+    .ticker-logo {
+      left: 0; /* Position at the very start of ticker */
+    }
+    
+    .ticker-content {
+      margin-left: 100px; /* Start after logo + padding */
+    }
+
+    [dir="rtl"] .ticker-content {
+      margin-left: 0;
+      margin-right: 100px; /* Start after logo + padding in RTL */
+    }
+  }
 }

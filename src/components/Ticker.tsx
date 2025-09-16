@@ -38,8 +38,18 @@ const Ticker = () => {
   }, []);
 
   return (
-    <div className="bg-secondary text-secondary-foreground py-2 overflow-hidden">
-      <div className="animate-ticker whitespace-nowrap inline-block">
+    <div className="bg-secondary text-secondary-foreground py-2 overflow-hidden relative">
+      {/* Bank Logo - Fixed position on the left, positioned after sidebar */}
+      <div className="absolute top-0 h-full z-10 flex items-center bg-secondary px-4 ticker-logo">
+        <img 
+          src="/Assets/swissquote logo.svg" 
+          alt="Swissquote Bank" 
+          className="h-8 w-auto object-contain"
+        />
+      </div>
+      
+      {/* Ticker content - moves behind the logo */}
+      <div className="animate-ticker whitespace-nowrap inline-block ticker-content">
         <div className="inline-flex items-center space-x-6">
           {currencies.map((currency, index) => (
             <div key={index} className="flex items-center space-x-2">
