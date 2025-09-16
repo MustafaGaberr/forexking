@@ -5,6 +5,7 @@ import { FileText, Pen, User, IdCard, Calendar, Save } from "lucide-react"
 import Navbar from "@/components/Navbar"
 import Ticker from "@/components/Ticker"
 import Footer from "@/components/Footer"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import SignatureCanvas from "@/components/SignatureCanvas"
 import { useForm } from "react-hook-form"
@@ -29,15 +30,20 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-const formSchema = z.object({
-  customerName: z.string().min(2, { message: "Please enter your full name" }),
-  idNumber: z.string().min(3, { message: "Please enter a valid ID or passport number" }),
-  agreementDate: z.date({ required_error: "Please select a date" }),
+const createFormSchema = (t: (key: string) => string) => z.object({
+  customerName: z.string().min(2, { message: t('agreement.nameRequired') }),
+  idNumber: z.string().min(3, { message: t('agreement.idRequired') }),
+  agreementDate: z.date({ required_error: t('agreement.dateRequired') }),
 })
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = {
+  customerName: string
+  idNumber: string
+  agreementDate: Date
+}
 
 const CustomerAgreement = () => {
+  const { t, i18n } = useTranslation()
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth <= 768 : true
@@ -51,7 +57,7 @@ const CustomerAgreement = () => {
   }, [])
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(createFormSchema(t)),
     defaultValues: {
       customerName: "",
       idNumber: "",
@@ -61,27 +67,36 @@ const CustomerAgreement = () => {
 
   const onSubmit = (values: FormValues) => {
     if (!customerSignature) {
-      toast.error("Please sign the agreement before submitting")
+      toast.error(t('agreement.signatureRequired'))
       return
     }
 
     // Here you would connect to your backend API
     console.log("Form submission data:", {
-      ...values,
+      customerName: values.customerName,
+      idNumber: values.idNumber,
       customerSignature,
       agreementDate: format(values.agreementDate, "yyyy-MM-dd"),
     })
 
-    toast.success("Agreement submitted successfully")
+    toast.success(t('agreement.success'))
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex w-full">
+    <div className="min-h-screen bg-background text-foreground flex w-full" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
       <Navbar onToggle={setIsSidebarCollapsed} />
 
       <main
         className={`flex-1 transition-all duration-300 ${
-          isMobile ? "pt-20" : isSidebarCollapsed ? "ml-20" : "ml-72"
+          isMobile 
+            ? "pt-20" 
+            : isSidebarCollapsed 
+              ? i18n.language === 'ar' 
+                ? "mr-20" 
+                : "ml-20"
+              : i18n.language === 'ar'
+                ? "mr-72"
+                : "ml-72"
         }`}
       >
         <Ticker />
@@ -93,7 +108,7 @@ const CustomerAgreement = () => {
               <CardTitle className="text-3xl flex items-center gap-2 text-center md:text-left">
                 <FileText className="h-8 w-8 text-primary" />
                 <span className="bg-clip-text text-transparent bg-primary font-bold">
-                  Customer Agreement
+                  {t('agreement.title')}
                 </span>
               </CardTitle>
             </CardHeader>
@@ -115,7 +130,7 @@ const CustomerAgreement = () => {
                         <FormItem className="space-y-2">
                           <div className="flex flex-wrap items-center gap-3">
                             <FormLabel className="text-base font-medium">
-                              Date:
+                              {t('agreement.agreementDate')}:
                             </FormLabel>
                             <Popover>
                               <PopoverTrigger asChild>
@@ -128,7 +143,7 @@ const CustomerAgreement = () => {
                                     {field.value ? (
                                       format(field.value, "dd/MM/yyyy")
                                     ) : (
-                                      <span>Select date</span>
+                                      <span>{t('agreement.dateRequired')}</span>
                                     )}
                                     <Calendar className="h-4 w-4 opacity-60" />
                                   </Button>
@@ -144,9 +159,9 @@ const CustomerAgreement = () => {
                                 />
                               </PopoverContent>
                             </Popover>
-                            <span className="text-base text-muted-foreground">
+                            {/* <span className="text-base text-muted-foreground">
                               /&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;20
-                            </span>
+                            </span> */}
                           </div>
                           <FormMessage />
                         </FormItem>
@@ -157,7 +172,7 @@ const CustomerAgreement = () => {
                   {/* PARTIES */}
                   <div className="space-y-6">
                     <p className="text-lg">
-                      This agreement is made between:
+                      {t('agreement.subtitle')}
                     </p>
 
                     {/* First Party */}
@@ -170,14 +185,14 @@ const CustomerAgreement = () => {
                           <FormItem>
                             <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-center">
                               <FormLabel className="sm:col-span-4 text-base font-medium whitespace-nowrap">
-                                <strong>First Party:</strong> Name:
+                                <strong>{t('agreement.customerName')}:</strong>
                               </FormLabel>
                               <FormControl className="sm:col-span-8">
                                 <div className="relative">
                                   <User className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                   <Input
                                     className="pl-8 h-10"
-                                    placeholder="Enter full name"
+                                    placeholder={t('agreement.customerName')}
                                     {...field}
                                   />
                                 </div>
@@ -196,14 +211,14 @@ const CustomerAgreement = () => {
                           <FormItem>
                             <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-center">
                               <FormLabel className="sm:col-span-4 text-base font-medium whitespace-nowrap">
-                                ID or Passport Number:
+                                {t('agreement.idNumber')}:
                               </FormLabel>
                               <FormControl className="sm:col-span-8">
                                 <div className="relative">
                                   <IdCard className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                   <Input
                                     className="pl-8 h-10"
-                                    placeholder="Enter ID/Passport number"
+                                    placeholder={t('agreement.idNumber')}
                                     {...field}
                                   />
                                 </div>
@@ -215,28 +230,17 @@ const CustomerAgreement = () => {
                       />
 
                       <p className="text-sm">
-                        Hereinafter referred to as{" "}
-                        <span className="text-primary font-medium">
-                          Owner of Funds
-                        </span>
-                        .
+                        {t('agreement.customerName')}
                       </p>
                     </div>
 
                     {/* Second Party */}
                     <div className="pl-4 border-l-4 border-secondary bg-secondary/5 p-4 rounded-r-lg">
                       <p className="text-base mb-2">
-                        <strong>Second Party:</strong> Name:{" "}
-                        <span className="font-semibold text-primary">
-                          Forex King
-                        </span>
+                        <strong>{t('common.forexKing')}</strong>
                       </p>
                       <p className="text-sm">
-                        Hereinafter referred to as{" "}
-                        <span className="text-primary font-medium">
-                          Operator of Funds
-                        </span>
-                        .
+                        {t('common.swissquoteBank')}
                       </p>
                     </div>
                   </div>
@@ -371,7 +375,7 @@ const CustomerAgreement = () => {
                     <div className="p-6 border border-border rounded-lg bg-background shadow-sm">
                       <h4 className="font-semibold text-lg text-primary mb-6 flex items-center gap-2">
                         <Pen className="h-4 w-4" />
-                        First Party
+                        {t('agreement.customerName')}
                       </h4>
                       <div className="space-y-4">
                         <div>
@@ -386,11 +390,11 @@ const CustomerAgreement = () => {
                           <p className="text-sm font-medium text-muted-foreground mb-2">
                             Signature:
                           </p>
-                          <SignatureCanvas label="Please sign here" onSave={setCustomerSignature} />
+                          <SignatureCanvas label={t('agreement.signaturePlaceholder')} onSave={setCustomerSignature} />
                           {customerSignature && (
                             <div className="mt-4 border border-border p-3 rounded-md bg-card">
                               <p className="text-xs font-medium text-muted-foreground mb-2">
-                                Your saved signature:
+                                {t('agreement.signature')}:
                               </p>
                               <div className="flex justify-center">
                                 <img
@@ -409,14 +413,14 @@ const CustomerAgreement = () => {
                     <div className="p-6 border border-border rounded-lg bg-background shadow-sm">
                       <h4 className="font-semibold text-lg text-primary mb-6 flex items-center gap-2">
                         <Pen className="h-4 w-4" />
-                        Second Party
+                        {t('common.forexKing')}
                       </h4>
                       <div className="space-y-4">
                         <div>
                           <p className="text-sm font-medium text-muted-foreground mb-1">
                             Name:
                           </p>
-                          <p className="text-base font-medium text-primary">Forex King</p>
+                          <p className="text-base font-medium text-primary">{t('common.forexKing')}</p>
                         </div>
                         <div>
                           <p className="text-sm font-medium text-muted-foreground mb-2">
@@ -441,7 +445,7 @@ const CustomerAgreement = () => {
                       className="bg-primary hover:bg-primary/90 text-primary-foreground flex items-center gap-2"
                     >
                       <Save className="h-4 w-4" />
-                      Submit Agreement
+                      {t('agreement.submit')}
                     </Button>
                   </div>
                 </form>
