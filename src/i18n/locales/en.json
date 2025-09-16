@@ -108,7 +108,10 @@
     "signatureCardDesc": "Specimen signature form to verify account holder identity",
     "swapFreeAccount": "Swap-Free Account Request",
     "swapFreeAccountDesc": "Apply for an interest-free, Sharia-compliant trading account",
-    "downloadPDF": "Download PDF"
+    "downloadPDF": "Download PDF",
+    "openAccountNow": "Open Your Forex Trading Account Now",
+    "openAccountDesc": "Join thousands of successful traders and start your journey with Swissquote Bank's trusted platform",
+    "openAccountButton": "Open Account Now"
   },
   "common": {
     "forexKing": "Forex King",

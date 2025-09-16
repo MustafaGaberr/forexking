@@ -108,7 +108,10 @@
     "signatureCardDesc": "نموذج التوقيع النموذجي للتحقق من هوية صاحب الحساب",
     "swapFreeAccount": "طلب حساب خالي من الفوائد",
     "swapFreeAccountDesc": "تقدم بطلب للحصول على حساب تداول خالي من الفوائد ومتوافق مع الشريعة الإسلامية",
-    "downloadPDF": "تحميل PDF"
+    "downloadPDF": "تحميل PDF",
+    "openAccountNow": "افتح حساب تداول الفوركس الآن",
+    "openAccountDesc": "انضم إلى آلاف المتداولين الناجحين وابدأ رحلتك مع منصة Swissquote Bank الموثوقة",
+    "openAccountButton": "افتح الحساب الآن"
   },
   "common": {
     "forexKing": "Forex King",

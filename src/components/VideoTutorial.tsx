@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
-import { BookOpen, Users, TrendingUp } from "lucide-react";
+import { BookOpen, Users, TrendingUp, FileText, CreditCard, Shield } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
 const fadeIn = {
@@ -95,6 +95,34 @@ const VideoTutorial = () => {
             </Card>
           </motion.div>
 
+          {/* CTA Button */}
+          <motion.div
+            variants={fadeIn}
+            className="text-center mb-12 md:mb-16"
+          >
+            <div className="bg-gradient-to-r from-primary to-accent p-8 md:p-12 rounded-2xl shadow-2xl">
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
+                {t('videoTutorial.openAccountNow')}
+              </h3>
+              <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+                {t('videoTutorial.openAccountDesc')}
+              </p>
+              <a 
+                href="https://trade.swissquote.ch/signup/public/form/full/fx/com/individual?lang=en&partnerid=28105ebd-1a6c-4adc-8cd8-e9e55227abe7#full/fx/com/individual/step2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <Button 
+                  size="lg"
+                  className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  {t('videoTutorial.openAccountButton')}
+                </Button>
+              </a>
+            </div>
+          </motion.div>
+
           {/* Benefits Grid */}
           <motion.div
             variants={fadeIn}
@@ -145,19 +173,19 @@ const VideoTutorial = () => {
           >
             {[
               {
-                icon: BookOpen,
+                icon: FileText,
                 title: t('videoTutorial.leverageForm'),
                 description: t('videoTutorial.leverageFormDesc'),
                 pdfFile: "/Assets/PDFs/Leverage.pdf",
               },
               {
-                icon: Users,
+                icon: CreditCard,
                 title: t('videoTutorial.signatureCard'),
                 description: t('videoTutorial.signatureCardDesc'),
                 pdfFile: "/Assets/PDFs/Signature Card.pdf",
               },
               {
-                icon: TrendingUp,
+                icon: Shield,
                 title: t('videoTutorial.swapFreeAccount'),
                 description: t('videoTutorial.swapFreeAccountDesc'),
                 pdfFile: "/Assets/PDFs/Swap Free Form.pdf",
