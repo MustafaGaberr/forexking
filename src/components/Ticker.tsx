@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 interface CurrencyData {
   pair: string;
@@ -16,7 +17,14 @@ const currencyPairs: CurrencyData[] = [
 ];
 
 const Ticker = () => {
+  const { theme } = useTheme();
   const [currencies, setCurrencies] = useState<CurrencyData[]>(currencyPairs);
+  const [currentTheme, setCurrentTheme] = useState<string | undefined>(theme);
+
+  // Monitor theme changes
+  useEffect(() => {
+    setCurrentTheme(theme);
+  }, [theme]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,10 +49,17 @@ const Ticker = () => {
     <div className="bg-secondary text-secondary-foreground py-2 overflow-hidden relative">
       {/* Bank Logo - Fixed position on the left, positioned after sidebar */}
       <div className="absolute top-0 h-full z-10 flex items-center bg-secondary px-4 ticker-logo">
+        {/* Day Logo - Hidden in dark mode */}
         <img 
-          src="/Assets/swissquote logo.svg" 
+          src="/Assets/swissquote day logo.svg" 
           alt="Swissquote Bank" 
-          className="h-8 w-auto object-contain"
+          className={`h-8 w-auto object-contain ${currentTheme === 'dark' ? 'hidden' : 'block'}`}
+        />
+        {/* Dark Logo - Hidden in light mode */}
+        <img 
+          src="/Assets/swissquote dark logo.svg" 
+          alt="Swissquote Bank" 
+          className={`h-8 w-auto object-contain ${currentTheme === 'dark' ? 'block' : 'hidden'}`}
         />
       </div>
       
