@@ -198,29 +198,40 @@
 
 import { useEffect, useState } from "react"
 import Navbar from "@/components/Navbar"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import PDFViewer from "@/components/PDFViewer"
+import { pdfService, type PDFDocument } from "@/services/pdfService"
 import { useToast } from "@/hooks/use-toast"
+import { useTranslation } from "react-i18next"
 
 const DealPerformance = () => {
-  const [imageSrc, setImageSrc] = useState<string | null>(null)
+  const [pdfDocument, setPdfDocument] = useState<PDFDocument | null>(null)
+  const [loading, setLoading] = useState(true)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const { toast } = useToast()
+  const { i18n } = useTranslation()
 
   useEffect(() => {
+    loadLatestPDF()
+  }, [])
+
+  const loadLatestPDF = () => {
     try {
-      const stored = localStorage.getItem("daily_performance_image")
-      if (stored) setImageSrc(stored)
+      setLoading(true)
+      const latestPDF = pdfService.getLatestPDF()
+      setPdfDocument(latestPDF)
     } catch (error) {
       toast({
-        title: "Failed to load image",
-        description: "Could not read the daily performance image.",
+        title: "Failed to load PDF",
+        description: "Could not load the performance document.",
         variant: "destructive",
       })
+    } finally {
+      setLoading(false)
     }
-  }, [toast])
+  }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex w-full">
+    <div className="min-h-screen bg-background text-foreground flex w-full" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
       <Navbar onToggle={setSidebarCollapsed} />
 
       <main
@@ -228,8 +239,12 @@ const DealPerformance = () => {
           typeof window !== 'undefined' && window.innerWidth <= 768
             ? "pt-20 px-2"
             : sidebarCollapsed
-            ? "ml-20 px-4"
-            : "ml-72 px-4"
+            ? i18n.language === 'ar' 
+              ? "mr-20 px-4"
+              : "ml-20 px-4"
+            : i18n.language === 'ar'
+              ? "mr-72 px-4"
+              : "ml-72 px-4"
         }`}
       >
         <div className="container mx-auto py-4 sm:py-8 px-4">
@@ -237,30 +252,33 @@ const DealPerformance = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">Deal Performance</h1>
-                <p className="text-muted-foreground">Daily performance image</p>
+                <p className="text-muted-foreground">
+                  {pdfDocument ? pdfDocument.title : "Performance Reports & Analytics"}
+                </p>
               </div>
             </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Today's Performance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {imageSrc ? (
-                  <div className="w-full">
-                    <img
-                      src={imageSrc}
-                      alt="Daily deal performance"
-                      className="w-full h-auto rounded-md border border-border"
-                    />
-                  </div>
-                ) : (
-                  <div className="text-center text-muted-foreground py-12">
-                    No image available. Please upload from the Admin Dashboard.
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            {loading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4"></div>
+                  <p className="text-muted-foreground">Loading document...</p>
+                </div>
+              </div>
+            ) : (
+              <PDFViewer
+                pdfUrl={pdfDocument?.fileUrl}
+                title={pdfDocument?.title || "Performance Report"}
+                className="w-full"
+              />
+            )}
+
+            {pdfDocument && (
+              <div className="text-sm text-muted-foreground text-center">
+                <p>Document uploaded: {new Date(pdfDocument.uploadDate).toLocaleDateString()}</p>
+                <p>File size: {(pdfDocument.fileSize / 1024 / 1024).toFixed(2)} MB</p>
+              </div>
+            )}
           </div>
         </div>
       </main>
