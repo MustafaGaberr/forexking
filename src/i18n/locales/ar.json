@@ -116,5 +116,21 @@
   "common": {
     "forexKing": "Forex King",
     "swissquoteBank": "Swissquote Bank"
+  },
+  "agreement": {
+    "title": "اتفاقية العميل",
+    "subtitle": "يرجى ملء النموذج أدناه لإكمال اتفاقيتك",
+    "customerName": "الاسم الكامل",
+    "idNumber": "رقم الهوية/جواز السفر",
+    "agreementDate": "تاريخ الاتفاقية",
+    "signature": "التوقيع الرقمي",
+    "signaturePlaceholder": "يرجى التوقيع أعلاه",
+    "submit": "إرسال الاتفاقية",
+    "submitting": "جاري الإرسال...",
+    "success": "تم إرسال الاتفاقية بنجاح",
+    "signatureRequired": "يرجى التوقيع على الاتفاقية قبل الإرسال",
+    "nameRequired": "يرجى إدخال اسمك الكامل",
+    "idRequired": "يرجى إدخال رقم هوية أو جواز سفر صحيح",
+    "dateRequired": "يرجى اختيار تاريخ"
   }
 }

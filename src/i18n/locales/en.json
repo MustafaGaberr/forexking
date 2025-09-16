@@ -116,5 +116,21 @@
   "common": {
     "forexKing": "Forex King",
     "swissquoteBank": "Swissquote Bank"
+  },
+  "agreement": {
+    "title": "Customer Agreement",
+    "subtitle": "Please fill out the form below to complete your agreement",
+    "customerName": "Full Name",
+    "idNumber": "ID/Passport Number",
+    "agreementDate": "Agreement Date",
+    "signature": "Digital Signature",
+    "signaturePlaceholder": "Please sign above",
+    "submit": "Submit Agreement",
+    "submitting": "Submitting...",
+    "success": "Agreement submitted successfully",
+    "signatureRequired": "Please sign the agreement before submitting",
+    "nameRequired": "Please enter your full name",
+    "idRequired": "Please enter a valid ID or passport number",
+    "dateRequired": "Please select a date"
   }
 }
