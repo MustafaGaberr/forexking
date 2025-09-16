@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -29,6 +29,11 @@ const Register = () => {
   const { toast } = useToast()
   const { signUp } = useAuth()
   const navigate = useNavigate()
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

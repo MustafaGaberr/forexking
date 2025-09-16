@@ -32,6 +32,41 @@ const ChatWidget = () => {
       question: t('chat.question3'),
       answer: t('chat.answer3')
     },
+    {
+      id: '4',
+      question: t('chat.question4'),
+      answer: t('chat.answer4')
+    },
+    {
+      id: '5',
+      question: t('chat.question5'),
+      answer: t('chat.answer5')
+    },
+    {
+      id: '6',
+      question: t('chat.question6'),
+      answer: t('chat.answer6')
+    },
+    {
+      id: '7',
+      question: t('chat.question7'),
+      answer: t('chat.answer7')
+    },
+    {
+      id: '8',
+      question: t('chat.question8'),
+      answer: t('chat.answer8')
+    },
+    {
+      id: '9',
+      question: t('chat.question9'),
+      answer: t('chat.answer9')
+    },
+    {
+      id: '10',
+      question: t('chat.question10'),
+      answer: t('chat.answer10')
+    },
   ];
 
   const handleSend = () => {

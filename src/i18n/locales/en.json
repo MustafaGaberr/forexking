@@ -85,12 +85,26 @@
     "placeholder": "Type your message here...",
     "backToOptions": "Back to options",
     "defaultResponse": "Thank you for contacting us. You will receive a response shortly from one of our customer service representatives.",
-    "question1": "How do I open an account?",
-    "answer1": "You can open an account by clicking the \"Open Account\" button on the homepage and filling out the required form.",
-    "question2": "What is the minimum deposit?",
-    "answer2": "The minimum deposit is $100 USD.",
-    "question3": "How can I withdraw funds?",
-    "answer3": "You can withdraw funds by going to the dashboard, then clicking \"Withdraw\" and following the instructions."
+    "question1": "I am a beginner with no experience in Forex. How can I invest?",
+    "answer1": "With Forex King, you do not need any experience. We manage the entire portfolio for you, select suitable strategies, diversify risks, and send you regular reports.",
+    "question2": "How do you protect the capital from risks?",
+    "answer2": "We set stop-loss levels, diversify investments across multiple assets, monitor the market 24/7, and follow a precise capital management plan.",
+    "question3": "Do I need to follow the news and analysis myself?",
+    "answer3": "No, our team monitors economic and technical analysis and provides you with brief reports to keep you updated without daily effort.",
+    "question4": "What makes Forex King different from other companies?",
+    "answer4": "We fully manage portfolios, provide advisory customer service, transparent reports, and flexible investment plans suitable for all capital levels.",
+    "question5": "Can I withdraw my profits easily?",
+    "answer5": "Yes, withdrawals are fast and secure through trusted financial channels, with no hidden fees.",
+    "question6": "How do you balance profits and risk reduction?",
+    "answer6": "We diversify capital across various trades, use both short-term and long-term strategies, and regularly update performance and strategies.",
+    "question7": "What happens if there are losses?",
+    "answer7": "We cut losses quickly, use hedging to protect capital, and adjust strategies when needed while providing a review session for the client.",
+    "question8": "Can I start with a small amount?",
+    "answer8": "Yes, you can start with as little as $100 and gradually increase your capital.",
+    "question9": "Can I monitor my portfolio regularly?",
+    "answer9": "Yes, we provide an online dashboard, monthly and quarterly reports, and instant alerts via email or phone.",
+    "question10": "How can I be sure my money is safe with you?",
+    "answer10": "We follow strict security standards, keep funds in segregated accounts, partner with trusted banks, and have a proven record of success."
   },
   "videoTutorial": {
     "learnHow": "Learn How to",
@@ -132,5 +146,15 @@
     "nameRequired": "Please enter your full name",
     "idRequired": "Please enter a valid ID or passport number",
     "dateRequired": "Please select a date"
+  },
+  "dealPerformance": {
+    "title": "Deal Performance",
+    "subtitle": "Performance Reports & Analytics",
+    "loading": "Loading document...",
+    "performanceReport": "Performance Report",
+    "documentUploaded": "Document uploaded:",
+    "fileSize": "File size:",
+    "failedToLoad": "Failed to load PDF",
+    "loadError": "Could not load the performance document."
   }
 }

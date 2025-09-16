@@ -56,6 +56,11 @@ const CustomerAgreement = () => {
     return () => window.removeEventListener("resize", onResize)
   }, [])
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const form = useForm<FormValues>({
     resolver: zodResolver(createFormSchema(t)),
     defaultValues: {

@@ -196,7 +196,7 @@
 
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import Navbar from "@/components/Navbar"
 import PDFViewer from "@/components/PDFViewer"
 import { pdfService, type PDFDocument } from "@/services/pdfService"
@@ -208,27 +208,32 @@ const DealPerformance = () => {
   const [loading, setLoading] = useState(true)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const { toast } = useToast()
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
 
+  // Scroll to top when component mounts
   useEffect(() => {
-    loadLatestPDF()
+    window.scrollTo(0, 0)
   }, [])
 
-  const loadLatestPDF = () => {
+  const loadLatestPDF = useCallback(() => {
     try {
       setLoading(true)
       const latestPDF = pdfService.getLatestPDF()
       setPdfDocument(latestPDF)
     } catch (error) {
       toast({
-        title: "Failed to load PDF",
-        description: "Could not load the performance document.",
+        title: t('dealPerformance.failedToLoad'),
+        description: t('dealPerformance.loadError'),
         variant: "destructive",
       })
     } finally {
       setLoading(false)
     }
-  }
+  }, [t, toast])
+
+  useEffect(() => {
+    loadLatestPDF()
+  }, [loadLatestPDF])
 
   return (
     <div className="min-h-screen bg-background text-foreground flex w-full" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
@@ -251,9 +256,9 @@ const DealPerformance = () => {
           <div className="flex flex-col gap-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-foreground">Deal Performance</h1>
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">{t('dealPerformance.title')}</h1>
                 <p className="text-muted-foreground">
-                  {pdfDocument ? pdfDocument.title : "Performance Reports & Analytics"}
+                  {pdfDocument ? pdfDocument.title : t('dealPerformance.subtitle')}
                 </p>
               </div>
             </div>
@@ -262,21 +267,21 @@ const DealPerformance = () => {
               <div className="flex items-center justify-center py-12">
                 <div className="text-center">
                   <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4"></div>
-                  <p className="text-muted-foreground">Loading document...</p>
+                  <p className="text-muted-foreground">{t('dealPerformance.loading')}</p>
                 </div>
               </div>
             ) : (
               <PDFViewer
                 pdfUrl={pdfDocument?.fileUrl}
-                title={pdfDocument?.title || "Performance Report"}
+                title={pdfDocument?.title || t('dealPerformance.performanceReport')}
                 className="w-full"
               />
             )}
 
             {pdfDocument && (
               <div className="text-sm text-muted-foreground text-center">
-                <p>Document uploaded: {new Date(pdfDocument.uploadDate).toLocaleDateString()}</p>
-                <p>File size: {(pdfDocument.fileSize / 1024 / 1024).toFixed(2)} MB</p>
+                <p>{t('dealPerformance.documentUploaded')} {new Date(pdfDocument.uploadDate).toLocaleDateString()}</p>
+                <p>{t('dealPerformance.fileSize')} {(pdfDocument.fileSize / 1024 / 1024).toFixed(2)} MB</p>
               </div>
             )}
           </div>
