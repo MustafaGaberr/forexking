@@ -15,7 +15,7 @@ const fadeIn = {
 };
 
 const AboutUs = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
@@ -99,7 +99,7 @@ const AboutUs = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <p className={`text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
               {t('about.newWebsite')}{" "}
               <span className="font-semibold text-primary">
                 {t('about.portfolioManagement')}
@@ -107,11 +107,11 @@ const AboutUs = () => {
               {t('about.portfolioText')}
             </p>
 
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <p className={`text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
               {t('about.forexKing')}
             </p>
 
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <p className={`text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
               {t('about.pathToSuccess')}
             </p>
           </motion.div>
