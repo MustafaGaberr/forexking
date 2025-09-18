@@ -19,29 +19,13 @@ const AdminDashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [pdfDocuments, setPdfDocuments] = useState<PDFDocument[]>([])
   const [showPDFUpload, setShowPDFUpload] = useState(false)
+  const [storageInfo, setStorageInfo] = useState({ count: 0, totalSize: 0 })
   const { toast } = useToast()
   const { i18n } = useTranslation()
 
-  useEffect(() => {
-    // Check if user is authenticated
-    const authStatus = sessionStorage.getItem("admin_authenticated")
-    if (authStatus === "true") {
-      setIsAuthenticated(true)
-      loadPDFDocuments()
-    } else {
-      setIsAuthenticated(false)
-    }
-    setIsLoading(false)
-  }, [])
-
-  // Scroll to top when component mounts
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
-  const loadPDFDocuments = () => {
+  const loadPDFDocuments = async () => {
     try {
-      const documents = pdfService.getAllPDFs()
+      const documents = await pdfService.getAllPDFs()
       setPdfDocuments(documents)
     } catch (error) {
       toast({
@@ -58,22 +42,6 @@ const AdminDashboard = () => {
     navigate("/admin")
   }
 
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-      </div>
-    )
-  }
-
-  if (!isAuthenticated) {
-    return <AdminLogin onLogin={() => {
-      setIsAuthenticated(true);
-      navigate('/admin');
-    }} />
-  }
-
-
   const handlePDFUpload = async (file: File, title: string, description?: string) => {
     try {
       await pdfService.uploadPDF(file, title, description)
@@ -83,11 +51,11 @@ const AdminDashboard = () => {
     }
   }
 
-  const handleDeletePDF = (id: string) => {
+  const handleDeletePDF = async (id: string) => {
     try {
-      const success = pdfService.deletePDF(id)
+      const success = await pdfService.deletePDF(id)
       if (success) {
-        loadPDFDocuments()
+        await loadPDFDocuments()
         toast({
           title: "Document deleted",
           description: "PDF document has been removed successfully.",
@@ -108,7 +76,49 @@ const AdminDashboard = () => {
     }
   }
 
-  const storageInfo = pdfService.getStorageInfo()
+  useEffect(() => {
+    // Check if user is authenticated
+    const authStatus = sessionStorage.getItem("admin_authenticated")
+    if (authStatus === "true") {
+      setIsAuthenticated(true)
+      loadPDFDocuments()
+    } else {
+      setIsAuthenticated(false)
+    }
+    setIsLoading(false)
+  }, [])
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
+    const loadStorageInfo = async () => {
+      try {
+        const info = await pdfService.getStorageInfo()
+        setStorageInfo(info)
+      } catch (error) {
+        console.error('Error loading storage info:', error)
+      }
+    }
+    loadStorageInfo()
+  }, [pdfDocuments])
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return <AdminLogin onLogin={() => {
+      setIsAuthenticated(true);
+      navigate('/admin');
+    }} />
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex w-full" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>

@@ -215,10 +215,10 @@ const DealPerformance = () => {
     window.scrollTo(0, 0)
   }, [])
 
-  const loadLatestPDF = useCallback(() => {
+  const loadLatestPDF = useCallback(async () => {
     try {
       setLoading(true)
-      const latestPDF = pdfService.getLatestPDF()
+      const latestPDF = await pdfService.getLatestPDF()
       setPdfDocument(latestPDF)
     } catch (error) {
       toast({
@@ -272,7 +272,7 @@ const DealPerformance = () => {
               </div>
             ) : (
               <PDFViewer
-                pdfUrl={pdfDocument?.fileUrl}
+                pdfUrl={pdfDocument?.gridfsId ? `http://localhost:3001/api/pdf/file/${pdfDocument.gridfsId}` : pdfDocument?.fileUrl}
                 title={pdfDocument?.title || t('dealPerformance.performanceReport')}
                 className="w-full"
               />
