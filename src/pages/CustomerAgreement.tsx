@@ -375,7 +375,7 @@ const CustomerAgreement = () => {
                   </div>
 
                   {/* SIGNATURES */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4 bg-secondary/10 p-6 rounded-lg">
+                  <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4 bg-secondary/10 p-6 rounded-lg">
                     {/* First Party */}
                     <div className="p-6 border border-border rounded-lg bg-background shadow-sm">
                       <h4 className="font-semibold text-lg text-primary mb-6 flex items-center gap-2">
@@ -431,15 +431,24 @@ const CustomerAgreement = () => {
                           <p className="text-sm font-medium text-muted-foreground mb-2">
                             Signature:
                           </p>
-                          <div className="p-4 flex items-center justify-center bg-card rounded-md border border-border">
-                            <img
-                              src="/public/Assets/STAMP FOR FOREX-KING.png"
-                              alt="Second Party Signature"
-                              className="h-22"
-                            />
+                            <div className="p-4 flex items-center justify-center bg-card rounded-md border border-border">
+                              <img
+                                src="/Assets/"
+                                alt="Second Party Signature"
+                                className="h-22"
+                              />
                           </div>
                         </div>
                       </div>
+                    </div>
+
+                    {/* STAMP OVERLAY */}
+                    <div className="absolute top-60 left-1/2 transform -translate-x-1/2 z-10">
+                      <img
+                        src="/Assets/STAMP FOR FOREX-KING.png"
+                        alt="Official Stamp"
+                        className="h-40 w-40 object-contain drop-shadow-lg"
+                      />
                     </div>
                   </div>
 
