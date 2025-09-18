@@ -255,55 +255,46 @@ const CustomerAgreement = () => {
                     {/* Introduction */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        Introduction
+                        المقدمة
                       </h3>
                       <p className="text-foreground/90">
-                        The first party owns an investment portfolio with the number
-                        {" "}(...) worth (100 currency units), and desires to operate it in
-                        Forex under a profit-sharing system where{" "}
-                        <span className="font-semibold text-primary">60%</span> of the
-                        profits go to the second party and{" "}
-                        <span className="font-semibold text-primary">40%</span> to the first
-                        party. The parties agree to the following terms:
+                        يمتلك الطرف الأول محفظة استثمارية برقم (...) بقيمة (100 وحدة عملة)، ويرغب في تشغيلها في سوق الفوركس وفق نظام تقاسم الأرباح بحيث يذهب{" "}
+                        <span className="font-semibold text-primary">60%</span> من الأرباح للطرف الثاني و{" "}
+                        <span className="font-semibold text-primary">40%</span> للطرف الأول. ويتفق الطرفان على البنود التالية:
                       </p>
                     </section>
 
                     {/* Clause 1 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        Clause 1: Portfolio Management
+                        البند 1: إدارة المحفظة
                       </h3>
                       <p className="text-foreground/90">
-                        The second party will manage the portfolio in the Forex market based
-                        on their technical decisions, without any guarantees of principal or
-                        profits.
+                        يتولى الطرف الثاني إدارة المحفظة في سوق الفوركس بناءً على قراراته الفنية، دون أي ضمان لرأس المال أو الأرباح.
                       </p>
                     </section>
 
                     {/* Clause 2 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        Clause 2: Profit Distribution
+                        البند 2: توزيع الأرباح
                       </h3>
                       <p className="text-foreground/90">
-                        Profits shall be distributed every ten business days according to the
-                        percentage specified above.
+                        يتم توزيع الأرباح كل عشرة أيام عمل وفق النسبة المحددة أعلاه.
                       </p>
                     </section>
 
                     {/* Clause 3 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        Clause 3: Withdrawal and Capital Increase
+                        البند 3: السحب وزيادة رأس المال
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          The first party is not entitled to withdraw funds except after ten
-                          days have passed or upon request to fully liquidate the portfolio.
+                          لا يحق للطرف الأول سحب الأموال إلا بعد مرور عشرة أيام أو عند طلبه لتصفية المحفظة بالكامل.
                         </p>
                         <p className="text-foreground/90">
-                          If the first party wishes to increase the capital, a new agreement
-                          or supplement to this agreement will be signed.
+                          في حال رغب الطرف الأول في زيادة رأس المال، سيتم توقيع اتفاق جديد أو ملحق لهذا الاتفاق.
                         </p>
                       </div>
                     </section>
@@ -311,17 +302,14 @@ const CustomerAgreement = () => {
                     {/* Clause 4 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        Clause 4: Termination of the Agreement
+                        البند 4: إنهاء الاتفاق
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          The first party may terminate the agreement after the first month by
-                          notifying the second party at least (7) days before the end of the
-                          month.
+                          يمكن للطرف الأول إنهاء الاتفاق بعد الشهر الأول من خلال إخطار الطرف الثاني قبل انتهاء الشهر بمدة لا تقل عن (7) أيام.
                         </p>
                         <p className="text-foreground/90">
-                          All open positions will be closed during the notice period, and
-                          funds will be liquidated based on trading results.
+                          وسيتم إغلاق جميع المراكز المفتوحة خلال فترة الإشعار، وتصفيتها بناءً على نتائج التداول.
                         </p>
                       </div>
                     </section>
@@ -329,18 +317,14 @@ const CustomerAgreement = () => {
                     {/* Clause 5 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        Clause 5: Loss Limits and Portfolio Suspension
+                        البند 5: حدود الخسارة وتعليق المحفظة
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          If the portfolio value drops by (50%) of the original investment,
-                          trading will be immediately suspended, and the first party will be
-                          contacted to decide whether to liquidate or resume operations.
+                          إذا انخفضت قيمة المحفظة بنسبة (50%) من الاستثمار الأصلي، يتم تعليق التداول فورًا، وسيتم التواصل مع الطرف الأول لاتخاذ قرار بشأن التصفية أو استئناف العمليات.
                         </p>
                         <p className="text-foreground/90">
-                          The first party acknowledges that the second party is not liable for
-                          any losses resulting from market fluctuations or investment
-                          decisions related to Forex.
+                          ويقر الطرف الأول بأن الطرف الثاني غير مسؤول عن أي خسائر ناتجة عن تقلبات السوق أو قرارات الاستثمار المتعلقة بالفوركس.
                         </p>
                       </div>
                     </section>
@@ -348,27 +332,24 @@ const CustomerAgreement = () => {
                     {/* Clause 6 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        Clause 6: Dispute Resolution
+                        البند 6: تسوية المنازعات
                       </h3>
                       <p className="text-foreground/90">
-                        In case of any dispute between the parties, they will attempt to
-                        resolve it amicably. If this is not possible, the dispute will be
-                        resolved by the competent court in (insert city or country).
+                        في حالة حدوث أي نزاع بين الطرفين، سيحاولان حله وديًا. وإذا لم يكن ذلك ممكنًا، يُحل النزاع عن طريق المحكمة المختصة في (أدخل المدينة أو الدولة).
                       </p>
                     </section>
 
                     {/* Clause 7 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        Clause 7: General Provisions
+                        البند 7: أحكام عامة
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          This agreement constitutes the full and final understanding between the parties.
+                          يشكل هذا الاتفاق الفهم الكامل والنهائي بين الطرفين.
                         </p>
                         <p className="text-foreground/90">
-                          The agreement is executed in two original copies, one for each
-                          party.
+                          ويتم تنفيذ الاتفاق بنسختين أصليتين، نسخة لكل طرف.
                         </p>
                       </div>
                     </section>
@@ -447,7 +428,7 @@ const CustomerAgreement = () => {
                       <img
                         src="/Assets/STAMP FOR FOREX-KING.png"
                         alt="Official Stamp"
-                        className="h-40 w-40 object-contain drop-shadow-lg"
+                        className="h-36 w-36 object-contain drop-shadow-lg"
                       />
                     </div>
                   </div>
