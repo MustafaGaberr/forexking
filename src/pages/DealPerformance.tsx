@@ -228,13 +228,29 @@ const DealPerformance = () => {
   const fetchPDFAsBlob = useCallback(async (pdfUrl: string) => {
     try {
       setLoading(true)
-      const response = await fetch(pdfUrl)
+      console.log('Fetching PDF as blob from:', pdfUrl)
+      
+      const response = await fetch(pdfUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/pdf',
+        },
+        mode: 'cors',
+        credentials: 'omit'
+      })
+      
+      console.log('Response status:', response.status)
+      console.log('Response headers:', response.headers)
+      
       if (!response.ok) {
-        throw new Error(`Failed to fetch PDF: ${response.statusText}`)
+        throw new Error(`Failed to fetch PDF: ${response.status} ${response.statusText}`)
       }
       
       const blob = await response.blob()
+      console.log('Blob created, size:', blob.size)
+      
       const blobUrl = URL.createObjectURL(blob)
+      console.log('Blob URL created:', blobUrl)
       
       // Clean up previous blob URL
       if (pdfBlobUrl) {
@@ -247,7 +263,7 @@ const DealPerformance = () => {
       console.error('Error fetching PDF as blob:', error)
       toast({
         title: t('dealPerformance.failedToLoad'),
-        description: t('dealPerformance.loadError'),
+        description: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
         variant: "destructive",
       })
       setLoading(false)
@@ -257,17 +273,25 @@ const DealPerformance = () => {
   const loadLatestPDF = useCallback(async () => {
     try {
       setLoading(true)
+      console.log('Loading latest PDF...')
       const latestPDF = await pdfService.getLatestPDF()
+      console.log('Latest PDF loaded:', latestPDF)
       setPdfDocument(latestPDF)
       
       // Fetch PDF as blob if we have a gridfsId
       if (latestPDF?.gridfsId) {
         const pdfUrl = `http://localhost:3001/api/pdf/file/${latestPDF.gridfsId}`
+        console.log('Fetching PDF from URL:', pdfUrl)
         await fetchPDFAsBlob(pdfUrl)
       } else if (latestPDF?.fileUrl) {
+        console.log('Fetching PDF from fileUrl:', latestPDF.fileUrl)
         await fetchPDFAsBlob(latestPDF.fileUrl)
+      } else {
+        console.log('No PDF found or no valid URL')
+        setLoading(false)
       }
     } catch (error) {
+      console.error('Error in loadLatestPDF:', error)
       toast({
         title: t('dealPerformance.failedToLoad'),
         description: t('dealPerformance.loadError'),
@@ -316,12 +340,21 @@ const DealPerformance = () => {
                   <p className="text-muted-foreground">{t('dealPerformance.loading')}</p>
                 </div>
               </div>
-            ) : (
+            ) : pdfDocument ? (
               <PDFViewer
-                pdfUrl={pdfBlobUrl || (pdfDocument?.gridfsId ? `http://localhost:3001/api/pdf/file/${pdfDocument.gridfsId}` : pdfDocument?.fileUrl)}
+                pdfUrl={pdfBlobUrl || (pdfDocument?.gridfsId ? `http://localhost:3001/api/pdf/file/${pdfDocument.gridfsId}` : pdfDocument?.fileUrl) || ''}
                 title={pdfDocument?.title || t('dealPerformance.performanceReport')}
                 className="w-full"
               />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="text-center">
+                  <p className="text-muted-foreground mb-4">No PDF document found</p>
+                  <p className="text-sm text-muted-foreground">
+                    Please upload a PDF document from the Admin Dashboard
+                  </p>
+                </div>
+              </div>
             )}
 
             {pdfDocument && (
