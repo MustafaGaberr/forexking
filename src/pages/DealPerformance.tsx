@@ -205,6 +205,7 @@ import { useTranslation } from "react-i18next"
 
 const DealPerformance = () => {
   const [pdfDocument, setPdfDocument] = useState<PDFDocument | null>(null)
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const { toast } = useToast()
@@ -215,21 +216,66 @@ const DealPerformance = () => {
     window.scrollTo(0, 0)
   }, [])
 
+  // Clean up blob URL on unmount
+  useEffect(() => {
+    return () => {
+      if (pdfBlobUrl) {
+        URL.revokeObjectURL(pdfBlobUrl)
+      }
+    }
+  }, [pdfBlobUrl])
+
+  const fetchPDFAsBlob = useCallback(async (pdfUrl: string) => {
+    try {
+      setLoading(true)
+      const response = await fetch(pdfUrl)
+      if (!response.ok) {
+        throw new Error(`Failed to fetch PDF: ${response.statusText}`)
+      }
+      
+      const blob = await response.blob()
+      const blobUrl = URL.createObjectURL(blob)
+      
+      // Clean up previous blob URL
+      if (pdfBlobUrl) {
+        URL.revokeObjectURL(pdfBlobUrl)
+      }
+      
+      setPdfBlobUrl(blobUrl)
+      setLoading(false)
+    } catch (error) {
+      console.error('Error fetching PDF as blob:', error)
+      toast({
+        title: t('dealPerformance.failedToLoad'),
+        description: t('dealPerformance.loadError'),
+        variant: "destructive",
+      })
+      setLoading(false)
+    }
+  }, [pdfBlobUrl, t, toast])
+
   const loadLatestPDF = useCallback(async () => {
     try {
       setLoading(true)
       const latestPDF = await pdfService.getLatestPDF()
       setPdfDocument(latestPDF)
+      
+      // Fetch PDF as blob if we have a gridfsId
+      if (latestPDF?.gridfsId) {
+        const pdfUrl = `http://localhost:3001/api/pdf/file/${latestPDF.gridfsId}`
+        await fetchPDFAsBlob(pdfUrl)
+      } else if (latestPDF?.fileUrl) {
+        await fetchPDFAsBlob(latestPDF.fileUrl)
+      }
     } catch (error) {
       toast({
         title: t('dealPerformance.failedToLoad'),
         description: t('dealPerformance.loadError'),
         variant: "destructive",
       })
-    } finally {
       setLoading(false)
     }
-  }, [t, toast])
+  }, [t, toast, fetchPDFAsBlob])
 
   useEffect(() => {
     loadLatestPDF()
@@ -272,7 +318,7 @@ const DealPerformance = () => {
               </div>
             ) : (
               <PDFViewer
-                pdfUrl={pdfDocument?.gridfsId ? `http://localhost:3001/api/pdf/file/${pdfDocument.gridfsId}` : pdfDocument?.fileUrl}
+                pdfUrl={pdfBlobUrl || (pdfDocument?.gridfsId ? `http://localhost:3001/api/pdf/file/${pdfDocument.gridfsId}` : pdfDocument?.fileUrl)}
                 title={pdfDocument?.title || t('dealPerformance.performanceReport')}
                 className="w-full"
               />

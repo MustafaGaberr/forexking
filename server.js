@@ -37,7 +37,24 @@ async function connectToMongoDB() {
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:8080', 'http://localhost:8081'],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        const allowedOrigins = [
+            'http://localhost:3000',
+            'http://localhost:5173',
+            'http://localhost:8080',
+            'http://localhost:8081'
+        ];
+
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            console.log('CORS blocked origin:', origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With']
@@ -173,6 +190,15 @@ app.get('/api/pdf/:id', async (req, res) => {
     }
 });
 
+// Handle OPTIONS request for PDF file endpoint
+app.options('/api/pdf/file/:gridfsId', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With');
+    res.status(200).end();
+});
+
 // Serve PDF file
 app.get('/api/pdf/file/:gridfsId', async (req, res) => {
     try {
@@ -187,6 +213,12 @@ app.get('/api/pdf/file/:gridfsId', async (req, res) => {
 
         const file = files[0];
         const filename = file.metadata?.originalName || file.filename || 'document.pdf';
+
+        // Set CORS headers
+        res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With');
 
         // Set appropriate headers for inline display
         res.setHeader('Content-Type', 'application/pdf');
