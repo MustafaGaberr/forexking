@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, Download, RotateCw, ZoomIn, ZoomOut, FileText } from 'lucide-react';
+import { Loader2, Download, RotateCw, ZoomIn, ZoomOut, FileText, ExternalLink, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface PDFViewerProps {
@@ -19,42 +19,60 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [scale, setScale] = useState(1);
   const [rotation, setRotation] = useState(0);
+  const [viewerType, setViewerType] = useState<'iframe' | 'object' | 'embed'>('iframe');
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const { toast } = useToast();
+
+  // Clean up blob URL on unmount
+  useEffect(() => {
+    return () => {
+      if (pdfBlobUrl) {
+        URL.revokeObjectURL(pdfBlobUrl);
+      }
+    };
+  }, [pdfBlobUrl]);
+
+  // Fetch PDF as blob and create object URL
+  const fetchPdfAsBlob = async (url: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch PDF: ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      setPdfBlobUrl(blobUrl);
+      setLoading(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load PDF');
+      setLoading(false);
+    }
+  };
+
+  // Load PDF when URL changes
+  useEffect(() => {
+    if (pdfUrl) {
+      setViewerType('iframe');
+      setPdfBlobUrl(null);
+      setError(null);
+    }
+  }, [pdfUrl]);
 
   const handleZoomIn = () => {
     setScale(prev => Math.min(prev + 0.2, 3));
-    // Force iframe reload with new zoom
-    setTimeout(() => {
-      const iframe = document.querySelector('iframe');
-      if (iframe) {
-        const currentSrc = iframe.src.split('#')[0];
-        iframe.src = `${currentSrc}#toolbar=0&navpanes=0&scrollbar=1&zoom=${Math.round((scale + 0.2) * 100)}`;
-      }
-    }, 100);
   };
 
   const handleZoomOut = () => {
     setScale(prev => Math.max(prev - 0.2, 0.5));
-    // Force iframe reload with new zoom
-    setTimeout(() => {
-      const iframe = document.querySelector('iframe');
-      if (iframe) {
-        const currentSrc = iframe.src.split('#')[0];
-        iframe.src = `${currentSrc}#toolbar=0&navpanes=0&scrollbar=1&zoom=${Math.round((scale - 0.2) * 100)}`;
-      }
-    }, 100);
   };
 
   const handleRotate = () => {
     setRotation(prev => (prev + 90) % 360);
-    // Force iframe reload with new rotation
-    setTimeout(() => {
-      const iframe = document.querySelector('iframe');
-      if (iframe) {
-        const currentSrc = iframe.src.split('#')[0];
-        iframe.src = `${currentSrc}#toolbar=0&navpanes=0&scrollbar=1&rotate=${(rotation + 90) % 360}`;
-      }
-    }, 100);
   };
 
   const handleDownload = () => {
@@ -79,12 +97,33 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
 
   const handleError = () => {
     setLoading(false);
-    setError('Failed to load PDF document');
-    toast({
-      title: "Error",
-      description: "Failed to load PDF document",
-      variant: "destructive",
-    });
+    if (viewerType === 'iframe') {
+      setViewerType('object');
+      setError(null);
+    } else if (viewerType === 'object') {
+      setViewerType('embed');
+      setError(null);
+    } else {
+      setError('Failed to load PDF document');
+      toast({
+        title: "Error",
+        description: "Failed to load PDF document",
+        variant: "destructive",
+      });
+    }
+  }
+
+  const handleLoad = () => {
+    setLoading(false);
+    setError(null);
+  };
+
+  const handleRetry = () => {
+    setError(null);
+    setViewerType('iframe');
+    if (pdfUrl) {
+      fetchPdfAsBlob(pdfUrl);
+    }
   };
 
   if (!pdfUrl) {
@@ -172,15 +211,104 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               <p className="text-sm text-muted-foreground">{error}</p>
             </div>
           ) : (
-            <iframe
-              src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1`}
+            <div 
               className="w-full h-full min-h-[600px] border-0"
-              onLoadStart={handleLoadStart}
-              onLoad={handleLoadEnd}
-              onError={handleError}
-              title={title}
-            />
+              style={{ 
+                transform: `scale(${scale}) rotate(${rotation}deg)`,
+                transformOrigin: 'top left'
+              }}
+            >
+              {viewerType === 'iframe' && (
+                <iframe
+                  ref={iframeRef}
+                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&zoom=${Math.round(scale * 100)}`}
+                  className="w-full h-full min-h-[600px] border-0"
+                  onLoadStart={handleLoadStart}
+                  onLoad={handleLoad}
+                  onError={handleError}
+                  title={title}
+                />
+              )}
+              
+              {viewerType === 'object' && (
+                <object
+                  data={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&zoom=${Math.round(scale * 100)}`}
+                  type="application/pdf"
+                  className="w-full h-full min-h-[600px] border-0"
+                  onLoadStart={handleLoadStart}
+                  onLoad={handleLoad}
+                  onError={handleError}
+                >
+                  <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                    <FileText className="h-16 w-16 text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground mb-2">PDF Viewer not supported</p>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Your browser doesn't support PDF viewing with object tag.
+                    </p>
+                    <Button onClick={() => setViewerType('embed')} variant="outline">
+                      Try Embed
+                    </Button>
+                  </div>
+                </object>
+              )}
+              
+              {viewerType === 'embed' && (
+                <embed
+                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&zoom=${Math.round(scale * 100)}`}
+                  type="application/pdf"
+                  className="w-full h-full min-h-[600px] border-0"
+                  onLoadStart={handleLoadStart}
+                  onLoad={handleLoad}
+                  onError={handleError}
+                />
+              )}
+            </div>
           )}
+        </div>
+        
+        <div className="mt-4 text-center">
+          <p className="text-sm text-muted-foreground mb-2">
+            Current viewer: {viewerType} | If PDF doesn't display properly:
+          </p>
+          <div className="flex gap-2 justify-center flex-wrap">
+            <Button
+              onClick={() => setViewerType('iframe')}
+              variant="outline"
+              size="sm"
+            >
+              Try Iframe
+            </Button>
+            <Button
+              onClick={() => setViewerType('object')}
+              variant="outline"
+              size="sm"
+            >
+              Try Object
+            </Button>
+            <Button
+              onClick={() => setViewerType('embed')}
+              variant="outline"
+              size="sm"
+            >
+              Try Embed
+            </Button>
+            <Button
+              onClick={() => window.open(pdfUrl, '_blank')}
+              variant="outline"
+              size="sm"
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Open in New Tab
+            </Button>
+            <Button
+              onClick={handleRetry}
+              variant="outline"
+              size="sm"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Retry
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
