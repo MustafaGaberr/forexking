@@ -145,7 +145,50 @@
     "signatureRequired": "Please sign the agreement before submitting",
     "nameRequired": "Please enter your full name",
     "idRequired": "Please enter a valid ID or passport number",
-    "dateRequired": "Please select a date"
+    "dateRequired": "Please select a date",
+    "introduction": {
+      "title": "Introduction",
+      "subtitle": "Hereinafter referred to as \"Operator of Funds\"",
+      "content": "The first party owns an investment portfolio with the number (...) worth (100 currency units), and desires to operate it in Forex under a profit-sharing system where 60% of the profits go to the second party and 40% to the first party. The parties agree to the following terms:"
+    },
+    "clause1": {
+      "title": "Clause 1: Portfolio Management",
+      "content": "The second party will manage the portfolio in the Forex market based on their technical decisions, without any guarantees of principal or profits."
+    },
+    "clause2": {
+      "title": "Clause 2: Profit Distribution",
+      "content": "Profits shall be distributed every ten business days according to the percentage specified above."
+    },
+    "clause3": {
+      "title": "Clause 3: Withdrawal and Capital Increase",
+      "content1": "The first party is not entitled to withdraw funds except after ten days have passed or upon request to fully liquidate the portfolio.",
+      "content2": "If the first party wishes to increase the capital, a new agreement or supplement to this agreement will be signed."
+    },
+    "clause4": {
+      "title": "Clause 4: Termination of the Agreement",
+      "content1": "The first party may terminate the agreement after the first month by notifying the second party at least (7) days before the end of the month.",
+      "content2": "All open positions will be closed during the notice period, and funds will be liquidated based on trading results."
+    },
+    "clause5": {
+      "title": "Clause 5: Loss Limits and Portfolio Suspension",
+      "content1": "If the portfolio value drops by (50%) of the original investment, trading will be immediately suspended, and the first party will be contacted to decide whether to liquidate or resume operations.",
+      "content2": "The first party acknowledges that the second party is not liable for any losses resulting from market fluctuations or investment decisions related to Forex."
+    },
+    "clause6": {
+      "title": "Clause 6: Dispute Resolution",
+      "content": "In case of any dispute between the parties, they will attempt to resolve it amicably. If this is not possible, the dispute will be resolved by the competent court in (insert city or country)."
+    },
+    "clause7": {
+      "title": "Clause 7: General Provisions",
+      "content1": "This agreement constitutes the full and final understanding between the parties.",
+      "content2": "The agreement is executed in two original copies, one for each party."
+    },
+    "signatures": {
+      "name": "Name:",
+      "signature": "Signature:",
+      "customerSignature": "Customer Signature",
+      "companySignature": "Company Signature"
+    }
   },
   "dealPerformance": {
     "title": "Deal Performance",

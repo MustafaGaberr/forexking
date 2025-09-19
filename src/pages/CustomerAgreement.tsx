@@ -255,46 +255,47 @@ const CustomerAgreement = () => {
                     {/* Introduction */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        المقدمة
+                        {t('agreement.introduction.title')}
                       </h3>
+                      <p className="text-sm font-medium text-muted-foreground mb-3">
+                        {t('agreement.introduction.subtitle')}
+                      </p>
                       <p className="text-foreground/90">
-                        يمتلك الطرف الأول محفظة استثمارية برقم (...) بقيمة (100 وحدة عملة)، ويرغب في تشغيلها في سوق الفوركس وفق نظام تقاسم الأرباح بحيث يذهب{" "}
-                        <span className="font-semibold text-primary">60%</span> من الأرباح للطرف الثاني و{" "}
-                        <span className="font-semibold text-primary">40%</span> للطرف الأول. ويتفق الطرفان على البنود التالية:
+                        {t('agreement.introduction.content')}
                       </p>
                     </section>
 
                     {/* Clause 1 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 1: إدارة المحفظة
+                        {t('agreement.clause1.title')}
                       </h3>
                       <p className="text-foreground/90">
-                        يتولى الطرف الثاني إدارة المحفظة في سوق الفوركس بناءً على قراراته الفنية، دون أي ضمان لرأس المال أو الأرباح.
+                        {t('agreement.clause1.content')}
                       </p>
                     </section>
 
                     {/* Clause 2 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 2: توزيع الأرباح
+                        {t('agreement.clause2.title')}
                       </h3>
                       <p className="text-foreground/90">
-                        يتم توزيع الأرباح كل عشرة أيام عمل وفق النسبة المحددة أعلاه.
+                        {t('agreement.clause2.content')}
                       </p>
                     </section>
 
                     {/* Clause 3 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 3: السحب وزيادة رأس المال
+                        {t('agreement.clause3.title')}
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          لا يحق للطرف الأول سحب الأموال إلا بعد مرور عشرة أيام أو عند طلبه لتصفية المحفظة بالكامل.
+                          {t('agreement.clause3.content1')}
                         </p>
                         <p className="text-foreground/90">
-                          في حال رغب الطرف الأول في زيادة رأس المال، سيتم توقيع اتفاق جديد أو ملحق لهذا الاتفاق.
+                          {t('agreement.clause3.content2')}
                         </p>
                       </div>
                     </section>
@@ -302,14 +303,14 @@ const CustomerAgreement = () => {
                     {/* Clause 4 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 4: إنهاء الاتفاق
+                        {t('agreement.clause4.title')}
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          يمكن للطرف الأول إنهاء الاتفاق بعد الشهر الأول من خلال إخطار الطرف الثاني قبل انتهاء الشهر بمدة لا تقل عن (7) أيام.
+                          {t('agreement.clause4.content1')}
                         </p>
                         <p className="text-foreground/90">
-                          وسيتم إغلاق جميع المراكز المفتوحة خلال فترة الإشعار، وتصفيتها بناءً على نتائج التداول.
+                          {t('agreement.clause4.content2')}
                         </p>
                       </div>
                     </section>
@@ -317,14 +318,14 @@ const CustomerAgreement = () => {
                     {/* Clause 5 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 5: حدود الخسارة وتعليق المحفظة
+                        {t('agreement.clause5.title')}
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          إذا انخفضت قيمة المحفظة بنسبة (50%) من الاستثمار الأصلي، يتم تعليق التداول فورًا، وسيتم التواصل مع الطرف الأول لاتخاذ قرار بشأن التصفية أو استئناف العمليات.
+                          {t('agreement.clause5.content1')}
                         </p>
                         <p className="text-foreground/90">
-                          ويقر الطرف الأول بأن الطرف الثاني غير مسؤول عن أي خسائر ناتجة عن تقلبات السوق أو قرارات الاستثمار المتعلقة بالفوركس.
+                          {t('agreement.clause5.content2')}
                         </p>
                       </div>
                     </section>
@@ -332,24 +333,24 @@ const CustomerAgreement = () => {
                     {/* Clause 6 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 6: تسوية المنازعات
+                        {t('agreement.clause6.title')}
                       </h3>
                       <p className="text-foreground/90">
-                        في حالة حدوث أي نزاع بين الطرفين، سيحاولان حله وديًا. وإذا لم يكن ذلك ممكنًا، يُحل النزاع عن طريق المحكمة المختصة في (أدخل المدينة أو الدولة).
+                        {t('agreement.clause6.content')}
                       </p>
                     </section>
 
                     {/* Clause 7 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 7: أحكام عامة
+                        {t('agreement.clause7.title')}
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          يشكل هذا الاتفاق الفهم الكامل والنهائي بين الطرفين.
+                          {t('agreement.clause7.content1')}
                         </p>
                         <p className="text-foreground/90">
-                          ويتم تنفيذ الاتفاق بنسختين أصليتين، نسخة لكل طرف.
+                          {t('agreement.clause7.content2')}
                         </p>
                       </div>
                     </section>
@@ -366,7 +367,7 @@ const CustomerAgreement = () => {
                       <div className="space-y-4">
                         <div>
                           <p className="text-sm font-medium text-muted-foreground mb-1">
-                            Name:
+                            {t('agreement.signatures.name')}
                           </p>
                           <p className="text-base font-medium">
                             {form.watch("customerName") || "................................"}
@@ -374,13 +375,13 @@ const CustomerAgreement = () => {
                         </div>
                         <div>
                           <p className="text-sm font-medium text-muted-foreground mb-2">
-                            Signature:
+                            {t('agreement.signatures.signature')}
                           </p>
                           <SignatureCanvas label={t('agreement.signaturePlaceholder')} onSave={setCustomerSignature} />
                           {customerSignature && (
                             <div className="mt-4 border border-border p-3 rounded-md bg-card">
                               <p className="text-xs font-medium text-muted-foreground mb-2">
-                                {t('agreement.signature')}:
+                                {t('agreement.signatures.customerSignature')}:
                               </p>
                               <div className="flex justify-center">
                                 <img
@@ -404,13 +405,13 @@ const CustomerAgreement = () => {
                       <div className="space-y-4">
                         <div>
                           <p className="text-sm font-medium text-muted-foreground mb-1">
-                            Name:
+                            {t('agreement.signatures.name')}
                           </p>
                           <p className="text-base font-medium text-primary">{t('common.forexKing')}</p>
                         </div>
                         <div>
                           <p className="text-sm font-medium text-muted-foreground mb-2">
-                            Signature:
+                            {t('agreement.signatures.signature')}
                           </p>
                             <div className="p-4 flex items-center justify-center bg-card rounded-md border border-border">
                               <img
