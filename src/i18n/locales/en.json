@@ -157,7 +157,7 @@
     "dateRequired": "Please select a date",
     "introduction": {
       "title": "Introduction",
-      "content": "The first party owns an investment portfolio with the number (...) worth (100 currency units), and desires to operate it in Forex under a profit-sharing system where 60% of the profits go to the second party and 40% to the first party. The parties agree to the following terms:"
+      "content": "The first party owns an investment portfolio with the number (...) worth (100 currency units), and desires to operate it in Forex under a profit-sharing system where <span class=\"text-primary font-semibold\">60%</span> of the profits go to the second party and <span class=\"text-primary font-semibold\">40%</span> to the first party. The parties agree to the following terms:"
     },
     "clause1": {
       "title": "Clause 1: Portfolio Management",

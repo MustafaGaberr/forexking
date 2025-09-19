@@ -258,9 +258,10 @@ const CustomerAgreement = () => {
                       <h3 className="text-xl font-semibold text-primary not-prose">
                         {t('agreement.introduction.title')}
                       </h3>
-                      <p className="text-foreground/90">
-                        {t('agreement.introduction.content')}
-                      </p>
+                      <p 
+                        className="text-foreground/90"
+                        dangerouslySetInnerHTML={{ __html: t('agreement.introduction.content') }}
+                      />
                     </section>
 
                     {/* Clause 1 */}
