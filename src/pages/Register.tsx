@@ -15,8 +15,10 @@ import LanguageToggle from "@/components/LanguageToggle"
 import { useAuth } from "@/hooks/useAuth"
 import { APIError } from "@/services/api"
 import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
 const Register = () => {
+  const { t, i18n } = useTranslation()
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -40,8 +42,8 @@ const Register = () => {
 
     if (formData.password !== formData.confirmPassword) {
       toast({
-        title: "Registration Failed",
-        description: "Passwords do not match.",
+        title: t('auth.registerPage.error.title'),
+        description: t('auth.registerPage.error.passwordsNotMatch'),
         variant: "destructive",
       })
       return
@@ -52,21 +54,21 @@ const Register = () => {
     try {
       await signUp(formData.name, formData.email, formData.password)
       toast({
-        title: "Registration Successful",
-        description: "Welcome to Forex King! Your account has been created.",
+        title: t('auth.registerPage.success.title'),
+        description: t('auth.registerPage.success.description'),
       })
       navigate("/")
     } catch (error) {
       if (error instanceof APIError) {
         toast({
-          title: "Registration Failed",
+          title: t('auth.registerPage.error.title'),
           description: error.message,
           variant: "destructive",
         })
       } else {
         toast({
-          title: "Registration Failed",
-          description: "An unexpected error occurred. Please try again.",
+          title: t('auth.registerPage.error.title'),
+          description: t('auth.registerPage.error.unexpectedError'),
           variant: "destructive",
         })
       }
@@ -76,7 +78,7 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
       <Navbar onToggle={setIsSidebarCollapsed} />
       <Ticker />
 
@@ -85,20 +87,20 @@ const Register = () => {
           <Card className="w-full max-w-md bg-card border-border">
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl font-bold text-center text-foreground">
-                Create an Account
+                {t('auth.registerPage.title')}
               </CardTitle>
               <CardDescription className="text-center text-muted-foreground">
-                Enter your information to create an account
+                {t('auth.registerPage.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Full Name */}
                 <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <User className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
                   <Input
-                    placeholder="Enter Full Name"
-                    className="pl-10"
+                    placeholder={t('auth.registerPage.fullName')}
+                    className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
@@ -106,11 +108,11 @@ const Register = () => {
                 </div>
                 {/* Email */}
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Mail className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
                   <Input
                     type="email"
-                    placeholder="Email"
-                    className="pl-10"
+                    placeholder={t('auth.registerPage.email')}
+                    className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
@@ -119,7 +121,7 @@ const Register = () => {
                 {/* Phone */}
                 <div className="relative">
                   <svg
-                    className="absolute left-3 top-3 h-4 w-4 text-muted-foreground"
+                    className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -133,8 +135,8 @@ const Register = () => {
                   </svg>
                   <Input
                     type="tel"
-                    placeholder="Phone Number"
-                    className="pl-10"
+                    placeholder={t('auth.registerPage.phone')}
+                    className={i18n.language === 'ar' ? 'pr-10 text-right' : 'pl-10'}
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     required
@@ -142,11 +144,11 @@ const Register = () => {
                 </div>
                 {/* Password */}
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Lock className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
                   <Input
                     type="password"
-                    placeholder="Password"
-                    className="pl-10"
+                    placeholder={t('auth.registerPage.password')}
+                    className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
@@ -154,11 +156,11 @@ const Register = () => {
                 </div>
                 {/* Confirm Password */}
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Lock className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
                   <Input
                     type="password"
-                    placeholder="Confirm Password"
-                    className="pl-10"
+                    placeholder={t('auth.registerPage.confirmPassword')}
+                    className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                     required
@@ -166,7 +168,7 @@ const Register = () => {
                 </div>
 
                 {/* Terms */}
-                <div className="flex items-center space-x-2">
+                <div className={`flex items-center ${i18n.language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
                   <input
                     type="checkbox"
                     id="terms"
@@ -174,28 +176,28 @@ const Register = () => {
                     required
                   />
                   <label htmlFor="terms" className="text-sm text-muted-foreground">
-                    I agree to the{" "}
+                    {t('auth.agreeToTerms')}{" "}
                     <a href="#" className="text-primary hover:underline">
-                      Terms of Service
+                      {t('auth.termsOfService')}
                     </a>{" "}
-                    and{" "}
+                    {t('auth.and')}{" "}
                     <a href="#" className="text-primary hover:underline">
-                      Privacy Policy
+                      {t('auth.privacyPolicy')}
                     </a>
                   </label>
                 </div>
 
                 {/* Submit */}
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Creating Account..." : "Register"}
+                  {isLoading ? t('auth.registerPage.creatingAccount') : t('auth.registerPage.registerButton')}
                 </Button>
               </form>
             </CardContent>
             <CardFooter className="flex flex-col">
               <p className="mt-2 text-center text-sm text-muted-foreground">
-                Already have an account?{" "}
+                {t('auth.alreadyHaveAccount')}{" "}
                 <Link to="/signin" className="font-medium text-primary hover:underline">
-                  Sign in
+                  {t('auth.signInHere')}
                 </Link>
               </p>
             </CardFooter>

@@ -77,7 +77,47 @@
     "termsOfService": "Terms of Service",
     "and": "and",
     "privacyPolicy": "Privacy Policy",
-    "hello": "Hello,"
+    "hello": "Hello,",
+    "registerPage": {
+      "title": "Create an Account",
+      "description": "Enter your information to create an account",
+      "fullName": "Enter Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "registerButton": "Register",
+      "creatingAccount": "Creating Account...",
+      "success": {
+        "title": "Registration Successful",
+        "description": "Welcome to Forex King! Your account has been created."
+      },
+      "error": {
+        "title": "Registration Failed",
+        "passwordsNotMatch": "Passwords do not match.",
+        "unexpectedError": "An unexpected error occurred. Please try again."
+      }
+    },
+    "signInPage": {
+      "title": "Sign In to Your Account",
+      "description": "Enter your credentials below to sign in",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "signInButton": "Sign In",
+      "signingIn": "Signing In...",
+      "success": {
+        "title": "Sign In Successful",
+        "description": "Welcome back to Forex King!"
+      },
+      "error": {
+        "title": "Sign In Failed",
+        "unexpectedError": "An unexpected error occurred. Please try again."
+      }
+    }
   },
   "chat": {
     "header": "Forex King Assistant",
