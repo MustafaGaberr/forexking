@@ -97,7 +97,7 @@ const Register = () => {
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Full Name"
+                    placeholder="Enter Full Name"
                     className="pl-10"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}

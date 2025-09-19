@@ -133,10 +133,19 @@
   },
   "agreement": {
     "title": "Customer Agreement",
-    "subtitle": "Please fill out the form below to complete your agreement",
-    "customerName": "Full Name",
+    "subtitle": "This agreement is made between:",
+    "customerName": "First Party",
     "idNumber": "ID/Passport Number",
-    "agreementDate": "Agreement Date",
+    "agreementDate": "Date",
+    "firstParty": "First Party:",
+    "name": "Name:",
+    "idPassport": "ID or Passport Number:",
+    "ownerOfFunds": "Owner of Funds",
+    "operatorOfFunds": "Operator of Funds",
+    "secondParty": "Second Party:",
+    "secondPartyName": "Name:",
+    "enterFullName": "Enter full name",
+    "enterIdPassport": "Enter ID/Passport number",
     "signature": "Digital Signature",
     "signaturePlaceholder": "Please sign above",
     "submit": "Submit Agreement",
@@ -148,7 +157,6 @@
     "dateRequired": "Please select a date",
     "introduction": {
       "title": "Introduction",
-      "subtitle": "Hereinafter referred to as \"Operator of Funds\"",
       "content": "The first party owns an investment portfolio with the number (...) worth (100 currency units), and desires to operate it in Forex under a profit-sharing system where 60% of the profits go to the second party and 40% to the first party. The parties agree to the following terms:"
     },
     "clause1": {

@@ -176,7 +176,7 @@ const CustomerAgreement = () => {
 
                   {/* PARTIES */}
                   <div className="space-y-6">
-                    <p className="text-lg">
+                    <p className="text-lg text-foreground mb-6">
                       {t('agreement.subtitle')}
                     </p>
 
@@ -190,14 +190,14 @@ const CustomerAgreement = () => {
                           <FormItem>
                             <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-center">
                               <FormLabel className="sm:col-span-4 text-base font-medium whitespace-nowrap">
-                                <strong>{t('agreement.customerName')}:</strong>
+                                <strong>{t('agreement.firstParty')}</strong> {t('agreement.name')}
                               </FormLabel>
                               <FormControl className="sm:col-span-8">
                                 <div className="relative">
                                   <User className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                   <Input
                                     className="pl-8 h-10"
-                                    placeholder={t('agreement.customerName')}
+                                    placeholder={t('agreement.enterFullName')}
                                     {...field}
                                   />
                                 </div>
@@ -216,14 +216,14 @@ const CustomerAgreement = () => {
                           <FormItem>
                             <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-center">
                               <FormLabel className="sm:col-span-4 text-base font-medium whitespace-nowrap">
-                                {t('agreement.idNumber')}:
+                                {t('agreement.idPassport')}
                               </FormLabel>
                               <FormControl className="sm:col-span-8">
                                 <div className="relative">
                                   <IdCard className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                   <Input
                                     className="pl-8 h-10"
-                                    placeholder={t('agreement.idNumber')}
+                                    placeholder={t('agreement.enterIdPassport')}
                                     {...field}
                                   />
                                 </div>
@@ -234,18 +234,19 @@ const CustomerAgreement = () => {
                         )}
                       />
 
-                      <p className="text-sm">
-                        {t('agreement.customerName')}
+                      <p className="text-sm text-foreground">
+                        Hereinafter referred to as <span className="font-semibold text-primary">{t('agreement.ownerOfFunds')}.</span>
                       </p>
                     </div>
 
                     {/* Second Party */}
-                    <div className="pl-4 border-l-4 border-secondary bg-secondary/5 p-4 rounded-r-lg">
-                      <p className="text-base mb-2">
-                        <strong>{t('common.forexKing')}</strong>
-                      </p>
-                      <p className="text-sm">
-                        {t('common.swissquoteBank')}
+                    <div className="pl-4 border-l-4 border-secondary bg-secondary/5 p-6 rounded-r-lg">
+                      <div className="flex items-center gap-4 mb-2">
+                        <span className="text-base font-bold text-foreground">{t('agreement.secondParty')} <span className="font-normal">{t('agreement.secondPartyName')}</span></span>
+                        <span className="text-base font-semibold text-primary">{t('common.forexKing')}</span>
+                      </div>
+                      <p className="text-sm text-foreground">
+                        Hereinafter referred to as <span className="font-semibold text-primary">{t('agreement.operatorOfFunds')}.</span>
                       </p>
                     </div>
                   </div>
@@ -257,9 +258,6 @@ const CustomerAgreement = () => {
                       <h3 className="text-xl font-semibold text-primary not-prose">
                         {t('agreement.introduction.title')}
                       </h3>
-                      <p className="text-sm font-medium text-muted-foreground mb-3">
-                        {t('agreement.introduction.subtitle')}
-                      </p>
                       <p className="text-foreground/90">
                         {t('agreement.introduction.content')}
                       </p>
