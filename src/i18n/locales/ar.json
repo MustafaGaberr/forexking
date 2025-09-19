@@ -134,7 +134,7 @@
   "agreement": {
     "title": "اتفاقية العميل",
     "subtitle": "تم إبرام هذه الاتفاقية بين:",
-    "customerName": "الاسم الكامل",
+    "customerName": "الطرف الأول",
     "idNumber": "رقم الهوية/جواز السفر",
     "agreementDate": "تاريخ الاتفاقية",
     "firstParty": "الطرف الأول:",
@@ -142,6 +142,7 @@
     "idPassport": "رقم الهوية أو جواز السفر:",
     "ownerOfFunds": "مالك الأموال",
     "operatorOfFunds": "مشغل الأموال",
+    "hereinafterReferredToAs": "ويُشار إليه فيما بعد بـ",
     "secondParty": "الطرف الثاني:",
     "secondPartyName": "الاسم:",
     "enterFullName": "أدخل الاسم الكامل",
