@@ -200,14 +200,16 @@ import { useEffect, useState, useCallback } from "react"
 import Navbar from "@/components/Navbar"
 import PDFViewer from "@/components/PDFViewer"
 import { pdfService, type PDFDocument } from "@/services/pdfService"
+import googleDriveAPI, { type PDFDocument as GoogleDrivePDFDocument } from "@/services/googleDriveAPI"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
 
 const DealPerformance = () => {
-  const [pdfDocument, setPdfDocument] = useState<PDFDocument | null>(null)
+  const [pdfDocument, setPdfDocument] = useState<PDFDocument | GoogleDrivePDFDocument | null>(null)
   const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [useGoogleDrive, setUseGoogleDrive] = useState(true)
   const { toast } = useToast()
   const { t, i18n } = useTranslation()
 
@@ -274,18 +276,27 @@ const DealPerformance = () => {
     try {
       setLoading(true)
       console.log('Loading latest PDF...')
-      const latestPDF = await pdfService.getLatestPDF()
+      
+      let latestPDF = null
+      if (useGoogleDrive) {
+        latestPDF = await googleDriveAPI.getLatestPDF()
+      } else {
+        latestPDF = await pdfService.getLatestPDF()
+      }
+      
       console.log('Latest PDF loaded:', latestPDF)
       setPdfDocument(latestPDF)
       
-      // Fetch PDF as blob if we have a gridfsId
-      if (latestPDF?.gridfsId) {
+      // For Google Drive, use the fileUrl directly
+      if (latestPDF?.fileUrl) {
+        console.log('Using PDF URL directly:', latestPDF.fileUrl)
+        setPdfBlobUrl(null) // Don't use blob for Google Drive
+        setLoading(false)
+      } else if (latestPDF?.gridfsId) {
+        // For MongoDB GridFS, fetch as blob
         const pdfUrl = `http://localhost:3001/api/pdf/file/${latestPDF.gridfsId}`
         console.log('Fetching PDF from URL:', pdfUrl)
         await fetchPDFAsBlob(pdfUrl)
-      } else if (latestPDF?.fileUrl) {
-        console.log('Fetching PDF from fileUrl:', latestPDF.fileUrl)
-        await fetchPDFAsBlob(latestPDF.fileUrl)
       } else {
         console.log('No PDF found or no valid URL')
         setLoading(false)
@@ -299,7 +310,7 @@ const DealPerformance = () => {
       })
       setLoading(false)
     }
-  }, [t, toast, fetchPDFAsBlob])
+  }, [t, toast, fetchPDFAsBlob, useGoogleDrive])
 
   useEffect(() => {
     loadLatestPDF()
@@ -342,17 +353,17 @@ const DealPerformance = () => {
               </div>
             ) : pdfDocument ? (
               <PDFViewer
-                pdfUrl={pdfBlobUrl || (pdfDocument?.gridfsId ? `http://localhost:3001/api/pdf/file/${pdfDocument.gridfsId}` : pdfDocument?.fileUrl) || ''}
+                pdfUrl={pdfBlobUrl || pdfDocument?.fileUrl || ''}
                 title={pdfDocument?.title || t('dealPerformance.performanceReport')}
                 className="w-full"
               />
             ) : (
               <div className="flex flex-col items-center justify-center py-12">
                 <div className="text-center">
-                  <p className="text-muted-foreground mb-4">No PDF document found</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground mb-4">No Documents Available Right Now</p>
+                  {/* <p className="text-sm text-muted-foreground">
                     Please upload a PDF document from the Admin Dashboard
-                  </p>
+                  </p> */}
                 </div>
               </div>
             )}

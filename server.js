@@ -5,6 +5,10 @@ import { MongoClient, GridFSBucket, ObjectId } from 'mongodb';
 import path from 'path';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
+import googleDriveService from './src/services/googleDriveService.js';
+import googleDriveOAuth from './src/services/googleDriveOAuth.js';
+import { google } from 'googleapis';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +24,68 @@ const COLLECTION_NAME = 'pdfDocuments';
 let client;
 let db;
 let bucket;
+
+// OAuth2 setup
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
+const TOKEN_PATH = path.join(__dirname, 'token.json');
+const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
+
+let oAuth2Client;
+
+// Initialize OAuth2 client
+function initializeOAuth() {
+    try {
+        if (fs.existsSync(CREDENTIALS_PATH)) {
+            // Read file and remove BOM if present
+            let fileContent = fs.readFileSync(CREDENTIALS_PATH, 'utf8');
+            // Remove BOM (Byte Order Mark) if present
+            if (fileContent.charCodeAt(0) === 0xFEFF) {
+                fileContent = fileContent.slice(1);
+            }
+
+            const credentials = JSON.parse(fileContent);
+
+            // Check if credentials structure is valid
+            if (!credentials.installed) {
+                console.log('⚠️  Invalid credentials.json structure. Expected "installed" property.');
+                console.log('   For now, using MongoDB GridFS as fallback storage.');
+                return;
+            }
+
+            const { client_id, client_secret, redirect_uris } = credentials.installed;
+
+            // Check if credentials are placeholder values
+            if (client_id === 'YOUR_CLIENT_ID.apps.googleusercontent.com' ||
+                client_secret === 'YOUR_CLIENT_SECRET') {
+                console.log('⚠️  OAuth2 credentials are placeholder values. Please update credentials.json with real values from Google Cloud Console.');
+                console.log('   For now, using MongoDB GridFS as fallback storage.');
+                return;
+            }
+
+            oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+
+            if (fs.existsSync(TOKEN_PATH)) {
+                let tokenContent = fs.readFileSync(TOKEN_PATH, 'utf8');
+                // Remove BOM if present
+                if (tokenContent.charCodeAt(0) === 0xFEFF) {
+                    tokenContent = tokenContent.slice(1);
+                }
+                const token = JSON.parse(tokenContent);
+                oAuth2Client.setCredentials(token);
+                console.log('✅ OAuth2 client initialized with existing token');
+            } else {
+                console.log('⚠️  OAuth2 client initialized, but no token found. Run getToken.js first.');
+                console.log('   For now, using MongoDB GridFS as fallback storage.');
+            }
+        } else {
+            console.log('⚠️  No credentials.json found. Please create it first.');
+            console.log('   For now, using MongoDB GridFS as fallback storage.');
+        }
+    } catch (error) {
+        console.error('❌ Error initializing OAuth2:', error.message);
+        console.log('   For now, using MongoDB GridFS as fallback storage.');
+    }
+}
 
 // Connect to MongoDB
 async function connectToMongoDB() {
@@ -321,6 +387,227 @@ app.get('/api/health', (req, res) => {
     res.json({ success: true, message: 'PDF API server is running' });
 });
 
+// Google Drive Upload API
+app.post('/api/uploadPdf', upload.single('file'), async (req, res) => {
+    try {
+        const { title, description } = req.body;
+        const fileBuffer = req.file.buffer;
+        const fileName = req.file.originalname;
+
+        console.log('Uploading PDF to Google Drive using OAuth:', {
+            title,
+            fileName,
+            fileSize: fileBuffer.length
+        });
+
+        if (!oAuth2Client) {
+            throw new Error('OAuth2 client not initialized. Please run getToken.js first.');
+        }
+
+        // Create Drive service
+        const drive = google.drive({ version: 'v3', auth: oAuth2Client });
+
+        // Convert buffer to stream
+        const { Readable } = await import('stream');
+        const stream = new Readable();
+        stream.push(fileBuffer);
+        stream.push(null);
+
+        // Upload file to Google Drive
+        const response = await drive.files.create({
+            requestBody: {
+                name: fileName,
+                parents: ['16oaJPbcdwRp5ox7Aq8iRm3sYogaCmtYE'], // Specific folder
+            },
+            media: {
+                mimeType: 'application/pdf',
+                body: stream,
+            },
+            fields: 'id,name,webViewLink,webContentLink,size,createdTime',
+        });
+
+        // Make the file public
+        await drive.permissions.create({
+            fileId: response.data.id,
+            requestBody: {
+                role: 'reader',
+                type: 'anyone',
+            },
+        });
+
+        const uploadedFile = response.data;
+
+        // Save to MongoDB
+        const document = {
+            id: generateId(), // Add unique id field
+            title: title || fileName,
+            description: description || '',
+            fileName: uploadedFile.name,
+            fileSize: parseInt(uploadedFile.size) || fileBuffer.length,
+            fileUrl: uploadedFile.webViewLink,
+            driveFileId: uploadedFile.id,
+            uploadDate: new Date(),
+            storageType: 'googleDrive'
+        };
+
+        const result = await db.collection(COLLECTION_NAME).insertOne(document);
+
+        res.json({
+            success: true,
+            document: {
+                id: result.insertedId,
+                title: document.title,
+                description: document.description,
+                fileName: document.fileName,
+                fileSize: document.fileSize,
+                fileUrl: document.fileUrl,
+                driveFileId: document.driveFileId,
+                uploadDate: document.uploadDate
+            }
+        });
+    } catch (err) {
+        console.error('Upload error:', err);
+        console.error('Error details:', {
+            message: err.message,
+            stack: err.stack,
+            code: err.code,
+            status: err.status
+        });
+        res.status(500).json({
+            success: false,
+            error: 'Failed to upload PDF',
+            details: err.message
+        });
+    }
+});
+
+// Get latest PDF from Google Drive
+app.get('/api/latestPdf', async (req, res) => {
+    try {
+        const document = await db.collection(COLLECTION_NAME)
+            .findOne({}, { sort: { uploadDate: -1 } });
+
+        if (!document) {
+            return res.status(404).json({ success: false, error: 'No PDF found' });
+        }
+
+        res.json({
+            success: true,
+            document: {
+                id: document.id,
+                title: document.title,
+                fileName: document.fileName,
+                fileSize: document.fileSize,
+                fileUrl: document.fileUrl,
+                driveFileId: document.driveFileId,
+                uploadDate: document.uploadDate
+            }
+        });
+    } catch (error) {
+        console.error('Get latest PDF error:', error);
+        res.status(500).json({ success: false, error: 'Failed to fetch latest PDF' });
+    }
+});
+
+// Delete PDF from Google Drive and MongoDB
+app.delete('/api/deletePdf/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Get document from MongoDB - try both id and _id
+        let document = await db.collection(COLLECTION_NAME).findOne({ id });
+        if (!document) {
+            // Try with _id if id field not found
+            try {
+                const objectId = new ObjectId(id);
+                document = await db.collection(COLLECTION_NAME).findOne({ _id: objectId });
+            } catch (objectIdError) {
+                // If not a valid ObjectId, document is not found
+            }
+        }
+
+        if (!document) {
+            return res.status(404).json({ success: false, error: 'PDF not found' });
+        }
+
+        // Delete from Google Drive (if OAuth is available and has proper scopes)
+        if (document.driveFileId && oAuth2Client) {
+            try {
+                const drive = google.drive({ version: 'v3', auth: oAuth2Client });
+
+                // First check if we have permission to delete the file
+                try {
+                    await drive.files.get({ fileId: document.driveFileId, fields: 'id,permissions' });
+                } catch (getError) {
+                    console.log('Cannot access Google Drive file, skipping deletion:', getError.message);
+                    console.log('File will remain in Google Drive but will be removed from database.');
+                }
+
+                // Attempt to delete from Google Drive
+                await drive.files.delete({ fileId: document.driveFileId });
+                console.log('Successfully deleted from Google Drive:', document.driveFileId);
+            } catch (driveError) {
+                console.error('Error deleting from Google Drive:', driveError.message);
+                console.log('File will remain in Google Drive but will be removed from database.');
+                // Continue with MongoDB deletion even if Google Drive fails
+            }
+        } else if (document.driveFileId) {
+            console.log('Google Drive file exists but OAuth not available. File will remain in Google Drive.');
+        }
+
+        // Delete from MongoDB
+        console.log('Attempting to delete document with id:', id);
+        console.log('Document found:', document);
+
+        // Build delete query based on document structure
+        let deleteQuery;
+        if (document.id) {
+            deleteQuery = { id: id };
+        } else {
+            deleteQuery = { _id: document._id };
+        }
+
+        const deleteResult = await db.collection(COLLECTION_NAME).deleteOne(deleteQuery);
+
+        console.log('Delete result:', deleteResult);
+
+        if (deleteResult.deletedCount === 0) {
+            return res.status(404).json({ success: false, error: 'PDF not found in database' });
+        }
+
+        res.json({ success: true, message: 'PDF deleted successfully' });
+    } catch (error) {
+        console.error('Delete PDF error:', error);
+        res.status(500).json({ success: false, error: 'Failed to delete PDF' });
+    }
+});
+
+// Get all PDFs
+app.get('/api/allPdfs', async (req, res) => {
+    try {
+        const documents = await db.collection(COLLECTION_NAME)
+            .find({})
+            .sort({ uploadDate: -1 })
+            .toArray();
+
+        res.json({
+            success: true,
+            documents: documents.map(doc => ({
+                id: doc.id || doc._id, // Use id field or fallback to _id
+                title: doc.title,
+                fileName: doc.fileName,
+                fileSize: doc.fileSize,
+                fileUrl: doc.fileUrl,
+                driveFileId: doc.driveFileId,
+                uploadDate: doc.uploadDate
+            }))
+        });
+    } catch (error) {
+        console.error('Get all PDFs error:', error);
+        res.status(500).json({ success: false, error: 'Failed to fetch PDFs' });
+    }
+});
+
 // Debug endpoint to check GridFS files
 app.get('/api/debug/gridfs', async (req, res) => {
     try {
@@ -367,6 +654,27 @@ app.post('/api/debug/fix-documents', async (req, res) => {
     }
 });
 
+// Fix missing id fields in existing documents
+app.post('/api/debug/fix-ids', async (req, res) => {
+    try {
+        const documents = await db.collection(COLLECTION_NAME).find({ id: { $exists: false } }).toArray();
+        let fixed = 0;
+
+        for (const doc of documents) {
+            await db.collection(COLLECTION_NAME).updateOne(
+                { _id: doc._id },
+                { $set: { id: generateId() } }
+            );
+            fixed++;
+        }
+
+        res.json({ success: true, fixed, total: documents.length });
+    } catch (error) {
+        console.error('Fix IDs error:', error);
+        res.status(500).json({ success: false, error: 'Failed to fix IDs' });
+    }
+});
+
 // Error handling middleware
 app.use((error, req, res, next) => {
     console.error('Server error:', error);
@@ -376,6 +684,7 @@ app.use((error, req, res, next) => {
 // Start server
 async function startServer() {
     await connectToMongoDB();
+    initializeOAuth();
 
     app.listen(PORT, () => {
         console.log(`PDF API server running on port ${PORT}`);

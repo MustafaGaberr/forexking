@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Sensitive files - NEVER commit these
+/src/services/pdfviewer-472517-d1d6e1e42371.json
+token.json
+credentials.json
+*.env
+*.key
+*.pem
+*.secret
+.env.local
+.env.production
+.env.development
+
+# Google Drive OAuth files
+google-credentials.json
+google-token.json
+

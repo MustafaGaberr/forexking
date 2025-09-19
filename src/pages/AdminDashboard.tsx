@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast"
 import { AdminLogin } from "@/components/admin/AdminLogin"
 import PDFUploadDialog from "@/components/PDFUploadDialog"
 import { pdfService, type PDFDocument } from "@/services/pdfService"
+import googleDriveAPI, { type PDFDocument as GoogleDrivePDFDocument } from "@/services/googleDriveAPI"
 import { Upload, FileText, Trash2, Calendar, HardDrive } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
@@ -17,16 +18,24 @@ const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState(true)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-  const [pdfDocuments, setPdfDocuments] = useState<PDFDocument[]>([])
+  const [pdfDocuments, setPdfDocuments] = useState<GoogleDrivePDFDocument[]>([])
   const [showPDFUpload, setShowPDFUpload] = useState(false)
   const [storageInfo, setStorageInfo] = useState({ count: 0, totalSize: 0 })
+  const [useGoogleDrive, setUseGoogleDrive] = useState(true)
   const { toast } = useToast()
   const { i18n } = useTranslation()
 
   const loadPDFDocuments = async () => {
     try {
-      const documents = await pdfService.getAllPDFs()
-      setPdfDocuments(documents)
+      if (useGoogleDrive) {
+        const documents = await googleDriveAPI.getAllPDFs()
+        setPdfDocuments(documents)
+        setStorageInfo({ count: documents.length, totalSize: documents.reduce((sum, doc) => sum + doc.fileSize, 0) })
+      } else {
+        const documents = await pdfService.getAllPDFs()
+        setPdfDocuments(documents)
+        setStorageInfo({ count: documents.length, totalSize: documents.reduce((sum, doc) => sum + doc.fileSize, 0) })
+      }
     } catch (error) {
       toast({
         title: "Failed to load documents",
@@ -44,7 +53,11 @@ const AdminDashboard = () => {
 
   const handlePDFUpload = async (file: File, title: string, description?: string) => {
     try {
-      await pdfService.uploadPDF(file, title, description)
+      if (useGoogleDrive) {
+        await googleDriveAPI.uploadPDF(file, title, description)
+      } else {
+        await pdfService.uploadPDF(file, title, description)
+      }
       loadPDFDocuments()
     } catch (error) {
       throw error
@@ -53,7 +66,13 @@ const AdminDashboard = () => {
 
   const handleDeletePDF = async (id: string) => {
     try {
-      const success = await pdfService.deletePDF(id)
+      let success = false
+      if (useGoogleDrive) {
+        success = await googleDriveAPI.deletePDF(id)
+      } else {
+        success = await pdfService.deletePDF(id)
+      }
+      
       if (success) {
         await loadPDFDocuments()
         toast({
@@ -154,6 +173,24 @@ const AdminDashboard = () => {
                   <div>
                     <CardTitle className="text-2xl font-bold">PDF Documents</CardTitle>
                     <CardDescription>Manage performance reports and documents</CardDescription>
+                    <div className="flex items-center gap-2 mt-2">
+                      <label className="text-sm font-medium">Storage:</label>
+                      <button
+                        onClick={() => setUseGoogleDrive(!useGoogleDrive)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                          useGoogleDrive ? 'bg-primary' : 'bg-gray-200'
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            useGoogleDrive ? 'translate-x-6' : 'translate-x-1'
+                          }`}
+                        />
+                      </button>
+                      <span className="text-sm text-muted-foreground">
+                        {useGoogleDrive ? 'Google Drive' : 'MongoDB'}
+                      </span>
+                    </div>
                   </div>
                   <Button onClick={() => setShowPDFUpload(true)} className="flex items-center gap-2">
                     <Upload className="h-4 w-4" />

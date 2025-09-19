@@ -255,46 +255,62 @@ const CustomerAgreement = () => {
                     {/* Introduction */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        المقدمة
+                        {t('agreement.introduction')}
                       </h3>
                       <p className="text-foreground/90">
-                        يمتلك الطرف الأول محفظة استثمارية برقم (...) بقيمة (100 وحدة عملة)، ويرغب في تشغيلها في سوق الفوركس وفق نظام تقاسم الأرباح بحيث يذهب{" "}
-                        <span className="font-semibold text-primary">60%</span> من الأرباح للطرف الثاني و{" "}
-                        <span className="font-semibold text-primary">40%</span> للطرف الأول. ويتفق الطرفان على البنود التالية:
+                        {t('agreement.introductionText').split('60%').map((part, index) => 
+                          index === 0 ? (
+                            <span key={index}>
+                              {part}
+                              <span className="font-semibold text-primary">60%</span>
+                            </span>
+                          ) : (
+                            <span key={index}>
+                              {part.split('40%').map((subPart, subIndex) => 
+                                subIndex === 0 ? (
+                                  <span key={subIndex}>
+                                    {subPart}
+                                    <span className="font-semibold text-primary">40%</span>
+                                  </span>
+                                ) : subPart
+                              )}
+                            </span>
+                          )
+                        )}
                       </p>
                     </section>
 
                     {/* Clause 1 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 1: إدارة المحفظة
+                        {t('agreement.clause1')}
                       </h3>
                       <p className="text-foreground/90">
-                        يتولى الطرف الثاني إدارة المحفظة في سوق الفوركس بناءً على قراراته الفنية، دون أي ضمان لرأس المال أو الأرباح.
+                        {t('agreement.clause1Text')}
                       </p>
                     </section>
 
                     {/* Clause 2 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 2: توزيع الأرباح
+                        {t('agreement.clause2')}
                       </h3>
                       <p className="text-foreground/90">
-                        يتم توزيع الأرباح كل عشرة أيام عمل وفق النسبة المحددة أعلاه.
+                        {t('agreement.clause2Text')}
                       </p>
                     </section>
 
                     {/* Clause 3 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 3: السحب وزيادة رأس المال
+                        {t('agreement.clause3')}
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          لا يحق للطرف الأول سحب الأموال إلا بعد مرور عشرة أيام أو عند طلبه لتصفية المحفظة بالكامل.
+                          {t('agreement.clause3Text1')}
                         </p>
                         <p className="text-foreground/90">
-                          في حال رغب الطرف الأول في زيادة رأس المال، سيتم توقيع اتفاق جديد أو ملحق لهذا الاتفاق.
+                          {t('agreement.clause3Text2')}
                         </p>
                       </div>
                     </section>
@@ -302,14 +318,14 @@ const CustomerAgreement = () => {
                     {/* Clause 4 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 4: إنهاء الاتفاق
+                        {t('agreement.clause4')}
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          يمكن للطرف الأول إنهاء الاتفاق بعد الشهر الأول من خلال إخطار الطرف الثاني قبل انتهاء الشهر بمدة لا تقل عن (7) أيام.
+                          {t('agreement.clause4Text1')}
                         </p>
                         <p className="text-foreground/90">
-                          وسيتم إغلاق جميع المراكز المفتوحة خلال فترة الإشعار، وتصفيتها بناءً على نتائج التداول.
+                          {t('agreement.clause4Text2')}
                         </p>
                       </div>
                     </section>
@@ -317,14 +333,14 @@ const CustomerAgreement = () => {
                     {/* Clause 5 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 5: حدود الخسارة وتعليق المحفظة
+                        {t('agreement.clause5')}
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          إذا انخفضت قيمة المحفظة بنسبة (50%) من الاستثمار الأصلي، يتم تعليق التداول فورًا، وسيتم التواصل مع الطرف الأول لاتخاذ قرار بشأن التصفية أو استئناف العمليات.
+                          {t('agreement.clause5Text1')}
                         </p>
                         <p className="text-foreground/90">
-                          ويقر الطرف الأول بأن الطرف الثاني غير مسؤول عن أي خسائر ناتجة عن تقلبات السوق أو قرارات الاستثمار المتعلقة بالفوركس.
+                          {t('agreement.clause5Text2')}
                         </p>
                       </div>
                     </section>
@@ -332,24 +348,24 @@ const CustomerAgreement = () => {
                     {/* Clause 6 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 6: تسوية المنازعات
+                        {t('agreement.clause6')}
                       </h3>
                       <p className="text-foreground/90">
-                        في حالة حدوث أي نزاع بين الطرفين، سيحاولان حله وديًا. وإذا لم يكن ذلك ممكنًا، يُحل النزاع عن طريق المحكمة المختصة في (أدخل المدينة أو الدولة).
+                        {t('agreement.clause6Text')}
                       </p>
                     </section>
 
                     {/* Clause 7 */}
                     <section>
                       <h3 className="text-xl font-semibold text-primary not-prose">
-                        البند 7: أحكام عامة
+                        {t('agreement.clause7')}
                       </h3>
                       <div className="space-y-3">
                         <p className="text-foreground/90">
-                          يشكل هذا الاتفاق الفهم الكامل والنهائي بين الطرفين.
+                          {t('agreement.clause7Text1')}
                         </p>
                         <p className="text-foreground/90">
-                          ويتم تنفيذ الاتفاق بنسختين أصليتين، نسخة لكل طرف.
+                          {t('agreement.clause7Text2')}
                         </p>
                       </div>
                     </section>
