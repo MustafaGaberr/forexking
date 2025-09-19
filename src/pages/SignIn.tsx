@@ -15,8 +15,10 @@ import LanguageToggle from "@/components/LanguageToggle"
 import { useAuth } from "@/hooks/useAuth"
 import { APIError } from "@/services/api"
 import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
 const SignIn = () => {
+  const { t, i18n } = useTranslation()
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -37,21 +39,21 @@ const SignIn = () => {
     try {
       await signIn(email, password)
       toast({
-        title: "Sign In Successful",
-        description: "Welcome back to Forex King!",
+        title: t('auth.signInPage.success.title'),
+        description: t('auth.signInPage.success.description'),
       })
       navigate("/") // Redirect to home page after successful login
     } catch (error) {
       if (error instanceof APIError) {
         toast({
-          title: "Sign In Failed",
+          title: t('auth.signInPage.error.title'),
           description: error.message,
           variant: "destructive",
         })
       } else {
         toast({
-          title: "Sign In Failed",
-          description: "An unexpected error occurred. Please try again.",
+          title: t('auth.signInPage.error.title'),
+          description: t('auth.signInPage.error.unexpectedError'),
           variant: "destructive",
         })
       }
@@ -61,7 +63,7 @@ const SignIn = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
       <Navbar onToggle={setIsSidebarCollapsed} />
       <Ticker />
 
@@ -70,21 +72,21 @@ const SignIn = () => {
           <Card className="w-full max-w-md bg-card border-border">
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl font-bold text-center text-foreground">
-                Sign In to Your Account
+                {t('auth.signInPage.title')}
               </CardTitle>
               <CardDescription className="text-center text-muted-foreground">
-                Enter your credentials below to sign in
+                {t('auth.signInPage.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Mail className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
                     <Input
                       type="email"
-                      placeholder="Email"
-                      className="pl-10"
+                      placeholder={t('auth.signInPage.email')}
+                      className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -93,42 +95,42 @@ const SignIn = () => {
                 </div>
                 <div className="space-y-2">
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Lock className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
                     <Input
                       type="password"
-                      placeholder="Password"
-                      className="pl-10"
+                      placeholder={t('auth.signInPage.password')}
+                      className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
+                <div className={`flex items-center ${i18n.language === 'ar' ? 'flex-row-reverse' : ''} justify-between`}>
+                  <a href="#" className="text-sm text-primary hover:underline">
+                    {t('auth.signInPage.forgotPassword')}
+                  </a>
+                  <div className={`flex items-center ${i18n.language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
                     <input
                       type="checkbox"
                       id="remember"
                       className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                     />
                     <label htmlFor="remember" className="text-sm text-muted-foreground">
-                      Remember me
+                      {t('auth.signInPage.rememberMe')}
                     </label>
                   </div>
-                  <a href="#" className="text-sm text-primary hover:underline">
-                    Forgot password?
-                  </a>
                 </div>
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Signing In..." : "Sign In"}
+                  {isLoading ? t('auth.signInPage.signingIn') : t('auth.signInPage.signInButton')}
                 </Button>
               </form>
             </CardContent>
             <CardFooter className="flex flex-col">
               <p className="mt-2 text-center text-sm text-muted-foreground">
-                Don't have an account?{" "}
+                {t('auth.dontHaveAccount')}{" "}
                 <Link to="/register" className="font-medium text-primary hover:underline">
-                  Register here
+                  {t('auth.registerHere')}
                 </Link>
               </p>
             </CardFooter>

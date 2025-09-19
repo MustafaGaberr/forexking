@@ -235,7 +235,7 @@ const CustomerAgreement = () => {
                       />
 
                       <p className="text-sm text-foreground">
-                        Hereinafter referred to as <span className="font-semibold text-primary">{t('agreement.ownerOfFunds')}.</span>
+                        {t('agreement.hereinafterReferredToAs')} <span className="font-semibold text-primary">{t('agreement.ownerOfFunds')}.</span>
                       </p>
                     </div>
 
@@ -246,7 +246,7 @@ const CustomerAgreement = () => {
                         <span className="text-base font-semibold text-primary">{t('common.forexKing')}</span>
                       </div>
                       <p className="text-sm text-foreground">
-                        Hereinafter referred to as <span className="font-semibold text-primary">{t('agreement.operatorOfFunds')}.</span>
+                        {t('agreement.hereinafterReferredToAs')} <span className="font-semibold text-primary">{t('agreement.operatorOfFunds')}.</span>
                       </p>
                     </div>
                   </div>
