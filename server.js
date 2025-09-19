@@ -62,6 +62,15 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+// Error handling for JSON parsing
+app.use((error, req, res, next) => {
+    if (error instanceof SyntaxError && error.status === 400 && 'body' in error) {
+        console.error('JSON parsing error:', error.message);
+        return res.status(400).json({ success: false, error: 'Invalid JSON in request body' });
+    }
+    next(error);
+});
+
 // Multer configuration for file uploads
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -316,9 +325,149 @@ app.get('/api/pdf/storage/info', async (req, res) => {
     }
 });
 
+// Base64 PDF upload endpoint
+app.post('/api/pdf/uploadBase64', async (req, res) => {
+    try {
+        console.log('Base64 upload request received:', {
+            hasBody: !!req.body,
+            bodyKeys: req.body ? Object.keys(req.body) : 'no body',
+            contentLength: req.get('content-length'),
+            contentType: req.get('content-type')
+        });
+
+        const { title, description, fileName, pdfContent } = req.body;
+
+        if (!pdfContent || !title || !fileName) {
+            console.log('Missing required fields:', { title: !!title, fileName: !!fileName, pdfContent: !!pdfContent });
+            return res.status(400).json({
+                success: false,
+                error: 'Missing required fields: title, fileName, and pdfContent are required'
+            });
+        }
+
+        // Validate Base64 content
+        if (!pdfContent.match(/^[A-Za-z0-9+/]+=*$/)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid Base64 content'
+            });
+        }
+
+        console.log('Uploading PDF as Base64 to MongoDB:', {
+            title,
+            fileName,
+            contentLength: pdfContent.length,
+            contentPreview: pdfContent.substring(0, 100) + '...'
+        });
+
+        // Calculate file size from Base64 (approximate)
+        const fileSize = Math.round((pdfContent.length * 3) / 4);
+
+        // Generate unique ID
+        function generateId() {
+            return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+        }
+
+        // Create document record
+        const document = {
+            id: generateId(),
+            title,
+            description: description || '',
+            fileName,
+            fileSize,
+            uploadDate: new Date(),
+            mimeType: 'application/pdf',
+            pdfContent, // Base64 encoded PDF content
+            storageType: 'base64'
+        };
+
+        // Save document to MongoDB
+        const result = await db.collection(COLLECTION_NAME).insertOne(document);
+
+        res.json({
+            success: true,
+            document: {
+                id: document.id,
+                title: document.title,
+                description: document.description,
+                fileName: document.fileName,
+                fileSize: document.fileSize,
+                uploadDate: document.uploadDate,
+                mimeType: document.mimeType,
+                storageType: document.storageType,
+                _id: result.insertedId
+            }
+        });
+    } catch (error) {
+        console.error('Base64 upload error:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name
+        });
+        res.status(500).json({ success: false, error: 'Failed to upload PDF as Base64' });
+    }
+});
+
+// Base64 PDF serve endpoint
+app.get('/api/pdf/:id/base64', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Find document by id
+        const document = await db.collection(COLLECTION_NAME).findOne({ id });
+
+        if (!document) {
+            return res.status(404).json({ success: false, error: 'PDF not found' });
+        }
+
+        if (!document.pdfContent) {
+            return res.status(404).json({ success: false, error: 'PDF content not found' });
+        }
+
+        // Set headers for PDF
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename="${document.fileName}"`);
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+
+        // Convert Base64 to Buffer and send
+        const pdfBuffer = Buffer.from(document.pdfContent, 'base64');
+        res.send(pdfBuffer);
+
+    } catch (error) {
+        console.error('Get Base64 PDF error:', error);
+        res.status(500).json({ success: false, error: 'Failed to serve PDF' });
+    }
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
-    res.json({ success: true, message: 'PDF API server is running' });
+    res.json({ success: true, message: 'PDF API server is running with Base64 storage' });
+});
+
+// Debug endpoint to check Base64 documents
+app.get('/api/debug/base64', async (req, res) => {
+    try {
+        const documents = await db.collection(COLLECTION_NAME).find({}).toArray();
+        const base64Docs = documents.filter(doc => doc.storageType === 'base64');
+        res.json({
+            success: true,
+            totalDocs: documents.length,
+            base64Docs: base64Docs.length,
+            documents: base64Docs.map(doc => ({
+                id: doc.id,
+                title: doc.title,
+                fileName: doc.fileName,
+                fileSize: doc.fileSize,
+                uploadDate: doc.uploadDate,
+                storageType: doc.storageType,
+                hasContent: !!doc.pdfContent
+            }))
+        });
+    } catch (error) {
+        console.error('Base64 debug error:', error);
+        res.status(500).json({ success: false, error: 'Failed to fetch Base64 documents' });
+    }
 });
 
 // Debug endpoint to check GridFS files
