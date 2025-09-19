@@ -414,7 +414,7 @@ const CustomerAgreement = () => {
                           </p>
                             <div className="p-4 flex items-center justify-center bg-card rounded-md border border-border">
                               <img
-                                src="/Assets/"
+                                src="/Assets/sample_signature.png"
                                 alt="Second Party Signature"
                                 className="h-22"
                               />
