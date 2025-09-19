@@ -205,7 +205,7 @@ import { useTranslation } from "react-i18next"
 
 const DealPerformance = () => {
   const [pdfDocument, setPdfDocument] = useState<PDFDocument | null>(null)
-  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null)
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const { toast } = useToast()
@@ -216,90 +216,37 @@ const DealPerformance = () => {
     window.scrollTo(0, 0)
   }, [])
 
-  // Clean up blob URL on unmount
-  useEffect(() => {
-    return () => {
-      if (pdfBlobUrl) {
-        URL.revokeObjectURL(pdfBlobUrl)
-      }
-    }
-  }, [pdfBlobUrl])
-
-  const fetchPDFAsBlob = useCallback(async (pdfUrl: string) => {
-    try {
-      setLoading(true)
-      console.log('Fetching PDF as blob from:', pdfUrl)
-      
-      const response = await fetch(pdfUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/pdf',
-        },
-        mode: 'cors',
-        credentials: 'omit'
-      })
-      
-      console.log('Response status:', response.status)
-      console.log('Response headers:', response.headers)
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch PDF: ${response.status} ${response.statusText}`)
-      }
-      
-      const blob = await response.blob()
-      console.log('Blob created, size:', blob.size)
-      
-      const blobUrl = URL.createObjectURL(blob)
-      console.log('Blob URL created:', blobUrl)
-      
-      // Clean up previous blob URL
-      if (pdfBlobUrl) {
-        URL.revokeObjectURL(pdfBlobUrl)
-      }
-      
-      setPdfBlobUrl(blobUrl)
-      setLoading(false)
-    } catch (error) {
-      console.error('Error fetching PDF as blob:', error)
-      toast({
-        title: t('dealPerformance.failedToLoad'),
-        description: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        variant: "destructive",
-      })
-      setLoading(false)
-    }
-  }, [pdfBlobUrl, t, toast])
-
   const loadLatestPDF = useCallback(async () => {
     try {
       setLoading(true)
       console.log('Loading latest PDF...')
+      
       const latestPDF = await pdfService.getLatestPDF()
       console.log('Latest PDF loaded:', latestPDF)
       setPdfDocument(latestPDF)
       
-      // Fetch PDF as blob if we have a gridfsId
-      if (latestPDF?.gridfsId) {
-        const pdfUrl = `http://localhost:3001/api/pdf/file/${latestPDF.gridfsId}`
-        console.log('Fetching PDF from URL:', pdfUrl)
-        await fetchPDFAsBlob(pdfUrl)
-      } else if (latestPDF?.fileUrl) {
-        console.log('Fetching PDF from fileUrl:', latestPDF.fileUrl)
-        await fetchPDFAsBlob(latestPDF.fileUrl)
+      if (latestPDF?.id) {
+        // Create URL for Base64 PDF endpoint
+        const pdfDataUrl = `http://localhost:3001/api/pdf/${latestPDF.id}/base64`
+        console.log('Using PDF Base64 URL:', pdfDataUrl)
+        setPdfUrl(pdfDataUrl)
       } else {
-        console.log('No PDF found or no valid URL')
-        setLoading(false)
+        console.log('No PDF document found')
+        setPdfDocument(null)
+        setPdfUrl(null)
       }
+      
+      setLoading(false)
     } catch (error) {
-      console.error('Error in loadLatestPDF:', error)
+      console.error('Error loading latest PDF:', error)
       toast({
-        title: t('dealPerformance.failedToLoad'),
-        description: t('dealPerformance.loadError'),
+        title: "Error",
+        description: "Failed to load PDF document",
         variant: "destructive",
       })
       setLoading(false)
     }
-  }, [t, toast, fetchPDFAsBlob])
+  }, [toast])
 
   useEffect(() => {
     loadLatestPDF()
@@ -342,7 +289,7 @@ const DealPerformance = () => {
               </div>
             ) : pdfDocument ? (
               <PDFViewer
-                pdfUrl={pdfBlobUrl || (pdfDocument?.gridfsId ? `http://localhost:3001/api/pdf/file/${pdfDocument.gridfsId}` : pdfDocument?.fileUrl) || ''}
+                pdfUrl={pdfUrl || ''}
                 title={pdfDocument?.title || t('dealPerformance.performanceReport')}
                 className="w-full"
               />

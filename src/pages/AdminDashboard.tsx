@@ -44,9 +44,67 @@ const AdminDashboard = () => {
 
   const handlePDFUpload = async (file: File, title: string, description?: string) => {
     try {
-      await pdfService.uploadPDF(file, title, description)
+      // Convert file to Base64
+      const base64Content = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => {
+          const result = reader.result as string
+          // Remove data:application/pdf;base64, prefix
+          const base64 = result.split(',')[1]
+          resolve(base64)
+        }
+        reader.onerror = reject
+        reader.readAsDataURL(file)
+      })
+
+      // Upload as Base64
+      console.log('Uploading PDF:', { title, fileName: file.name, contentLength: base64Content.length })
+      
+      const response = await fetch('http://localhost:3001/api/pdf/uploadBase64', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          description: description || '',
+          fileName: file.name,
+          pdfContent: base64Content
+        })
+      })
+
+      console.log('Response status:', response.status)
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()))
+      console.log('Response ok:', response.ok)
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to upload PDF'
+        try {
+          const errorData = await response.json()
+          console.log('Error response JSON:', errorData)
+          errorMessage = errorData.error || errorMessage
+        } catch (jsonError) {
+          console.log('Failed to parse error response as JSON:', jsonError)
+          // If response is not JSON, try to get text
+          try {
+            const errorText = await response.text()
+            console.log('Error response text:', errorText)
+            errorMessage = errorText || errorMessage
+          } catch (textError) {
+            console.log('Failed to get error response text:', textError)
+            errorMessage = `HTTP ${response.status}: ${response.statusText}`
+          }
+        }
+        throw new Error(errorMessage)
+      }
+
+      console.log('Attempting to parse response as JSON...')
+      const result = await response.json()
+      console.log('PDF uploaded successfully:', result)
+      
       loadPDFDocuments()
     } catch (error) {
+      console.error('Error uploading PDF:', error)
       throw error
     }
   }
