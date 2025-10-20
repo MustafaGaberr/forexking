@@ -13,16 +13,14 @@ interface SocialPlatform {
 const SocialMediaLinks: React.FC = () => {
   const { t } = useTranslation();
 const socialPlatforms: SocialPlatform[] = [
-    { name: "Facebook", url: "https://facebook.com/forexking", bgColor: "#1877F2" },
-    { name: "Instagram", url: "https://instagram.com/forexking", bgColor: "#E4405F" },
-    { name: "Twitter", url: "https://twitter.com/forexking", bgColor: "#1DA1F2" },
-    { name: "TikTok", url: "https://tiktok.com/@forexking", bgColor: "#000000" },
-    { name: "Snapchat", url: "https://snapchat.com/add/forexking", bgColor: "#FFFC00", fgColor: "#000000" },
-    { name: "WhatsApp", url: "https://wa.me/+1234567890", bgColor: "#25D366" },
-    { name: "VK", url: "https://vk.com/forexking", bgColor: "#0077FF" },
-    { name: "WeChat", url: "https://wechat.com/forexking", bgColor: "#07C160" },
-    { name: "Weibo", url: "https://weibo.com/forexking", bgColor: "#DF2029", customIcon: "/Assets/weibo-icon.svg" },
-    { name: "LINE", url: "https://line.me/ti/p/forexking", bgColor: "#00C300" },
+    { name: "Facebook", url: "https://www.facebook.com/profile.php?id=61581714960020", bgColor: "#1877F2" },
+    { name: "Instagram", url: "https://www.instagram.com/fore_xking25?igsh=ZnZ0OG4wNzF1ZDlk", bgColor: "#E4405F" },
+    { name: "Twitter", url: "https://x.com/Forexking147486?t=JrxHCMl5v_MWZ-_CJTRNJw&s=09", bgColor: "#1DA1F2" },
+    { name: "TikTok", url: "https://www.tiktok.com/@forex.king777?_t=ZS-90WEzuDzXtI&_r=1", bgColor: "#000000" },
+    { name: "Snapchat", url: "https://www.snapchat.com/add/forexking3785?share_id=aN1E0_nAfo4&locale=en-EG", bgColor: "#FFFC00", fgColor: "#000000" },
+    { name: "LinkedIn", url: "https://www.linkedin.com/in/forex-king-94b1ba388?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", bgColor: "#0A66C2" },
+    { name: "WhatsApp", url: "https://wa.me/+4367846433933", bgColor: "#25D366" },
+    { name: "Telegram", url: "https://t.me/+4367846433933", bgColor: "#0088cc" },
   ];
 
   return (
@@ -31,7 +29,7 @@ const socialPlatforms: SocialPlatform[] = [
         {t('social.connectWithUs')}
       </h4>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
   {socialPlatforms.map((platform) => (
     <a
       href={platform.url}

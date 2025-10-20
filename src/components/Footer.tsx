@@ -48,9 +48,9 @@ const Footer = () => {
       {/* Help Section */}
       <div className="mt-8 flex flex-col items-center gap-2">
         <h4 className="text-xl font-semibold">{t('footer.needHelp')}</h4>
-        <Link to="#" className="text-primary font-medium hover:text-accent">
+        <a href="tel:+15075288062" className="text-primary font-medium hover:text-accent">
           {t('footer.contactSupport')}
-        </Link>
+        </a>
       </div>
     </div>
   </div>
@@ -72,7 +72,7 @@ const Footer = () => {
           alt="Forex King Logo" 
           className="h-16 w-auto"
         />
-        <p>{t('footer.copyright')} {new Date().getFullYear()}</p>
+        <p>{t('footer.copyright')}</p>
       </div>
 
     </div>

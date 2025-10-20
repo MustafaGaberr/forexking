@@ -166,60 +166,33 @@ const VideoTutorial = () => {
             })}
           </motion.div>
           
-          {/* Downloadable PDF Cards */}
-          <motion.div
-            variants={fadeIn}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-12"
-          >
-            {[
-              {
-                icon: FileText,
-                title: t('videoTutorial.leverageForm'),
-                description: t('videoTutorial.leverageFormDesc'),
-                pdfFile: "/Assets/PDFs/Leverage.pdf",
-              },
-              {
-                icon: CreditCard,
-                title: t('videoTutorial.signatureCard'),
-                description: t('videoTutorial.signatureCardDesc'),
-                pdfFile: "/Assets/PDFs/Signature Card.pdf",
-              },
-              {
-                icon: Shield,
-                title: t('videoTutorial.swapFreeAccount'),
-                description: t('videoTutorial.swapFreeAccountDesc'),
-                pdfFile: "/Assets/PDFs/Swap Free Form.pdf",
-              },
-            ].map((resource, index) => {
-              const Icon = resource.icon;
-              return (
-                <motion.div key={index} variants={fadeIn} className="text-center">
-                  <Card className="p-6 h-full bg-card border-border hover:shadow-xl hover:border-primary hover:scale-105 transition-all duration-300 cursor-pointer">
-                    <CardContent className="p-0">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center">
-                        <Icon className="w-8 h-8 text-primary" />
-                      </div>
-                      <h3 className="text-xl font-semibold text-foreground mb-3">
-                        {resource.title}
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed mb-4">
-                        {resource.description}
-                      </p>
-                      <a 
-                        href={resource.pdfFile} 
-                        download
-                        className="inline-block w-full"
-                      >
-                        <Button variant="default" className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                          {t('videoTutorial.downloadPDF')}
-                        </Button>
-                      </a>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+			{/* Note instead of downloadable PDF cards */}
+			<motion.div
+				variants={fadeIn}
+				className="mt-12"
+			>
+				<Card className="p-6 bg-card border-border">
+					<CardContent className="p-0">
+						<div className="text-center space-y-2">
+							{ i18n.language === 'ar' ? (
+								<p className="text-lg text-foreground leading-relaxed">
+									في حالة طلبك لأوراق فتح وتوثيق الحساب ، أو الرافعة المالية ، أو حساب الشريعة الإسلامية ، راسلنا على الإيميل{' '}
+									<a href="mailto:contact@forexking.info" className="text-primary font-semibold">contact@forexking.info</a>{' '}
+									أو الواتساب{' '}
+									<a href="https://wa.me/+4367846433933" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold">+4367846433933</a>
+								</p>
+							) : (
+								<p className="text-lg text-foreground leading-relaxed">
+									If you need the account opening and verification documents, leverage request, or Islamic (Sharia-compliant) account forms, please contact us via email{' '}
+									<a href="mailto:contact@forexking.info" className="text-primary font-semibold">contact@forexking.info</a>{' '}
+									or WhatsApp{' '}
+									<a href="https://wa.me/+4367846433933" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold">+4367846433933</a>
+								</p>
+							) }
+						</div>
+					</CardContent>
+				</Card>
+			</motion.div>
         </motion.div>
       </div>
     </section>
