@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,8 +14,9 @@ import ThemeToggle from "@/components/ThemeToggle"
 import LanguageToggle from "@/components/LanguageToggle"
 import { useAuth } from "@/hooks/useAuth"
 import { APIError } from "@/services/api"
-import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import PhoneInput from "react-phone-input-2"
+import "react-phone-input-2/lib/style.css"
 
 const Register = () => {
   const { t, i18n } = useTranslation()
@@ -32,7 +33,6 @@ const Register = () => {
   const { signUp } = useAuth()
   const navigate = useNavigate()
 
-  // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -106,6 +106,7 @@ const Register = () => {
                     required
                   />
                 </div>
+
                 {/* Email */}
                 <div className="relative">
                   <Mail className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
@@ -118,30 +119,23 @@ const Register = () => {
                     required
                   />
                 </div>
-                {/* Phone */}
+
+                {/* Phone (with country dropdown) */}
                 <div className="relative">
-                  <svg
-                    className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
-                  <Input
-                    type="tel"
-                    placeholder={t('auth.registerPage.phone')}
-                    className={i18n.language === 'ar' ? 'pr-10 text-right' : 'pl-10'}
+                  <PhoneInput
+                    country={"eg"} // الافتراضي مصر 🇪🇬
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    required
+                    onChange={(phone) => setFormData({ ...formData, phone })}
+                    inputClass="!w-full !h-10 !pl-12 !text-sm !border !border-input !rounded-md focus:!ring-2 focus:!ring-ring focus:!ring-offset-2 !bg-[#f5f5f5]"
+                    buttonClass="!border-none !bg-transparent"
+                    dropdownClass="!bg-card !text-foreground"
+                    containerClass={`${
+                      i18n.language === 'ar' ? 'flex-row-reverse text-right' : ''
+                    }`}
+                    placeholder={t('auth.registerPage.phone')}
                   />
                 </div>
+
                 {/* Password */}
                 <div className="relative">
                   <Lock className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
@@ -154,6 +148,7 @@ const Register = () => {
                     required
                   />
                 </div>
+
                 {/* Confirm Password */}
                 <div className="relative">
                   <Lock className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
@@ -193,6 +188,7 @@ const Register = () => {
                 </Button>
               </form>
             </CardContent>
+
             <CardFooter className="flex flex-col">
               <p className="mt-2 text-center text-sm text-muted-foreground">
                 {t('auth.alreadyHaveAccount')}{" "}
@@ -205,7 +201,6 @@ const Register = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="py-8 px-4">
         <div className="max-w-7xl mx-auto flex flex-col items-center space-y-4">
           <div className="flex items-center space-x-4">

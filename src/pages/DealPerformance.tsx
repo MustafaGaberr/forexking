@@ -296,10 +296,10 @@ const DealPerformance = () => {
             ) : (
               <div className="flex flex-col items-center justify-center py-12">
                 <div className="text-center">
-                  <p className="text-muted-foreground mb-4">No PDF document found</p>
-                  <p className="text-sm text-muted-foreground">
-                    Please upload a PDF document from the Admin Dashboard
-                  </p>
+                  <p className="text-muted-foreground mb-4">No Performance Report found</p>
+                  {/* <p className="text-sm text-muted-foreground">
+                    Please upload a Performance Report from the Admin Dashboard
+                  </p> */}
                 </div>
               </div>
             )}
