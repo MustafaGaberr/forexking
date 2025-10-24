@@ -33,7 +33,7 @@ const translations = {
     'nav.performance': 'Deal Performance',
     'nav.openAccount': 'Open Account',
     'nav.contact': 'Contact',
-    'nav.agreement': 'Customer Agreement',
+    // 'nav.agreement': 'Customer Agreement',
     'nav.admin': 'Admin',
     
     // Hero Section

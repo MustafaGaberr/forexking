@@ -22,7 +22,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
     { label: t('nav.performance'), icon: BarChart, href: 'performance', isRoute: true },
     { label: t('nav.openAccount'), icon: UserPlus, href: 'video-tutorial' },
     { label: t('nav.contact'), icon: Mail, href: 'contact' },
-    { label: t('nav.agreement'), icon: FileText, href: 'agreement', isRoute: true },
+    // { label: t('nav.agreement'), icon: FileText, href: 'agreement', isRoute: true },
     // { label: t('nav.admin'), icon: Shield, href: 'admin', isRoute: true },
   ];
 

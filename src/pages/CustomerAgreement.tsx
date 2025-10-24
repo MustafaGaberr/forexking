@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { FileText, Pen, User, IdCard, Calendar, Save } from "lucide-react"
+import { FileText, Pen, User, IdCard, Calendar, Save, Download } from "lucide-react"
 import Navbar from "@/components/Navbar"
 import Ticker from "@/components/Ticker"
 import Footer from "@/components/Footer"
@@ -442,6 +442,31 @@ const CustomerAgreement = () => {
                       <Save className="h-4 w-4" />
                       {t('agreement.submit')}
                     </Button>
+                  </div>
+
+                  {/* Download Agreement Button */}
+                  <div className="flex flex-col items-center mt-8 space-y-4">
+                    <Button
+                      asChild
+                      size="lg"
+                      className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white border-0 shadow-2xl hover:shadow-primary/25 transition-all duration-500 px-10 py-6 rounded-xl hover:scale-105 active:scale-95"
+                    >
+                      <a 
+                        href="/Assets/PDFs/agreement.pdf" 
+                        download="agreement.pdf"
+                        className="flex items-center gap-4"
+                      >
+                        <Download className="h-7 w-7 animate-pulse" />
+                        {t('agreement.downloadAgreement')}
+                      </a>
+                    </Button>
+                    
+                    {/* Note */}
+                    <div className="text-center max-w-2xl">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {t('agreement.cmd')}
+                      </p>
+                    </div>
                   </div>
                 </form>
               </Form>

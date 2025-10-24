@@ -55,7 +55,7 @@
   "footer": {
     "needHelp": "Need help?",
     "contactSupport": "Contact Support", 
-    "riskWarning": "Please note that foreign exchange and other leveraged trading involves significant risk of loss. It is not suitable for all investors and you should make sure you understand the risks involved, seeking independent advice if necessary.",
+    "riskWarning": "Please note that trading foreign currencies and leveraged forex without a well-thought-out plan and clear management may involve significant risk. Therefore, it is not suitable for all investors. Make sure you fully understand the associated risks and seek independent advice if necessary.",
     "location": "The products and services available to you at ForexKing.info will depend on your location and on which of its regulated entities holds your account.",
     "copyright": "© ForexKing.info",
     "allRights": "All rights reserved."
@@ -164,7 +164,7 @@
     "swapFreeAccountDesc": "Apply for an interest-free, Sharia-compliant trading account",
     "downloadPDF": "Download PDF",
     "openAccountNow": "Open Your Forex Trading Account Now",
-    "openAccountDesc": "Join thousands of successful traders and start your journey with Swissquote Bank's trusted platform",
+    "openAccountDesc": "Join thousands of successful traders and start your journey with Forex king through Swissqoute bank licensed and regulated",
     "openAccountButton": "Open Account Now"
   },
   "common": {
@@ -198,7 +198,7 @@
     "dateRequired": "Please select a date",
     "introduction": {
       "title": "Introduction",
-      "content": "The first party owns an investment portfolio with the number (...) worth (100 currency units), and desires to operate it in Forex under a profit-sharing system where <span class=\"text-primary font-semibold\">60%</span> of the profits go to the second party and <span class=\"text-primary font-semibold\">40%</span> to the first party. The parties agree to the following terms:"
+      "content": "The first party owns an investment portfolio with the number (...) worth (100$ USD), and desires to operate it in Forex under a profit-sharing system where <span class=\"text-primary font-semibold\">60%</span> of the profits go to the second party and <span class=\"text-primary font-semibold\">40%</span> to the first party. The parties agree to the following terms:"
     },
     "clause1": {
       "title": "Clause 1: Portfolio Management",
@@ -206,7 +206,7 @@
     },
     "clause2": {
       "title": "Clause 2: Profit Distribution",
-      "content": "Profits shall be distributed every ten business days according to the percentage specified above."
+      "content": "Profits shall be distributed every ten business days according to the percentage specified above with the transfer of the operator's share of the funds to the account (3025531)."
     },
     "clause3": {
       "title": "Clause 3: Withdrawal and Capital Increase",
@@ -237,7 +237,9 @@
       "signature": "Signature:",
       "customerSignature": "Customer Signature",
       "companySignature": "Company Signature"
-    }
+    },
+    "downloadAgreement": "Download Agreement",
+    "downloadNote": "Please send the completed and signed agreement to: Contact@ForexKing.info"
   },
   "dealPerformance": {
     "title": "Deal Performance",

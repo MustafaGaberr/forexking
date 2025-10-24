@@ -9,7 +9,7 @@ import Index from "./pages/Index"
 import SignIn from "./pages/SignIn"
 import Register from "./pages/Register"
 import NotFound from "./pages/NotFound"
-import CustomerAgreement from "./pages/CustomerAgreement"
+// import CustomerAgreement from "./pages/CustomerAgreement"
 import DealPerformance from "./pages/DealPerformance"
 import AdminDashboard from "./pages/AdminDashboard"
 
@@ -27,7 +27,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/agreement" element={<CustomerAgreement />} />
+              {/* <Route path="/agreement" element={<CustomerAgreement />} /> */}
               <Route path="/performance" element={<DealPerformance />} />
               <Route path="/admin" element={<AdminDashboard />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

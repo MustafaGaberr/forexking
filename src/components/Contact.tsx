@@ -32,7 +32,7 @@ const Contact = () => {
     setIsSubmitting(true);
     try {
       const body = { name, email, message };
-      const response = await axios.post('https://forex-orcin.vercel.app/contact', body);
+      const response = await axios.post('https://forexking-six.vercel.app/contact', body);
       if (response.status === 200) {
         toast.success(t('contact.success'));
         setName('');
