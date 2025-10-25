@@ -48,7 +48,7 @@ const Ticker = () => {
   return (
     <div className="bg-secondary text-secondary-foreground py-2 overflow-hidden relative">
       {/* Bank Logo - Fixed position on the left, positioned after sidebar */}
-      <div className="absolute top-0 h-full z-10 flex items-center bg-secondary px-4 ticker-logo">
+      {/* <div className="absolute top-0 h-full z-10 flex items-center bg-secondary px-4 ticker-logo"> */}
         {/* Day Logo - Hidden in dark mode */}
         {/* <img 
           src="/Assets/swissquote day logo.svg" 
@@ -61,7 +61,7 @@ const Ticker = () => {
           alt="Swissquote Bank" 
           className={`h-8 w-auto object-contain ${currentTheme === 'dark' ? 'block' : 'hidden'}`}
         /> */}
-      </div>
+      {/* </div> */}
       
       {/* Ticker content - moves behind the logo */}
       <div className="animate-ticker whitespace-nowrap inline-block ticker-content">

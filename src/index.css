@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   :root {
     --background: 0 0% 96%; /* #f6f6f6 */
@@ -182,4 +183,22 @@
       margin-right: 100px; /* Start after logo + padding in RTL */
     }
   }
+}
+
+/* تعديل لون الانبوت في الوضع الداكن */
+.dark .react-tel-input .form-control {
+  background-color: #121212 !important;
+  color: #fff !important;
+  border: 1px solid #333 !important;
+}
+
+/* تعديل لون النصوص داخل القائمة */
+.dark .react-tel-input .country-list {
+  background-color: #111 !important;
+  color: #fff !important;
+}
+
+/* تعديل لون الأيقونة بتاعة العلم */
+.dark .react-tel-input .flag-dropdown {
+  background-color: transparent !important;
 }
