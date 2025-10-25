@@ -62,11 +62,24 @@ const Hero = () => {
             {t('hero.subtitle')}
           </p>
           <button 
-            onClick={() => navigate('/register')}
-            className="bg-primary text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors shadow-md"
-          >
-            {t('hero.startTrading')}
-          </button>
+  onClick={() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      // يروح للسيكشن جوه نفس الصفحة
+      const section = document.getElementById('video-tutorial');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // لو مش عامل لوجين يروح للتسجيل
+      navigate('/register');
+    }
+  }}
+  className="bg-primary text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors shadow-md"
+>
+  {t('hero.startTrading')}
+</button>
+
         </div>
       </div>
     </div>

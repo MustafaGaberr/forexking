@@ -32,6 +32,9 @@ const Register = () => {
   const { toast } = useToast()
   const { signUp } = useAuth()
   const navigate = useNavigate()
+  const strongPasswordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -39,14 +42,23 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    if (!strongPasswordRegex.test(formData.password)) {
+      toast({
+        title: t("auth.registerPage.error.title"),
+        description:
+          "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: t("auth.registerPage.error.title"),
         description: t("auth.registerPage.error.passwordsNotMatch"),
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     setIsLoading(true)
@@ -62,6 +74,12 @@ const Register = () => {
         title: t("auth.registerPage.success.title"),
         description: t("auth.registerPage.success.description"),
       })
+      // Mark that we should show welcome popup on the home page
+      try {
+        sessionStorage.setItem("showWelcomePopup", "true")
+      } catch (e) {
+        // ignore sessionStorage errors (e.g., in private mode)
+      }
       navigate("/")
     } catch (error) {
       if (error instanceof APIError) {

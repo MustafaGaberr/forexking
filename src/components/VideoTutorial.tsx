@@ -76,24 +76,26 @@ const VideoTutorial = () => {
           </motion.div>
 
           {/* Video Container */}
-          <motion.div
-            variants={fadeIn}
-            className="relative max-w-4xl mx-auto mb-12 md:mb-16"
-          >
-            <Card className="overflow-hidden shadow-2xl bg-card border-border">
-              <CardContent className="p-0 relative">
-                <div className="relative aspect-video bg-background">
-                  <video
-                    ref={videoRef}
-                    src="/Assets/openAcc.MP4"
-                    controls
-                    className="w-full h-full object-cover"
-                    playsInline
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+<motion.div
+  variants={fadeIn}
+  className="relative max-w-4xl mx-auto mb-12 md:mb-16"
+>
+  <Card className="overflow-hidden shadow-2xl bg-card border-border">
+    <CardContent className="p-0 relative">
+      <div className="relative aspect-video bg-background">
+        <video
+          key={i18n.language} 
+          ref={videoRef}
+          src={i18n.language === 'ar' ? '/Assets/arabicvid.mp4' : '/Assets/openAcc.MP4'}
+          controls
+          className="w-full h-full object-cover"
+          playsInline
+        />
+      </div>
+    </CardContent>
+  </Card>
+</motion.div>
+
 
           {/* CTA Button */}
           <motion.div

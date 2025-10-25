@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Navbar from '@/components/Navbar';
 import Ticker from '@/components/Ticker';
@@ -9,11 +9,32 @@ import AboutUs from '@/components/AboutUs';
 import VideoTutorial from '@/components/VideoTutorial';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import Popup from '@/components/Popup';
 
 const Index = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const isArabic = i18n.language === 'ar';
+
+  useEffect(() => {
+    let timer: number | undefined
+    try {
+      const shouldShow = sessionStorage.getItem('showWelcomePopup') === 'true'
+      if (shouldShow) {
+        // Remove the flag so popup shows only once
+        sessionStorage.removeItem('showWelcomePopup')
+        // Show popup after 10 seconds
+        timer = window.setTimeout(() => setShowPopup(true), 10000)
+      }
+    } catch (e) {
+      // ignore sessionStorage errors
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [])
 
   return (
     <div className={`flex flex-col min-h-screen bg-white dark:bg-gray-900 ${
@@ -36,6 +57,12 @@ const Index = () => {
         <Contact />
         <Footer />
       </main>
+      {showPopup && (
+        <Popup
+          message={t('popup.welcomeMessage')}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
     </div>
   );
 };

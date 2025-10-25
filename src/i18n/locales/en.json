@@ -1,4 +1,7 @@
 {
+  "popup": {
+    "welcomeMessage": "Welcome! To verify your account quickly, please contact us via WhatsApp or Telegram at:\n+4367846433933 | +447308509557"
+  },
   "nav": {
     "home": "Home",
     "about": "About Us", 
