@@ -186,7 +186,9 @@ const VideoTutorial = () => {
 									If you need the account opening and verification documents, leverage request, or Islamic (Sharia-compliant) account forms, please contact us via email{' '}
 									<a href="mailto:contact@forexking.info" className="text-primary font-semibold">contact@forexking.info</a>{' '}
 									or WhatsApp{' '}
-									<a href="https://wa.me/+4367846433933" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold">+4367846433933</a>
+									<a href="https://wa.me/+4367846433933" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold">+4367846433933 </a>
+                  |{' '}
+									<a href="https://wa.me/+447308509557" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold">+447308509557</a>
 								</p>
 							) }
 						</div>

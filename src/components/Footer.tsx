@@ -48,7 +48,7 @@ const Footer = () => {
       {/* Help Section */}
       <div className="mt-8 flex flex-col items-center gap-2">
         <h4 className="text-xl font-semibold">{t('footer.needHelp')}</h4>
-        <a href="tel:+15075288062" className="text-primary font-medium hover:text-accent">
+        <a href="tel:+447308509557" className="text-primary font-medium hover:text-accent">
           {t('footer.contactSupport')}
         </a>
       </div>
