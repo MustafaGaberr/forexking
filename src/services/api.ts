@@ -70,39 +70,59 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
 
 // Authentication API
 export const authAPI = {
+  // ✅ signUp fixed according to actual API response
   async signUp(userData: {
     name: string
     email: string
     password: string
+    phoneNumber: string
   }): Promise<User> {
-    const response = await apiRequest<{ user: User; token: string }>("/api/v1/users/signup", {
+    // تغير اسم المفتاح phoneNumber إلى phone_number
+    const payload = {
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      phone_number: userData.phoneNumber, // ✅ بدلها هنا
+    }
+    const response = await apiRequest<any>("/api/v1/users/signup", {
       method: "POST",
-      body: JSON.stringify(userData),
+      body: JSON.stringify(payload),
     })
 
-    // Store token in localStorage
-    localStorage.setItem("forexking_token", response.token)
-    return { ...response.user, token: response.token }
+    // Save token
+    localStorage.setItem("forexking_token", response.accessToken)
+
+    return {
+      id: response.id,
+      name: response.name,
+      email: response.email,
+      token: response.accessToken,
+    }
   },
 
+  // ✅ signIn fixed according to actual API response
   async signIn(credentials: {
     email: string
     password: string
   }): Promise<User> {
-    const response = await apiRequest<{ user: User; token: string }>("/api/v1/users/login", {
+    const response = await apiRequest<any>("/api/v1/users/login", {
       method: "POST",
       body: JSON.stringify(credentials),
     })
 
-    // Store token in localStorage
-    localStorage.setItem("forexking_token", response.token)
-    return { ...response.user, token: response.token }
+    // Save token
+    localStorage.setItem("forexking_token", response.accessToken)
+
+    return {
+      id: response.id,
+      name: response.name,
+      email: response.email,
+      token: response.accessToken,
+    }
   },
 
+  // ✅ signOut simplified (no request needed)
   async signOut(): Promise<void> {
-    await apiRequest("/auth/signout", {
-      method: "POST",
-    })
     localStorage.removeItem("forexking_token")
   },
 
@@ -111,14 +131,12 @@ export const authAPI = {
     if (!token) return null
 
     try {
-      // Decode JWT token to get user info (basic implementation)
       const payload = JSON.parse(atob(token.split(".")[1]))
       return {
-        id: payload.sub,
-        name: payload.name,
-        email: payload.email,
+        id: payload.id?.toString() ?? "",
+        name: payload.name ?? "",
+        email: payload.email ?? "",
         token,
-        
       }
     } catch {
       localStorage.removeItem("forexking_token")

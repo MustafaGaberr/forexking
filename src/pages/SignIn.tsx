@@ -143,7 +143,7 @@ const SignIn = () => {
         <div className="max-w-7xl mx-auto flex flex-col items-center space-y-4">
           <div className="flex items-center space-x-4">
             <LanguageToggle />
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
           </div>
           <div className="text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} Forex King. All rights reserved.

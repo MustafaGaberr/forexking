@@ -129,7 +129,7 @@ const Contact = () => {
             <div className="flex items-center gap-4">
               <div className={`flex items-center gap-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <Phone className="h-5 w-5 text-primary" />
-                <a href="tel:+15075288062" className="hover:text-primary" dir="ltr">+1 507 528 8062</a>
+                <a href="tel:+447308509557" className="hover:text-primary" dir="ltr">+44 7308 509557</a>
               </div>
               <span className="text-muted-foreground">|</span>
               <div className={`flex items-center gap-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>

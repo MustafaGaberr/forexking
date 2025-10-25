@@ -129,8 +129,11 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                         </div>
                       </div>
                       <button
-                        onClick={signOut}
-                        className="w-full text-sm font-medium px-4 py-2.5 rounded-lg bg-destructive/20 hover:bg-destructive/30 text-destructive-foreground transition-colors flex items-center justify-center gap-2"
+                        onClick={async () => {
+                          await signOut();
+                          window.location.href = '/signin';
+                        }}
+                        className="w-full text-sm font-medium px-4 py-2.5  rounded-lg bg-destructive/20 hover:bg-destructive/30 text-destructive-foreground transition-colors flex items-center justify-center gap-2"
                       >
                         <LogOut className="h-4 w-4" />
                         {t('auth.signOut')}
@@ -139,7 +142,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                   ) : (
                     <>
                       <Link to="/signin">
-                        <button className="w-full text-sm font-medium px-4 py-2.5 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
+                        <button className="w-full text-sm font-medium px-4 py-2.5  rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
                           {t('auth.signIn')}
                         </button>
                       </Link>
@@ -263,7 +266,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
                 )}
                 <button
                   onClick={signOut}
-                  className={`w-full text-sm font-medium px-4 py-2.5 rounded-xl bg-destructive/20 hover:bg-destructive/30 text-destructive-foreground transition-colors ${
+                  className={`w-full text-sm font-medium px-4 py-2.5 border border-gray-300 rounded-xl bg-destructive/20 hover:bg-destructive/30 text-destructive-foreground transition-colors ${
                     collapsed ? 'flex justify-center' : 'flex items-center justify-center gap-2'
                   }`}
                 >

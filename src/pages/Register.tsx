@@ -42,8 +42,8 @@ const Register = () => {
 
     if (formData.password !== formData.confirmPassword) {
       toast({
-        title: t('auth.registerPage.error.title'),
-        description: t('auth.registerPage.error.passwordsNotMatch'),
+        title: t("auth.registerPage.error.title"),
+        description: t("auth.registerPage.error.passwordsNotMatch"),
         variant: "destructive",
       })
       return
@@ -52,23 +52,28 @@ const Register = () => {
     setIsLoading(true)
 
     try {
-      await signUp(formData.name, formData.email, formData.password)
+      // ✅ تأكد أن رقم الموبايل يبدأ بـ "+"
+      const formattedPhone = formData.phone.startsWith("+")
+        ? formData.phone
+        : `+${formData.phone}`
+
+      await signUp(formData.name, formData.email, formData.password, formattedPhone)
       toast({
-        title: t('auth.registerPage.success.title'),
-        description: t('auth.registerPage.success.description'),
+        title: t("auth.registerPage.success.title"),
+        description: t("auth.registerPage.success.description"),
       })
       navigate("/")
     } catch (error) {
       if (error instanceof APIError) {
         toast({
-          title: t('auth.registerPage.error.title'),
+          title: t("auth.registerPage.error.title"),
           description: error.message,
           variant: "destructive",
         })
       } else {
         toast({
-          title: t('auth.registerPage.error.title'),
-          description: t('auth.registerPage.error.unexpectedError'),
+          title: t("auth.registerPage.error.title"),
+          description: t("auth.registerPage.error.unexpectedError"),
           variant: "destructive",
         })
       }
@@ -78,7 +83,10 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+    <div
+      className="min-h-screen bg-background text-foreground"
+      dir={i18n.language === "ar" ? "rtl" : "ltr"}
+    >
       <Navbar onToggle={setIsSidebarCollapsed} />
       <Ticker />
 
@@ -87,113 +95,156 @@ const Register = () => {
           <Card className="w-full max-w-md bg-card border-border">
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl font-bold text-center text-foreground">
-                {t('auth.registerPage.title')}
+                {t("auth.registerPage.title")}
               </CardTitle>
               <CardDescription className="text-center text-muted-foreground">
-                {t('auth.registerPage.description')}
+                {t("auth.registerPage.description")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Full Name */}
                 <div className="relative">
-                  <User className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
+                  <User
+                    className={`absolute ${
+                      i18n.language === "ar" ? "right-3" : "left-3"
+                    } top-3 h-4 w-4 text-muted-foreground`}
+                  />
                   <Input
-                    placeholder={t('auth.registerPage.fullName')}
-                    className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
+                    placeholder={t("auth.registerPage.fullName")}
+                    className={i18n.language === "ar" ? "pr-10" : "pl-10"}
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     required
                   />
                 </div>
 
                 {/* Email */}
                 <div className="relative">
-                  <Mail className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
+                  <Mail
+                    className={`absolute ${
+                      i18n.language === "ar" ? "right-3" : "left-3"
+                    } top-3 h-4 w-4 text-muted-foreground`}
+                  />
                   <Input
                     type="email"
-                    placeholder={t('auth.registerPage.email')}
-                    className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
+                    placeholder={t("auth.registerPage.email")}
+                    className={i18n.language === "ar" ? "pr-10" : "pl-10"}
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     required
                   />
                 </div>
 
-                {/* Phone (with country dropdown) */}
+                {/* ✅ Phone (with country dropdown) */}
                 <div className="relative">
                   <PhoneInput
-                    country={"eg"} // الافتراضي مصر 🇪🇬
+                    country={"eg"}
                     value={formData.phone}
                     onChange={(phone) => setFormData({ ...formData, phone })}
                     inputClass="!w-full !h-10 !pl-12 !text-sm !border !border-input !rounded-md focus:!ring-2 focus:!ring-ring focus:!ring-offset-2 !bg-[#f5f5f5]"
                     buttonClass="!border-none !bg-transparent"
                     dropdownClass="!bg-card !text-foreground"
                     containerClass={`${
-                      i18n.language === 'ar' ? 'flex-row-reverse text-right' : ''
+                      i18n.language === "ar"
+                        ? "flex-row-reverse text-right"
+                        : ""
                     }`}
-                    placeholder={t('auth.registerPage.phone')}
+                    placeholder={t("auth.registerPage.phone")}
                   />
                 </div>
 
                 {/* Password */}
                 <div className="relative">
-                  <Lock className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
+                  <Lock
+                    className={`absolute ${
+                      i18n.language === "ar" ? "right-3" : "left-3"
+                    } top-3 h-4 w-4 text-muted-foreground`}
+                  />
                   <Input
                     type="password"
-                    placeholder={t('auth.registerPage.password')}
-                    className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
+                    placeholder={t("auth.registerPage.password")}
+                    className={i18n.language === "ar" ? "pr-10" : "pl-10"}
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     required
                   />
                 </div>
 
                 {/* Confirm Password */}
                 <div className="relative">
-                  <Lock className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} top-3 h-4 w-4 text-muted-foreground`} />
+                  <Lock
+                    className={`absolute ${
+                      i18n.language === "ar" ? "right-3" : "left-3"
+                    } top-3 h-4 w-4 text-muted-foreground`}
+                  />
                   <Input
                     type="password"
-                    placeholder={t('auth.registerPage.confirmPassword')}
-                    className={i18n.language === 'ar' ? 'pr-10' : 'pl-10'}
+                    placeholder={t("auth.registerPage.confirmPassword")}
+                    className={i18n.language === "ar" ? "pr-10" : "pl-10"}
                     value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
 
                 {/* Terms */}
-                <div className={`flex items-center ${i18n.language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
+                <div
+                  className={`flex items-center ${
+                    i18n.language === "ar"
+                      ? "space-x-reverse space-x-2"
+                      : "space-x-2"
+                  }`}
+                >
                   <input
                     type="checkbox"
                     id="terms"
                     className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                     required
                   />
-                  <label htmlFor="terms" className="text-sm text-muted-foreground">
-                    {t('auth.agreeToTerms')}{" "}
+                  <label
+                    htmlFor="terms"
+                    className="text-sm text-muted-foreground"
+                  >
+                    {t("auth.agreeToTerms")}{" "}
                     <a href="#" className="text-primary hover:underline">
-                      {t('auth.termsOfService')}
+                      {t("auth.termsOfService")}
                     </a>{" "}
-                    {t('auth.and')}{" "}
+                    {t("auth.and")}{" "}
                     <a href="#" className="text-primary hover:underline">
-                      {t('auth.privacyPolicy')}
+                      {t("auth.privacyPolicy")}
                     </a>
                   </label>
                 </div>
 
                 {/* Submit */}
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? t('auth.registerPage.creatingAccount') : t('auth.registerPage.registerButton')}
+                  {isLoading
+                    ? t("auth.registerPage.creatingAccount")
+                    : t("auth.registerPage.registerButton")}
                 </Button>
               </form>
             </CardContent>
 
             <CardFooter className="flex flex-col">
               <p className="mt-2 text-center text-sm text-muted-foreground">
-                {t('auth.alreadyHaveAccount')}{" "}
-                <Link to="/signin" className="font-medium text-primary hover:underline">
-                  {t('auth.signInHere')}
+                {t("auth.alreadyHaveAccount")}{" "}
+                <Link
+                  to="/signin"
+                  className="font-medium text-primary hover:underline"
+                >
+                  {t("auth.signInHere")}
                 </Link>
               </p>
             </CardFooter>
@@ -205,7 +256,7 @@ const Register = () => {
         <div className="max-w-7xl mx-auto flex flex-col items-center space-y-4">
           <div className="flex items-center space-x-4">
             <LanguageToggle />
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
           </div>
           <div className="text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} Forex King. All rights reserved.
