@@ -12,7 +12,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const [collapsed, setCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
 
@@ -27,7 +27,7 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
   ];
 
   const handleResize = useCallback(() => {
-    const isMobileView = window.innerWidth <= 768;
+    const isMobileView = window.innerWidth <= 1024;
     setIsMobile(isMobileView);
     if (isMobileView) onToggle(false);
     else onToggle(collapsed);
@@ -165,12 +165,12 @@ const Navbar = ({ onToggle }: { onToggle: (collapsed: boolean) => void }) => {
   // Desktop sidebar
   return (
     <aside
-      className={`fixed top-0 h-full z-50 bg-background/95 backdrop-blur-sm shadow-lg transition-all duration-300 ${
+      className={`navbar-sidebar fixed top-0 h-full z-50 bg-background/95 backdrop-blur-sm shadow-lg transition-all duration-300 ${
         i18n.language === 'ar' 
           ? 'right-0 border-l border-border' 
           : 'left-0 border-r border-border'
       } ${
-        collapsed ? (i18n.language === 'ar' ? 'w-24' : 'w-20') : 'w-72'
+        collapsed ? 'w-20' : 'w-72'
       }`}
     >
       <div className="flex flex-col h-full">

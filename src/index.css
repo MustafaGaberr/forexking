@@ -171,16 +171,49 @@
   /* Responsive adjustments for smaller screens */
   @media (max-width: 1024px) {
     .ticker-logo {
-      left: 0; /* Position at the very start of ticker */
+      left: 0;
     }
     
     .ticker-content {
-      margin-left: 100px; /* Start after logo + padding */
+      margin-left: 100px;
     }
 
     [dir="rtl"] .ticker-content {
       margin-left: 0;
-      margin-right: 100px; /* Start after logo + padding in RTL */
+      margin-right: 100px;
+    }
+
+    /* Sidebar adjustments for tablet */
+    aside.navbar-sidebar {
+      position: fixed;
+      width: 240px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    [dir="ltr"] aside.navbar-sidebar {
+      transform: translateX(-100%);
+    }
+
+    [dir="rtl"] aside.navbar-sidebar {
+      transform: translateX(100%);
+    }
+
+    aside.navbar-sidebar.open {
+      transform: translateX(0);
+    }
+
+    /* Main content adjustments */
+    main {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      width: 100% !important;
+    }
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    aside.navbar-sidebar {
+      width: 100%;
     }
   }
 }
