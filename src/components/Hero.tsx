@@ -25,8 +25,9 @@ const Hero = () => {
       {/* Video Background */}
       <video
         ref={videoRef}
+        key={i18n.language} 
+        src={i18n.language === 'ar' ? '/Assets/introVideoAr.mp4' : '/Assets/introVideoEn.mp4'}
         className="absolute inset-0 w-full h-full object-cover"
-        src="\Assets\introVideo.mp4"
         autoPlay
         loop
         muted

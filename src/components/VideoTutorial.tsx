@@ -86,7 +86,7 @@ const VideoTutorial = () => {
         <video
           key={i18n.language} 
           ref={videoRef}
-          src={i18n.language === 'ar' ? '/Assets/arabicvid.mp4' : '/Assets/openAcc.MP4'}
+          src={i18n.language === 'ar' ? '/Assets/openAccAr.mp4' : '/Assets/openAccEn.mp4'}
           controls
           className="w-full h-full object-cover"
           playsInline
