@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Ticker from '@/components/Ticker';
 import Hero from '@/components/Hero';
@@ -13,28 +14,51 @@ import Popup from '@/components/Popup';
 
 const Index = () => {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const isArabic = i18n.language === 'ar';
 
   useEffect(() => {
     let timer: number | undefined
-    try {
-      const shouldShow = sessionStorage.getItem('showWelcomePopup') === 'true'
-      if (shouldShow) {
-        // Remove the flag so popup shows only once
-        sessionStorage.removeItem('showWelcomePopup')
-        // Show popup after 10 seconds
-        timer = window.setTimeout(() => setShowPopup(true), 10000)
+    
+    // Check URL params, localStorage, and navigation state
+    const urlParams = new URLSearchParams(window.location.search)
+    const fromURL = urlParams.get('welcome') === 'true'
+    const fromOTP = location.state?.showWelcome === true
+    const storedFlag = localStorage.getItem('showWelcomePopup') === 'true'
+    
+    console.log('Welcome popup check:', { fromURL, fromOTP, storedFlag })
+    
+    if (fromURL || fromOTP || storedFlag) {
+      // Remove the flag so popup shows only once
+      localStorage.removeItem('showWelcomePopup')
+      
+      // Clean URL if welcome param exists
+      if (fromURL) {
+        window.history.replaceState(null, '', '/')
       }
-    } catch (e) {
-      // ignore sessionStorage errors
+      
+      // Clear navigation state
+      if (fromOTP) {
+        window.history.replaceState(null, document.title, window.location.pathname)
+      }
+      
+      // Show popup after 5 seconds
+      console.log('Setting timer for welcome popup (5 seconds)')
+      timer = window.setTimeout(() => {
+        console.log('Showing welcome popup!')
+        setShowPopup(true)
+      }, 5000)
     }
 
     return () => {
-      if (timer) clearTimeout(timer)
+      if (timer) {
+        console.log('Clearing welcome popup timer')
+        clearTimeout(timer)
+      }
     }
-  }, [])
+  }, [location])
 
   return (
     <div className={`flex flex-col min-h-screen bg-white dark:bg-gray-900 ${

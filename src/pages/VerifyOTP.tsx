@@ -59,32 +59,28 @@ const VerifyOTP = () => {
     try {
       const response = await authAPI.verifyOTP({ email, otp })
       
-      // Save user data
-      localStorage.setItem("forexking_token", response.accessToken)
+      // Save user data (response.token contains the accessToken)
+      localStorage.setItem("forexking_token", response.token || '')
       localStorage.setItem("user", JSON.stringify({
         id: response.id,
         name: response.name,
         email: response.email,
-        token: response.accessToken,
+        token: response.token,
       }))
+      
+      // Mark that we should show welcome popup BEFORE navigation
+      localStorage.setItem("showWelcomePopup", "true")
       
       toast({
         title: t('auth.verifyOtpPage.success.title'),
         description: t('auth.verifyOtpPage.success.description'),
       })
       
-      // Mark that we should show welcome popup
-      try {
-        sessionStorage.setItem("showWelcomePopup", "true")
-      } catch (e) {
-        // ignore sessionStorage errors
-      }
-      
-      // Redirect to home
-      navigate("/")
-      
-      // Refresh to update auth context
-      window.location.reload()
+      // Navigate with reload and URL param to ensure popup shows
+      setTimeout(() => {
+        // Use URL param as backup to ensure popup shows even after reload
+        window.location.href = "/?welcome=true"
+      }, 500)
     } catch (error) {
       if (error instanceof APIError) {
         toast({
