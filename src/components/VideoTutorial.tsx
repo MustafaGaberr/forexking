@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { BookOpen, Users, TrendingUp, FileText, CreditCard, Shield } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import { useAuth } from "@/hooks/useAuth";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 40 },
@@ -17,6 +19,8 @@ const fadeIn = {
 
 const VideoTutorial = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [isPlaying, setIsPlaying] = useState(false);
@@ -37,6 +41,21 @@ const VideoTutorial = () => {
     } else {
       videoRef.current.play();
       setIsPlaying(true);
+    }
+  };
+
+  const handleOpenAccount = () => {
+    // Check if user is logged in
+    if (user) {
+      // User is logged in - open Swissquote link in new tab
+      window.open(
+        "https://trade.swissquote.ch/signup/public/form/full/fx/com/individual?lang=en&partnerid=28105ebd-1a6c-4adc-8cd8-e9e55227abe7#full/fx/com/individual/step2",
+        "_blank",
+        "noopener,noreferrer"
+      );
+    } else {
+      // User is not logged in - redirect to register page
+      navigate("/register");
     }
   };
 
@@ -109,19 +128,13 @@ const VideoTutorial = () => {
               <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
                 {t('videoTutorial.openAccountDesc')}
               </p>
-              <a 
-                href="https://trade.swissquote.ch/signup/public/form/full/fx/com/individual?lang=en&partnerid=28105ebd-1a6c-4adc-8cd8-e9e55227abe7#full/fx/com/individual/step2"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block"
+              <Button 
+                onClick={handleOpenAccount}
+                size="lg"
+                className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
-                <Button 
-                  size="lg"
-                  className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                >
-                  {t('videoTutorial.openAccountButton')}
-                </Button>
-              </a>
+                {t('videoTutorial.openAccountButton')}
+              </Button>
             </div>
           </motion.div>
 
