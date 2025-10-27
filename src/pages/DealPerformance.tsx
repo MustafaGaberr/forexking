@@ -226,8 +226,8 @@ const DealPerformance = () => {
       setPdfDocument(latestPDF)
       
       if (latestPDF?.id) {
-        // Create URL for Base64 PDF endpoint
-        const pdfDataUrl = `http://localhost:3001/api/pdf/${latestPDF.id}/base64`
+        // Use the fileUrl from the document or construct base64 URL
+        const pdfDataUrl = latestPDF.fileUrl || `${import.meta.env.VITE_API_URL || 'https://apis.forexking.info'}/api/v1/pdf/${latestPDF.id}/base64`
         console.log('Using PDF Base64 URL:', pdfDataUrl)
         setPdfUrl(pdfDataUrl)
       } else {

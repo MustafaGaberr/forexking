@@ -1,5 +1,5 @@
 // ForexKing API Service
-const API_BASE_URL = "https://apis.forexking.info"
+import API_BASE_URL, { API_ENDPOINTS } from '@/config/api.config'
 
 // Types for API responses
 export interface User {
@@ -84,7 +84,7 @@ export const authAPI = {
       password: userData.password,
       phone_number: userData.phoneNumber, // ✅ بدلها هنا
     }
-    const response = await apiRequest<any>("/api/v1/users/signup", {
+    const response = await apiRequest<any>(API_ENDPOINTS.AUTH.SIGNUP.replace(API_BASE_URL, ''), {
       method: "POST",
       body: JSON.stringify(payload),
     })
@@ -92,8 +92,8 @@ export const authAPI = {
     // Don't save token yet - need OTP verification first
     return {
       success: response.success,
-      email: response.data.email,
-      name: response.data.name,
+      email: response.email,     // ✅ Fixed: removed .data
+      name: response.name,       // ✅ Fixed: removed .data
     }
   },
 
@@ -102,7 +102,7 @@ export const authAPI = {
     email: string
     password: string
   }): Promise<User> {
-    const response = await apiRequest<any>("/api/v1/users/login", {
+    const response = await apiRequest<any>(API_ENDPOINTS.AUTH.LOGIN.replace(API_BASE_URL, ''), {
       method: "POST",
       body: JSON.stringify(credentials),
     })
@@ -123,7 +123,7 @@ export const authAPI = {
     email: string
     otp: string
   }): Promise<User> {
-    const response = await apiRequest<any>("/api/v1/users/verify-otp", {
+    const response = await apiRequest<any>(API_ENDPOINTS.AUTH.VERIFY_OTP.replace(API_BASE_URL, ''), {
       method: "POST",
       body: JSON.stringify(data),
     })
@@ -141,7 +141,7 @@ export const authAPI = {
 
   // ✅ Resend OTP
   async resendOTP(data: { email: string }): Promise<void> {
-    await apiRequest<any>("/api/v1/users/resend-otp", {
+    await apiRequest<any>(API_ENDPOINTS.AUTH.RESEND_OTP.replace(API_BASE_URL, ''), {
       method: "POST",
       body: JSON.stringify(data),
     })

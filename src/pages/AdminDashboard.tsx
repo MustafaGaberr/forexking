@@ -11,6 +11,7 @@ import PDFUploadDialog from "@/components/PDFUploadDialog"
 import { pdfService, type PDFDocument } from "@/services/pdfService"
 import { Upload, FileText, Trash2, Calendar, HardDrive } from "lucide-react"
 import { useTranslation } from "react-i18next"
+import { API_ENDPOINTS } from "@/config/api.config"
 
 const AdminDashboard = () => {
   const navigate = useNavigate()
@@ -60,7 +61,7 @@ const AdminDashboard = () => {
       // Upload as Base64
       console.log('Uploading PDF:', { title, fileName: file.name, contentLength: base64Content.length })
       
-      const response = await fetch('http://localhost:3001/api/pdf/uploadBase64', {
+      const response = await fetch(API_ENDPOINTS.PDF.UPLOAD_BASE64, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

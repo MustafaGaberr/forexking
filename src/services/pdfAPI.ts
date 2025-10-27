@@ -1,5 +1,5 @@
 // PDF API Service for handling PDF operations with MongoDB
-import { mongoDBService } from './mongodbService';
+import { API_ENDPOINTS } from '@/config/api.config';
 
 export interface PDFDocument {
   _id?: string;
@@ -33,7 +33,7 @@ export interface PDFResponse {
 }
 
 class PDFAPIService {
-  private readonly API_BASE_URL = 'http://localhost:3001/api/pdf';
+  private readonly API_BASE_URL = API_ENDPOINTS.PDF.BASE;
 
   // Upload PDF file
   async uploadPDF(file: File, title: string, description?: string): Promise<PDFDocument> {
@@ -56,7 +56,7 @@ class PDFAPIService {
       }
 
       // Upload to server
-      const response = await fetch(`${this.API_BASE_URL}/upload`, {
+      const response = await fetch(API_ENDPOINTS.PDF.UPLOAD, {
         method: 'POST',
         body: formData,
       });
@@ -77,7 +77,7 @@ class PDFAPIService {
   // Get all PDF documents
   async getAllPDFs(): Promise<PDFDocument[]> {
     try {
-      const response = await fetch(`${this.API_BASE_URL}/all`);
+      const response = await fetch(API_ENDPOINTS.PDF.GET_ALL);
       if (!response.ok) {
         throw new Error('Failed to fetch PDFs');
       }
@@ -92,7 +92,7 @@ class PDFAPIService {
   // Get latest PDF document
   async getLatestPDF(): Promise<PDFDocument | null> {
     try {
-      const response = await fetch(`${this.API_BASE_URL}/latest`);
+      const response = await fetch(API_ENDPOINTS.PDF.GET_LATEST);
       if (!response.ok) {
         throw new Error('Failed to fetch latest PDF');
       }
@@ -107,7 +107,7 @@ class PDFAPIService {
   // Get PDF by ID
   async getPDFById(id: string): Promise<PDFDocument | null> {
     try {
-      const response = await fetch(`${this.API_BASE_URL}/${id}`);
+      const response = await fetch(API_ENDPOINTS.PDF.GET_BY_ID(id));
       if (!response.ok) {
         if (response.status === 404) {
           return null;
@@ -125,7 +125,7 @@ class PDFAPIService {
   // Delete PDF document
   async deletePDF(id: string): Promise<boolean> {
     try {
-      const response = await fetch(`${this.API_BASE_URL}/${id}`, {
+      const response = await fetch(API_ENDPOINTS.PDF.DELETE(id), {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -142,7 +142,7 @@ class PDFAPIService {
   // Update PDF document
   async updatePDF(id: string, updates: Partial<Pick<PDFDocument, 'title' | 'description'>>): Promise<boolean> {
     try {
-      const response = await fetch(`${this.API_BASE_URL}/${id}`, {
+      const response = await fetch(API_ENDPOINTS.PDF.UPDATE(id), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ class PDFAPIService {
   // Get storage info
   async getStorageInfo(): Promise<{ count: number; totalSize: number }> {
     try {
-      const response = await fetch(`${this.API_BASE_URL}/storage/info`);
+      const response = await fetch(API_ENDPOINTS.PDF.STORAGE_INFO);
       if (!response.ok) {
         throw new Error('Failed to get storage info');
       }
@@ -177,13 +177,13 @@ class PDFAPIService {
 
   // Get PDF file URL for display
   getPDFFileUrl(gridfsId: string): string {
-    return `${this.API_BASE_URL}/file/${gridfsId}`;
+    return API_ENDPOINTS.PDF.FILE(gridfsId);
   }
 
   // Download PDF file
   async downloadPDF(gridfsId: string): Promise<Blob> {
     try {
-      const response = await fetch(`${this.API_BASE_URL}/file/${gridfsId}`);
+      const response = await fetch(API_ENDPOINTS.PDF.FILE(gridfsId));
       if (!response.ok) {
         throw new Error('Failed to download PDF');
       }
