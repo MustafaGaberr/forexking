@@ -120,6 +120,29 @@
         "title": "Sign In Failed",
         "unexpectedError": "An unexpected error occurred. Please try again."
       }
+    },
+    "verifyOtpPage": {
+      "title": "Verify Your Account",
+      "description": "We've sent a 6-digit verification code to",
+      "otpLabel": "Verification Code",
+      "otpHint": "Enter the 6-digit code sent to your email",
+      "verifyButton": "Verify Account",
+      "verifying": "Verifying...",
+      "didntReceive": "Didn't receive the code?",
+      "resendButton": "Resend Code",
+      "resending": "Resending...",
+      "backToRegister": "Back to Registration",
+      "success": {
+        "title": "Account Verified!",
+        "description": "Welcome to ForexKing! Your account has been activated successfully.",
+        "resendTitle": "Code Sent!",
+        "resendDescription": "A new verification code has been sent to your email."
+      },
+      "error": {
+        "title": "Verification Failed",
+        "invalidOtp": "Please enter a valid 6-digit code.",
+        "unexpectedError": "An unexpected error occurred. Please try again."
+      }
     }
   },
   "chat": {

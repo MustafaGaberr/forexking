@@ -1,5 +1,5 @@
 // ForexKing API Service
-const API_BASE_URL = "https://api.forexking.info"
+const API_BASE_URL = "https://apis.forexking.info"
 
 // Types for API responses
 export interface User {
@@ -70,13 +70,13 @@ async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promi
 
 // Authentication API
 export const authAPI = {
-  // ✅ signUp fixed according to actual API response
+  // ✅ signUp - Register user and send OTP (no token yet)
   async signUp(userData: {
     name: string
     email: string
     password: string
     phoneNumber: string
-  }): Promise<User> {
+  }): Promise<{ success: boolean; email: string; name: string }> {
     // تغير اسم المفتاح phoneNumber إلى phone_number
     const payload = {
       name: userData.name,
@@ -89,14 +89,11 @@ export const authAPI = {
       body: JSON.stringify(payload),
     })
 
-    // Save token
-    localStorage.setItem("forexking_token", response.accessToken)
-
+    // Don't save token yet - need OTP verification first
     return {
-      id: response.id,
-      name: response.name,
-      email: response.email,
-      token: response.accessToken,
+      success: response.success,
+      email: response.data.email,
+      name: response.data.name,
     }
   },
 
@@ -119,6 +116,35 @@ export const authAPI = {
       email: response.email,
       token: response.accessToken,
     }
+  },
+
+  // ✅ Verify OTP after registration
+  async verifyOTP(data: {
+    email: string
+    otp: string
+  }): Promise<User> {
+    const response = await apiRequest<any>("/api/v1/users/verify-otp", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+
+    // Save token
+    localStorage.setItem("forexking_token", response.accessToken)
+
+    return {
+      id: response.id,
+      name: response.name,
+      email: response.email,
+      token: response.accessToken,
+    }
+  },
+
+  // ✅ Resend OTP
+  async resendOTP(data: { email: string }): Promise<void> {
+    await apiRequest<any>("/api/v1/users/resend-otp", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
   },
 
   // ✅ signOut simplified (no request needed)

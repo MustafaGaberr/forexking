@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes"
 import Index from "./pages/Index"
 import SignIn from "./pages/SignIn"
 import Register from "./pages/Register"
+import VerifyOTP from "./pages/VerifyOTP"
 import NotFound from "./pages/NotFound"
 // import CustomerAgreement from "./pages/CustomerAgreement"
 import DealPerformance from "./pages/DealPerformance"
@@ -27,6 +28,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/verify-otp" element={<VerifyOTP />} />
               {/* <Route path="/agreement" element={<CustomerAgreement />} /> */}
               <Route path="/performance" element={<DealPerformance />} />
               <Route path="/admin" element={<AdminDashboard />} />

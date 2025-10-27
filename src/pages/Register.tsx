@@ -12,8 +12,7 @@ import Navbar from "@/components/Navbar"
 import Ticker from "@/components/Ticker"
 import ThemeToggle from "@/components/ThemeToggle"
 import LanguageToggle from "@/components/LanguageToggle"
-import { useAuth } from "@/hooks/useAuth"
-import { APIError } from "@/services/api"
+import { authAPI, APIError } from "@/services/api"
 import { useTranslation } from "react-i18next"
 import PhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
@@ -30,7 +29,6 @@ const Register = () => {
   })
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
-  const { signUp } = useAuth()
   const navigate = useNavigate()
   const strongPasswordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -69,18 +67,25 @@ const Register = () => {
         ? formData.phone
         : `+${formData.phone}`
 
-      await signUp(formData.name, formData.email, formData.password, formattedPhone)
+      const result = await authAPI.signUp({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        phoneNumber: formattedPhone,
+      })
+      
       toast({
         title: t("auth.registerPage.success.title"),
-        description: t("auth.registerPage.success.description"),
+        description: "Please check your email for verification code.",
       })
-      // Mark that we should show welcome popup on the home page
-      try {
-        sessionStorage.setItem("showWelcomePopup", "true")
-      } catch (e) {
-        // ignore sessionStorage errors (e.g., in private mode)
-      }
-      navigate("/")
+      
+      // Navigate to OTP verification page with email
+      navigate("/verify-otp", {
+        state: {
+          email: result.email,
+          name: result.name,
+        },
+      })
     } catch (error) {
       if (error instanceof APIError) {
         toast({
