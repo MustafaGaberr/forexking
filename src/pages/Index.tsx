@@ -11,16 +11,19 @@ import VideoTutorial from '@/components/VideoTutorial';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import Popup from '@/components/Popup';
+import SecondPopup from '@/components/SecondPopup';
 
 const Index = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [showSecondPopup, setShowSecondPopup] = useState(false);
   const isArabic = i18n.language === 'ar';
 
   useEffect(() => {
     let timer: number | undefined
+    let secondTimer: number | undefined
     
     // Check URL params, localStorage, and navigation state
     const urlParams = new URLSearchParams(window.location.search)
@@ -44,18 +47,29 @@ const Index = () => {
         window.history.replaceState(null, document.title, window.location.pathname)
       }
       
-      // Show popup after 5 seconds
+      // Show first popup after 5 seconds
       console.log('Setting timer for welcome popup (5 seconds)')
       timer = window.setTimeout(() => {
         console.log('Showing welcome popup!')
         setShowPopup(true)
       }, 5000)
+
+      // Show second popup after 2 minutes (125 seconds total - 5 for first popup + 120 for the delay)
+      console.log('Setting timer for second popup (125 seconds)')
+      secondTimer = window.setTimeout(() => {
+        console.log('Showing second popup!')
+        setShowSecondPopup(true)
+      }, 125000)
     }
 
     return () => {
       if (timer) {
         console.log('Clearing welcome popup timer')
         clearTimeout(timer)
+      }
+      if (secondTimer) {
+        console.log('Clearing second popup timer')
+        clearTimeout(secondTimer)
       }
     }
   }, [location])
@@ -85,6 +99,11 @@ const Index = () => {
         <Popup
           message={t('popup.welcomeMessage')}
           onClose={() => setShowPopup(false)}
+        />
+      )}
+      {showSecondPopup && (
+        <SecondPopup
+          onClose={() => setShowSecondPopup(false)}
         />
       )}
     </div>

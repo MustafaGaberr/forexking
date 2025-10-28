@@ -15,13 +15,16 @@ const resources = {
   }
 };
 
+// Get saved language from localStorage or default to 'en'
+const savedLanguage = localStorage.getItem('i18nextLng') || 'en';
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
     fallbackLng: 'en',
-    lng: 'en', // Set default language to English
+    // Don't set lng here - let LanguageDetector handle it
     debug: false,
     
     interpolation: {
@@ -29,13 +32,24 @@ i18n
     },
     
     detection: {
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage'],
+      order: ['localStorage', 'cookie', 'navigator'],
+      caches: ['localStorage', 'cookie'],
+      lookupLocalStorage: 'i18nextLng',
+      lookupCookie: 'i18nextLng',
     },
   });
 
-// Set initial document attributes for English
-document.documentElement.setAttribute('lang', 'en');
-document.documentElement.setAttribute('dir', 'ltr');
+// Set initial document attributes based on saved language
+const initialLang = savedLanguage === 'ar' ? 'ar' : 'en';
+document.documentElement.setAttribute('lang', initialLang);
+document.documentElement.setAttribute('dir', initialLang === 'ar' ? 'rtl' : 'ltr');
+
+// Listen for language changes and update document attributes
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.setAttribute('lang', lng);
+  document.documentElement.setAttribute('dir', lng === 'ar' ? 'rtl' : 'ltr');
+  // Save to localStorage to ensure persistence
+  localStorage.setItem('i18nextLng', lng);
+});
 
 export default i18n;

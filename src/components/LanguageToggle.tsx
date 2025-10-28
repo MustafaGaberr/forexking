@@ -7,11 +7,9 @@ const LanguageToggle = () => {
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'ar' : 'en';
+    // changeLanguage will trigger the languageChanged event in i18n/index.ts
+    // which will handle localStorage and document attributes
     i18n.changeLanguage(newLang);
-    
-    // Update document direction
-    document.documentElement.setAttribute('lang', newLang);
-    document.documentElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');
   };
 
   return (
