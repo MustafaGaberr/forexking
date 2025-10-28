@@ -286,8 +286,8 @@ const VideoTutorial = () => {
 						<div className="space-y-4">
 							<p className="text-lg text-foreground leading-relaxed">
 								{i18n.language === 'ar' 
-									? 'في حالة طلبك لأوراق فتح وتوثيق الحساب، أو الرافعة المالية، أو حساب الشريعة الإسلامية:'
-									: 'If you need account opening and verification documents, leverage request, or Islamic (Sharia-compliant) account forms:'}
+									? 'في حالة طلبك لأوراق فتح وتوثيق الحساب، و الرافعة المالية، و حساب الشريعة الإسلامية راسلنا على:'
+									: 'If you need account opening and verification documents, leverage request, or Islamic (Sharia-compliant) account forms, contact us on:'}
 							</p>
 
 							<div className="grid md:grid-cols-2 gap-4">
@@ -304,10 +304,10 @@ const VideoTutorial = () => {
 										</span>
 									</div>
 									<a 
-										href="mailto:contact@forexking.info"
+										href="mailto:o.a.f.forexking@gmail.com"
 										className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors group"
 									>
-										<span className="group-hover:underline">contact@forexking.info</span>
+										<span className="group-hover:underline">o.a.f.forexking@gmail.com</span>
 										<svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
 										</svg>
