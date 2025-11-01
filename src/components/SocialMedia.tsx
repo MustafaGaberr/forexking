@@ -19,8 +19,8 @@ const socialPlatforms: SocialPlatform[] = [
     { name: "TikTok", url: "https://www.tiktok.com/@forex.king777?_t=ZS-90WEzuDzXtI&_r=1", bgColor: "#000000" },
     { name: "Snapchat", url: "https://www.snapchat.com/add/forexking3785?share_id=aN1E0_nAfo4&locale=en-EG", bgColor: "#FFFC00", fgColor: "#000000" },
     { name: "LinkedIn", url: "https://www.linkedin.com/in/forex-king-94b1ba388?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", bgColor: "#0A66C2" },
-    // { name: "WhatsApp", url: "https://wa.me/+4367846433933", bgColor: "#25D366" },
-    // { name: "Telegram", url: "https://t.me/+4367846433933", bgColor: "#0088cc" },
+    // { name: "WhatsApp", url: "https://wa.me/+17742739477", bgColor: "#25D366" },
+    // { name: "Telegram", url: "https://t.me/+17742739477", bgColor: "#0088cc" },
   ];
 
   return (

@@ -11,7 +11,7 @@ const Popup = ({ message, onClose }: PopupProps) => {
   const isArabic = i18n.language === 'ar'
 
   // Parse the message to extract phone numbers for creating WhatsApp and Telegram links
-  const phoneNumbers = ['+4367846433933', '+447308509557']
+  const phoneNumbers = ['+17742739477', '+17742739477']
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm z-50 p-4">
